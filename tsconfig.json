@@ -16,7 +16,7 @@
     "module": "preserve",
     "baseUrl": ".",
     "paths": {
-      "leme":        ["dist/leme"],
+      "leme":        ["projects/leme/src/public-api.ts"],
       "@core/*":     ["src/app/core/*"],
       "@shared/*":   ["src/app/shared/*"],
       "@features/*": ["src/app/features/*"],
