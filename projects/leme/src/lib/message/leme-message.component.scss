@@ -1,0 +1,72 @@
+// =============================================================================
+// LEME — Message
+// Ref: Navega Components v1 · node 1275:328
+// =============================================================================
+
+:host { display: block; }
+
+.leme-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-nano);
+  padding: var(--spacing-nano);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-family-primary);
+
+  // ─── Variantes de severidade ─────────────────────────────────────────────────
+
+  &--error {
+    background: var(--color-red-20);
+    color: var(--color-red-90);
+  }
+
+  &--success {
+    background: var(--color-green-20);
+    color: var(--color-green-90);
+  }
+
+  &--informative {
+    background: var(--color-blue-20);
+    color: var(--color-blue-90);
+  }
+
+  &--warn {
+    background: var(--color-yellow-20);
+    color: var(--color-yellow-90);
+  }
+
+  // ─── Ícone ───────────────────────────────────────────────────────────────────
+
+  &__icon {
+    font-size: 24px !important;
+    color: inherit;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  // ─── Conteúdo ────────────────────────────────────────────────────────────────
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-nano);
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-sm-14);
+    color: inherit;
+    margin: 0;
+  }
+
+  &__text {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-14);
+    color: inherit;
+    margin: 0;
+  }
+}

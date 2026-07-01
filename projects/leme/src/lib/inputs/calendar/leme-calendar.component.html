@@ -1,0 +1,57 @@
+﻿<div class="leme-calendar" [class.leme-calendar--disabled]="disabled">
+
+  @if (label) {
+    <label class="leme-calendar__label" [attr.for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="leme-calendar__required">*</span>
+      }
+    </label>
+  }
+
+  <div
+    class="leme-calendar__box"
+    [id]="fieldId"
+    [class.leme-calendar__box--error]="error"
+    [class.leme-calendar__box--disabled]="disabled"
+    [attr.tabindex]="disabled ? -1 : 0"
+    role="combobox"
+    aria-haspopup="dialog"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-disabled]="disabled"
+    (click)="togglePicker()"
+    (keydown)="onBoxKeydown($event)">
+
+    <span class="leme-calendar__display" [class.leme-calendar__display--placeholder]="!value">
+      {{ value || placeholder }}
+    </span>
+
+    <span
+      class="material-symbols-outlined leme-calendar__icon"
+      [class.leme-calendar__icon--disabled]="disabled">
+      calendar_today
+    </span>
+  </div>
+
+  @if (isOpen) {
+    <div class="leme-calendar__picker">
+      <leme-date-picker
+        [selectedDate]="selectedDate"
+        [mode]="mode"
+        (dateSelect)="onDateSelect($event)">
+      </leme-date-picker>
+    </div>
+  }
+
+  @if (message && !error) {
+    <span class="leme-calendar__message">{{ message }}</span>
+  }
+
+  @if (error && errorMessage) {
+    <div class="leme-calendar__error-row">
+      <span class="material-symbols-outlined leme-calendar__error-icon">error_outline</span>
+      <span class="leme-calendar__error-text">{{ errorMessage }}</span>
+    </div>
+  }
+
+</div>

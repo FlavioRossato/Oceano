@@ -1,0 +1,22 @@
+<div
+  class="leme-radio"
+  [class.leme-radio--disabled]="disabled"
+  (click)="select()"
+  [attr.aria-checked]="checked"
+  [attr.aria-disabled]="disabled"
+  role="radio"
+  tabindex="0"
+  (keydown.space)="select(); $event.preventDefault()">
+
+  <div
+    class="leme-radio__circle"
+    [class.leme-radio__circle--checked]="checked"
+    [class.leme-radio__circle--disabled]="disabled">
+  </div>
+
+  @if (label) {
+    <span class="leme-radio__label" [class.leme-radio__label--disabled]="disabled">
+      {{ label }}
+    </span>
+  }
+</div>

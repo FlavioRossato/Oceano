@@ -1,0 +1,100 @@
+// =============================================================================
+// LEME — Tag
+// Ref: Navega Components v1 · node 993:482
+// =============================================================================
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-quarck);
+  padding: var(--spacing-quarck) var(--spacing-nano);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-sm-12);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+// ─── Tamanho grande ───────────────────────────────────────────────────────────
+
+:host(.leme-tag--lg) {
+  padding: var(--spacing-nano) var(--spacing-xxs);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-sm-14);
+}
+
+// ─── Default / pending ────────────────────────────────────────────────────────
+
+:host(.leme-tag--Default),
+:host(.leme-tag--default),
+:host(.leme-tag--pending) {
+  background: var(--color-gray-20);
+  color: var(--color-gray-90);
+}
+
+// ─── Primary / transmitting / in-progress ─────────────────────────────────────
+
+:host(.leme-tag--Primary),
+:host(.leme-tag--primary),
+:host(.leme-tag--transmitting),
+:host(.leme-tag--in-progress) {
+  background: var(--color-primary-20);
+  color: var(--color-primary-90);
+}
+
+// ─── Success / delivered / closed ─────────────────────────────────────────────
+
+:host(.leme-tag--Success),
+:host(.leme-tag--success),
+:host(.leme-tag--delivered),
+:host(.leme-tag--closed) {
+  background: var(--color-green-20);
+  color: var(--color-green-90);
+}
+
+// ─── Informative / waiting / confirmed ────────────────────────────────────────
+
+:host(.leme-tag--Informative),
+:host(.leme-tag--informative),
+:host(.leme-tag--waiting),
+:host(.leme-tag--confirmed) {
+  background: var(--color-blue-20);
+  color: var(--color-blue-90);
+}
+
+// ─── Warning / critical ───────────────────────────────────────────────────────
+
+:host(.leme-tag--Warning),
+:host(.leme-tag--warning),
+:host(.leme-tag--critical) {
+  background: var(--color-yellow-20);
+  color: var(--color-yellow-90);
+}
+
+// ─── Danger / error ───────────────────────────────────────────────────────────
+
+:host(.leme-tag--Danger),
+:host(.leme-tag--danger),
+:host(.leme-tag--error) {
+  background: var(--color-red-20);
+  color: var(--color-red-90);
+}
+
+// ─── Disable / not-started ────────────────────────────────────────────────────
+
+:host(.leme-tag--Disable),
+:host(.leme-tag--disable),
+:host(.leme-tag--not-started) {
+  background: var(--color-gray-20);
+  color: var(--color-gray-60);
+}
+
+// ─── Ícone ────────────────────────────────────────────────────────────────────
+
+.leme-tag__icon {
+  font-size: 16px !important;
+  color: inherit;
+  flex-shrink: 0;
+}

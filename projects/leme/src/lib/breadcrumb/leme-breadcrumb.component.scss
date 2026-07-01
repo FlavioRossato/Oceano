@@ -1,0 +1,136 @@
+// =============================================================================
+// LEME — Breadcrumb
+// =============================================================================
+
+:host { display: block; }
+
+.leme-breadcrumb {
+
+  // ─── Nav row ───────────────────────────────────────────────────────────────
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+  }
+
+  // ─── Pages nav ─────────────────────────────────────────────────────────────
+
+  &__pages {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__sep {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-12);
+    color: var(--color-gray-50);
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  // ─── Itens de navegação ─────────────────────────────────────────────────────
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-quarck);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-12);
+    color: var(--color-gray-50);
+    white-space: nowrap;
+    text-decoration: none;
+
+    &:not(&--current) {
+      cursor: pointer;
+      transition: color 0.15s;
+      &:hover { color: var(--color-gray-60); }
+    }
+
+    &--current {
+      font-weight: var(--font-weight-semibold);
+    }
+
+    &:focus-visible {
+      outline: var(--border-width-thin) solid var(--color-primary-30);
+      outline-offset: 2px;
+      border-radius: var(--radius-xs);
+    }
+  }
+
+  // ─── Ícone do módulo (dentro do primeiro item) ──────────────────────────────
+
+  &__module-icon {
+    font-size: 14px !important;
+    color: var(--color-gray-50);
+    flex-shrink: 0;
+  }
+
+  &__ellipsis {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-12);
+    color: var(--color-gray-50);
+    flex-shrink: 0;
+  }
+
+  // ─── Botão Voltar ───────────────────────────────────────────────────────────
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  &__back:focus-visible {
+    outline: var(--border-width-thin) solid var(--color-primary-30);
+      outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  &__back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--color-gray-100);
+    border: var(--border-width-hairline) solid var(--color-gray-100);
+    border-radius: var(--radius-xs);
+    flex-shrink: 0;
+    transition: background 0.15s;
+
+    .leme-breadcrumb__back:hover & {
+      background: var(--color-gray-90);
+      border-color: var(--color-gray-90);
+    }
+
+    .material-symbols-outlined {
+      font-size: 24px !important;
+      color: var(--color-white-100);
+    }
+  }
+
+  &__back-label {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-14);
+    color: var(--color-gray-50);
+    white-space: nowrap;
+  }
+}

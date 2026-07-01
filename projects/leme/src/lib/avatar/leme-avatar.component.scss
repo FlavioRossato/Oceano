@@ -1,0 +1,85 @@
+// =============================================================================
+// LEME — Avatar
+// Ref: Navega Components v1 · node 930:438
+// =============================================================================
+
+:host { display: inline-block; }
+
+.leme-avatar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-nano);
+}
+
+// ─── Círculo ─────────────────────────────────────────────────────────────────
+
+.leme-avatar__circle {
+  border-radius: var(--radius-circular);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  // Sizes
+  &--tiny   { width: 32px; height: 32px; }
+  &--small  { width: 40px; height: 40px; }
+  &--medium { width: 48px; height: 48px; }
+  &--large  { width: 56px; height: 56px; }
+  &--big    { width: 64px; height: 64px; }
+
+  // Colors
+  &--gray    { background: var(--color-gray-40); }
+  &--primary { background: var(--color-primary-20); }
+}
+
+// ─── Letter ──────────────────────────────────────────────────────────────────
+
+.leme-avatar__letter {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-gray-90);
+  text-align: center;
+  line-height: 1.25;
+  user-select: none;
+
+  .leme-avatar__circle--tiny   & { font-size: var(--font-size-xxs); }
+  .leme-avatar__circle--small  & { font-size: var(--font-size-xs);  }
+  .leme-avatar__circle--medium & { font-size: var(--font-size-sm);  }
+  .leme-avatar__circle--large  & { font-size: var(--font-size-md);  }
+  .leme-avatar__circle--big    & { font-size: var(--font-size-lg);  }
+}
+
+// ─── Icon ─────────────────────────────────────────────────────────────────────
+
+.leme-avatar__icon {
+  color: var(--color-gray-90);
+  user-select: none;
+
+  .leme-avatar__circle--tiny   & { font-size: 18px !important; }
+  .leme-avatar__circle--small  & { font-size: 20px !important; }
+  .leme-avatar__circle--medium & { font-size: 24px !important; }
+  .leme-avatar__circle--large  & { font-size: 28px !important; }
+  .leme-avatar__circle--big    & { font-size: 32px !important; }
+}
+
+// ─── Photo ───────────────────────────────────────────────────────────────────
+
+.leme-avatar__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-circular);
+}
+
+// ─── Label ───────────────────────────────────────────────────────────────────
+
+.leme-avatar__label {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-sm-14);
+  color: var(--color-gray-90);
+  white-space: nowrap;
+}

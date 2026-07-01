@@ -1,0 +1,148 @@
+// =============================================================================
+// NAVEGA TOKENS — fonte oficial do DS Leme
+// Nenhum valor foi alterado. Nenhum nome foi renomeado.
+// =============================================================================
+
+:root {
+  // ===========================================================================
+  // COLORS - PRIMARY
+  // ===========================================================================
+  --color-primary-10: #e8f7f7;
+  --color-primary-20: #c8ebed;
+  --color-primary-30: #9ddade;
+  --color-primary-40: #6fc9ce;
+  --color-primary-50: #43b9c0;
+  --color-primary-60: #1aaab2;
+  --color-primary-70: #169197;
+  --color-primary-80: #12797e;
+  --color-primary-90: #0f6165;
+  --color-primary-100: #0c4c50;
+
+  // ===========================================================================
+  // COLORS - SECONDARY
+  // ===========================================================================
+  --color-secondary-10: #eaecee;
+  --color-secondary-20: #cdd0d5;
+  --color-secondary-30: #a5acb4;
+  --color-secondary-40: #7b8591;
+  --color-secondary-50: #546070;
+  --color-secondary-60: #2e3d50;
+  --color-secondary-70: #273444;
+  --color-secondary-80: #212b39;
+  --color-secondary-90: #1a232e;
+  --color-secondary-100: #151b24;
+
+  // ===========================================================================
+  // COLORS - BLUE
+  // ===========================================================================
+  --color-blue-10: #e6f3fa;
+  --color-blue-20: #c3e2f2;
+  --color-blue-30: #94cce8;
+  --color-blue-40: #63b4dd;
+  --color-blue-50: #349dd3;
+  --color-blue-60: #0788c9;
+  --color-blue-70: #0674ab;
+  --color-blue-80: #05618f;
+  --color-blue-90: #044e73;
+  --color-blue-100: #033d5a;
+
+  // ===========================================================================
+  // COLORS - GREEN
+  // ===========================================================================
+  --color-green-10: #eaf8f3;
+  --color-green-20: #cdeee1;
+  --color-green-30: #a6e0ca;
+  --color-green-40: #7dd2b1;
+  --color-green-50: #55c499;
+  --color-green-60: #30b783;
+  --color-green-70: #299c6f;
+  --color-green-80: #22825d;
+  --color-green-90: #1b684b;
+  --color-green-100: #16523b;
+
+  // ===========================================================================
+  // COLORS - YELLOW
+  // ===========================================================================
+  --color-yellow-10: #fff8e6;
+  --color-yellow-20: #ffefc2;
+  --color-yellow-30: #fee291;
+  --color-yellow-40: #fed55e;
+  --color-yellow-50: #fdc82e;
+  --color-yellow-60: #fdbc00;
+  --color-yellow-70: #d7a000;
+  --color-yellow-80: #b48500;
+  --color-yellow-90: #906b00;
+  --color-yellow-100: #725500;
+
+  // ===========================================================================
+  // COLORS - RED
+  // ===========================================================================
+  --color-red-10: #ffeeee;
+  --color-red-20: #fed7d7;
+  --color-red-30: #feb7b7;
+  --color-red-40: #fd9696;
+  --color-red-50: #fd7676;
+  --color-red-60: #fc5858;
+  --color-red-70: #d64b4b;
+  --color-red-80: #b33e3e;
+  --color-red-90: #903232;
+  --color-red-100: #712828;
+
+  // ===========================================================================
+  // TYPOGRAPHY
+  // ===========================================================================
+  --font-family-primary: 'Poppins', sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  // ===========================================================================
+  // FONT SIZES
+  // ===========================================================================
+  --font-size-xxxs: 10px;
+  --font-size-xxs: 12px;
+  --font-size-xs: 14px;
+  --font-size-sm: 16px;
+  --font-size-md: 20px;
+  --font-size-lg: 24px;
+  --font-size-xl: 32px;
+  --font-size-xxl: 40px;
+
+  // ===========================================================================
+  // LINE HEIGHT - SM
+  // ===========================================================================
+  --line-height-sm-10: 13px;
+  --line-height-sm-12: 15px;
+  --line-height-sm-14: 18px;
+  --line-height-sm-16: 20px;
+  --line-height-sm-20: 25px;
+  --line-height-sm-24: 30px;
+  --line-height-sm-32: 40px;
+  --line-height-sm-40: 50px;
+
+  // ===========================================================================
+  // LINE HEIGHT - MD
+  // ===========================================================================
+  --line-height-md-10: 13px;
+  --line-height-md-12: 16px;
+  --line-height-md-14: 19px;
+  --line-height-md-16: 21px;
+  --line-height-md-20: 27px;
+  --line-height-md-24: 32px;
+  --line-height-md-32: 43px;
+  --line-height-md-40: 53px;
+
+  // ===========================================================================
+  // LINE HEIGHT - LG
+  // ===========================================================================
+  --line-height-lg-10: 15px;
+  --line-height-lg-12: 18px;
+  --line-height-lg-14: 21px;
+  --line-height-lg-16: 24px;
+  --line-height-lg-20: 30px;
+  --line-height-lg-24: 36px;
+  --line-height-lg-32: 48px;
+  --line-height-lg-40: 60px;
+}

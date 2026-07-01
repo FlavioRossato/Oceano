@@ -1,0 +1,69 @@
+// =============================================================================
+// LEME — Loading
+// =============================================================================
+
+:host { display: inline-block; }
+
+// ─── Container ────────────────────────────────────────────────────────────────
+
+.leme-loading {
+  position: relative;
+  width: 130px;
+  height: 48px;
+  animation: leme-float 3s ease-in-out infinite;
+}
+
+// ─── SVGs sobrepostos ─────────────────────────────────────────────────────────
+
+.leme-loading__svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+// ─── Cores ────────────────────────────────────────────────────────────────────
+
+.leme-loading__waves--base {
+  fill: var(--color-gray-80);
+}
+
+.leme-loading__waves--fill {
+  fill: url(#leme-grad);
+}
+
+// ─── Sweep wrapper ────────────────────────────────────────────────────────────
+
+.leme-loading__sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  animation: leme-sweep 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+
+// Varredura teal da esquerda → direita → fade → reset
+@keyframes leme-sweep {
+  0%   { clip-path: inset(0 100% 0 0); opacity: 1; }
+  55%  { clip-path: inset(0 0%   0 0); opacity: 1; }
+  78%  { clip-path: inset(0 0%   0 0); opacity: 1; }
+  92%  { clip-path: inset(0 0%   0 0); opacity: 0; }
+  100% { clip-path: inset(0 100% 0 0); opacity: 0; }
+}
+
+// Movimento orgânico: float + leve compressão horizontal + giro suave
+@keyframes leme-float {
+  0%   { transform: translateY(0px)   scaleX(1)     rotate(0deg);    }
+  18%  { transform: translateY(-5px)  scaleX(1.025) rotate(0.4deg);  }
+  35%  { transform: translateY(-3px)  scaleX(1.01)  rotate(-0.2deg); }
+  52%  { transform: translateY(0px)   scaleX(1)     rotate(0deg);    }
+  68%  { transform: translateY(3px)   scaleX(0.98)  rotate(-0.4deg); }
+  82%  { transform: translateY(1px)   scaleX(1.005) rotate(0.2deg);  }
+  100% { transform: translateY(0px)   scaleX(1)     rotate(0deg);    }
+}

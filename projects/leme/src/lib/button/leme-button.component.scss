@@ -1,0 +1,259 @@
+// =============================================================================
+// LEME-BUTTON — token oficial do DS Leme
+// Nomenclatura preservada exatamente do Figma: Navega Components v1, node 207:124
+// Variantes: Filled | Outlined | Transparent
+// Hierarchy: Primary | Negative
+// Type: Common | Icon
+// States: Default (CSS padrão) | Hover (:hover) | Disable ([disabled]) | Spinner (.leme-btn--loading)
+// Ícones: Google Material Icons (biblioteca oficial do DS Leme)
+// =============================================================================
+
+// Quando o <button> interno está desabilitado (disabled || loading), bloquear
+// cliques na área de padding do host — evita que o evento dispare fora do botão.
+:host:has(button:disabled) {
+  pointer-events: none;
+}
+
+// -- Base -----------------------------------------------------------------
+.leme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  height: 40px;
+  border-radius: var(--radius-xs);
+  border: var(--border-width-hairline) solid transparent;
+
+  padding: 0 var(--spacing-xxs);
+  gap: var(--gap-nano);
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-sm-14);
+  white-space: nowrap;
+  text-align: center;
+
+  cursor: pointer;
+  appearance: none;
+  background: none;
+  outline: none;
+  user-select: none;
+  text-decoration: none;
+
+  transition:
+    background-color 0.15s ease,
+    border-color     0.15s ease,
+    color            0.15s ease;
+
+  // State=Spinner → remove gap para centralizar spinner
+  &--loading {
+    gap: 0;
+    pointer-events: none;
+  }
+
+  // Foco visível por teclado (não aparece em clique de mouse)
+  &:focus-visible {
+    outline: var(--border-width-thin) solid var(--color-primary-30);
+    outline-offset: 2px;
+  }
+
+  // Type=Icon → 40×40, sem padding lateral, sem min-width
+  &--icon-only {
+    width: 40px;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  // -- Subelementos -------------------------------------------------------
+
+  // Ícone (Google Material Icons) — herda cor do botão via currentColor
+  &__icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    line-height: 1;
+    color: inherit;
+  }
+
+  // Label do tipo Common
+  &__label {
+    flex-shrink: 0;
+  }
+
+  // Spinner — State=Spinner do Figma
+  // Arco circular animado; usa currentColor (será gray-60 no estado loading)
+  &__spinner {
+    display: block;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    animation: leme-btn-spin 0.7s linear infinite;
+  }
+
+  // Badge — bolinha numérica sobreposta (Primary, Default e Hover)
+  &__badge {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-pill);
+    background: var(--color-primary-10);
+    border: var(--border-width-hairline) solid var(--color-primary-60);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm-16);
+    color: var(--color-primary-60);
+    pointer-events: none;
+  }
+}
+
+// =============================================================================
+// VARIANTE: FILLED
+// Background sólido em Default; hover escurece; disable/spinner → gray
+// =============================================================================
+.leme-btn--filled {
+
+  // Primary — Default
+  &.leme-btn--primary {
+    background: var(--color-primary-60);
+    border-color: var(--color-primary-60);
+    color: var(--color-white-100);
+
+    // Hover
+    &:hover:not(:disabled):not(.leme-btn--loading) {
+      background: var(--color-primary-70);
+      border-color: var(--color-primary-70);
+    }
+
+    // Disable + Spinner
+    &:disabled,
+    &.leme-btn--loading {
+      background: var(--color-gray-30);
+      border-color: var(--color-gray-30);
+      color: var(--color-gray-60);
+      cursor: not-allowed;
+    }
+  }
+
+  // Negative — Default
+  &.leme-btn--negative {
+    background: var(--color-red-60);
+    border-color: var(--color-red-60);
+    color: var(--color-white-100);
+
+    // Hover
+    &:hover:not(:disabled) {
+      background: var(--color-red-70);
+      border-color: var(--color-red-70);
+    }
+  }
+}
+
+// =============================================================================
+// VARIANTE: OUTLINED
+// Default: sem background, apenas borda colorida e texto colorido
+// Hover: background sólido + texto branco (igual ao Filled hover)
+// =============================================================================
+.leme-btn--outlined {
+  background: transparent;
+
+  // Primary — Default
+  &.leme-btn--primary {
+    border-color: var(--color-primary-60);
+    color: var(--color-primary-60);
+
+    // Hover
+    &:hover:not(:disabled):not(.leme-btn--loading) {
+      background: var(--color-primary-70);
+      border-color: var(--color-primary-70);
+      color: var(--color-white-100);
+    }
+
+    // Disable + Spinner
+    &:disabled,
+    &.leme-btn--loading {
+      background: var(--color-gray-30);
+      border-color: var(--color-gray-30);
+      color: var(--color-gray-60);
+      cursor: not-allowed;
+    }
+  }
+
+  // Negative — Default
+  &.leme-btn--negative {
+    border-color: var(--color-red-60);
+    color: var(--color-red-60);
+
+    // Hover
+    &:hover:not(:disabled) {
+      background: var(--color-red-70);
+      border-color: var(--color-red-70);
+      color: var(--color-white-100);
+    }
+  }
+}
+
+// =============================================================================
+// VARIANTE: TRANSPARENT
+// Default: sem background, sem borda visível, apenas texto colorido
+// Hover: background sólido + borda + texto branco
+// =============================================================================
+.leme-btn--transparent {
+  background: transparent;
+  border-color: transparent;
+
+  // Primary — Default
+  &.leme-btn--primary {
+    color: var(--color-primary-60);
+
+    // Hover
+    &:hover:not(:disabled):not(.leme-btn--loading) {
+      background: var(--color-primary-70);
+      border-color: var(--color-primary-70);
+      color: var(--color-white-100);
+    }
+
+    // Disable + Spinner
+    &:disabled,
+    &.leme-btn--loading {
+      background: var(--color-gray-30);
+      border-color: var(--color-gray-30);
+      color: var(--color-gray-60);
+      cursor: not-allowed;
+    }
+  }
+
+  // Negative — Default
+  &.leme-btn--negative {
+    color: var(--color-red-60);
+
+    // Hover
+    &:hover:not(:disabled) {
+      background: var(--color-red-70);
+      border-color: var(--color-red-70);
+      color: var(--color-white-100);
+    }
+  }
+}
+
+// =============================================================================
+// ANIMAÇÃO DO SPINNER
+// =============================================================================
+@keyframes leme-btn-spin {
+  to { transform: rotate(360deg); }
+}

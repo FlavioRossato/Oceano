@@ -1,0 +1,30 @@
+// =============================================================================
+// LEME.SCSS — ponto de entrada único do DS Leme
+// Decisão técnica de implementação.
+//
+// Ordem de carregamento:
+//   1. Tokens oficiais Navega (cores de marca, tipografia, line-height)
+//   2. Tokens oficiais Global (neutros, espaçamento, radius, border, shadow)
+//   3. Base técnica: reset → tipografia → ícones
+// =============================================================================
+
+// 1. Tokens oficiais — DS Leme (Navega)
+@use 'tokens/navega-tokens';
+
+// 2. Tokens oficiais — DS Leme (Global)
+@use 'tokens/global-tokens';
+
+// 3. Tokens de charts — DS Leme (Charts v1)
+@use 'tokens/chart-tokens';
+
+// 3b. Tokens de decisão de projeto (NÃO oficiais — ver _project-tokens.scss)
+@use 'tokens/project-tokens';
+
+// 4. Base técnica
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/icons';
+
+// 5. Componentes de superfície (classes globais — ver cada partial)
+@use 'components/card';
+@use 'components/loading-overlay';

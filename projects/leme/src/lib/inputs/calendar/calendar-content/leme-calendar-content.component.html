@@ -1,0 +1,30 @@
+<div
+  class="leme-cal-content"
+  [class.leme-cal-content--day]="type === 'Day'"
+  [class.leme-cal-content--month]="type === 'Month'"
+  [class.leme-cal-content--year]="type === 'Year'"
+  [class.leme-cal-content--selected]="isSelected"
+  [class.leme-cal-content--today]="isToday"
+  [class.leme-cal-content--last-next-month]="isLastNext"
+  [class.leme-cal-content--disabled]="isDisabled"
+  [class.leme-cal-content--range-start]="range === 'Start'"
+  [class.leme-cal-content--range-gap]="range === 'Gap'"
+  [class.leme-cal-content--range-end]="range === 'End'"
+  (click)="!isDisabled && contentClick.emit()"
+  (keydown.enter)="!isDisabled && contentClick.emit(); $event.preventDefault()"
+  (keydown.space)="!isDisabled && contentClick.emit(); $event.preventDefault()"
+  role="button"
+  [attr.tabindex]="isDisabled ? null : (focusable ? 0 : -1)"
+  [attr.aria-disabled]="isDisabled">
+
+  @if (type === 'Day') {
+    <div class="leme-cal-content__circle">
+      <span class="leme-cal-content__text">{{ label }}</span>
+    </div>
+  } @else {
+    <div class="leme-cal-content__cell">
+      <span class="leme-cal-content__text">{{ label }}</span>
+    </div>
+  }
+
+</div>

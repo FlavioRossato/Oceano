@@ -1,0 +1,40 @@
+<div class="leme-avatar">
+
+  <!-- ─── Círculo ───────────────────────────────────────────────────────── -->
+  <div
+    class="leme-avatar__circle"
+    [class.leme-avatar__circle--gray]="color === 'Gray'"
+    [class.leme-avatar__circle--primary]="color === 'Primary'"
+    [class.leme-avatar__circle--tiny]="size === 'Tiny'"
+    [class.leme-avatar__circle--small]="size === 'Small'"
+    [class.leme-avatar__circle--medium]="size === 'Medium'"
+    [class.leme-avatar__circle--large]="size === 'Large'"
+    [class.leme-avatar__circle--big]="size === 'Big'">
+
+    <!-- Letter -->
+    @if (type === 'Letter') {
+      <span class="leme-avatar__letter">{{ letter }}</span>
+    }
+
+    <!-- Photo -->
+    @if (type === 'Photo') {
+      @if (photoSrc) {
+        <img class="leme-avatar__photo" [src]="photoSrc" alt="" />
+      } @else {
+        <span class="material-symbols-outlined leme-avatar__icon">person</span>
+      }
+    }
+
+    <!-- Icon -->
+    @if (type === 'Icon') {
+      <span class="material-symbols-outlined leme-avatar__icon">{{ icon }}</span>
+    }
+
+  </div>
+
+  <!-- ─── Label ─────────────────────────────────────────────────────────── -->
+  @if (showLabel && label) {
+    <span class="leme-avatar__label">{{ label }}</span>
+  }
+
+</div>

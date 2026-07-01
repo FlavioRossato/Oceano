@@ -1,0 +1,33 @@
+﻿<div class="leme-select-dropdown">
+
+  @if (showSearch) {
+    <div class="leme-select-dropdown__search-bar">
+      @if (effectiveShowCheckbox) {
+        <div class="leme-select-dropdown__search-checkbox">
+          <div class="leme-select-dropdown__checkbox-box"></div>
+        </div>
+      }
+      <div class="leme-select-dropdown__search-field">
+        <input
+          class="leme-select-dropdown__search-input"
+          type="text"
+          placeholder="Buscar"
+          [value]="searchTerm"
+          (input)="onSearch($event)" />
+        <span class="material-symbols-outlined leme-select-dropdown__search-icon">search</span>
+      </div>
+    </div>
+  }
+
+  <div class="leme-select-dropdown__list">
+    <leme-select-list
+      [items]="filteredItems"
+      [type]="type"
+      qtyOptions="Unlimited"
+      [activeValue]="activeValue"
+      [selectedValues]="selectedValues"
+      (selectionChange)="selectionChange.emit($event)">
+    </leme-select-list>
+  </div>
+
+</div>

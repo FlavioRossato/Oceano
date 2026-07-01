@@ -1,0 +1,25 @@
+﻿<div
+  class="leme-checkbox"
+  [class.leme-checkbox--disabled]="disabled"
+  (click)="toggle()"
+  [attr.aria-checked]="checked"
+  [attr.aria-disabled]="disabled"
+  role="checkbox"
+  tabindex="0"
+  (keydown.space)="toggle(); $event.preventDefault()">
+
+  <div
+    class="leme-checkbox__box"
+    [class.leme-checkbox__box--checked]="checked"
+    [class.leme-checkbox__box--disabled]="disabled">
+    @if (checked) {
+      <span class="material-symbols-outlined leme-checkbox__check">check</span>
+    }
+  </div>
+
+  @if (showLabel && label) {
+    <span class="leme-checkbox__label" [class.leme-checkbox__label--disabled]="disabled">
+      {{ label }}
+    </span>
+  }
+</div>

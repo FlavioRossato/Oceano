@@ -1,0 +1,61 @@
+<nav class="leme-breadcrumb" aria-label="Breadcrumb">
+
+  <div class="leme-breadcrumb__nav">
+
+    <!-- Pages nav: itens separados por /  (ícone fica dentro do primeiro item) -->
+    <div class="leme-breadcrumb__pages">
+      @for (item of visibleItems; track $index) {
+        @if ($index > 0) {
+          <span class="leme-breadcrumb__sep">/</span>
+        }
+        @if (item === null) {
+          <span class="leme-breadcrumb__ellipsis">…</span>
+        } @else if (!isLast($index)) {
+          @if (item.route) {
+            <a class="leme-breadcrumb__item" [routerLink]="item.route">
+              @if ($index === 0 && icon) {
+                <span class="material-symbols-outlined leme-breadcrumb__module-icon">{{ icon }}</span>
+              }
+              {{ item.label }}
+            </a>
+          } @else {
+            <span class="leme-breadcrumb__item" (click)="itemClick.emit($index)">
+              @if ($index === 0 && icon) {
+                <span class="material-symbols-outlined leme-breadcrumb__module-icon">{{ icon }}</span>
+              }
+              {{ item.label }}
+            </span>
+          }
+        } @else {
+          <span class="leme-breadcrumb__item leme-breadcrumb__item--current">
+            @if ($index === 0 && icon) {
+              <span class="material-symbols-outlined leme-breadcrumb__module-icon">{{ icon }}</span>
+            }
+            {{ item.label }}
+          </span>
+        }
+      }
+    </div>
+
+    <!-- Botão Voltar -->
+    @if (shouldShowBack) {
+      @if (computedBackRoute) {
+        <a class="leme-breadcrumb__back" [routerLink]="computedBackRoute" aria-label="Voltar">
+          <span class="leme-breadcrumb__back-btn">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </span>
+          <span class="leme-breadcrumb__back-label">{{ backLabel }}</span>
+        </a>
+      } @else {
+        <button class="leme-breadcrumb__back" type="button" (click)="backClick.emit()" [attr.aria-label]="backLabel">
+          <span class="leme-breadcrumb__back-btn">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </span>
+          <span class="leme-breadcrumb__back-label">{{ backLabel }}</span>
+        </button>
+      }
+    }
+
+  </div>
+
+</nav>

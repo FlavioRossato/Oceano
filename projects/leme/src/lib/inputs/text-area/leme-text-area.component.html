@@ -1,0 +1,39 @@
+﻿<div class="leme-text-area" [class.leme-text-area--disabled]="disabled">
+
+  @if (label) {
+    <label class="leme-text-area__label" [attr.for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="leme-text-area__required">*</span>
+      }
+    </label>
+  }
+
+  <div
+    class="leme-text-area__box"
+    [class.leme-text-area__box--error]="error"
+    [class.leme-text-area__box--disabled]="disabled">
+    <textarea
+      class="leme-text-area__textarea"
+      [id]="fieldId"
+      [placeholder]="placeholder"
+      [rows]="rows"
+      [disabled]="disabled"
+      [value]="value"
+      (input)="onInput($event)"
+      (blur)="onBlur()"></textarea>
+    <span class="material-symbols-outlined leme-text-area__resize-handle">south_east</span>
+  </div>
+
+  @if (message && !error) {
+    <span class="leme-text-area__message">{{ message }}</span>
+  }
+
+  @if (error && errorMessage) {
+    <div class="leme-text-area__error-row">
+      <span class="material-symbols-outlined leme-text-area__error-icon">error_outline</span>
+      <span class="leme-text-area__error-text">{{ errorMessage }}</span>
+    </div>
+  }
+
+</div>

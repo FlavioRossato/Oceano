@@ -1,0 +1,19 @@
+<div class="leme-message"
+  [class.leme-message--error]="severity === 'Error'"
+  [class.leme-message--success]="severity === 'Success'"
+  [class.leme-message--informative]="severity === 'Informative'"
+  [class.leme-message--warn]="severity === 'Warn'"
+  role="alert">
+
+  <span class="material-symbols-outlined leme-message__icon">{{ iconName }}</span>
+
+  <div class="leme-message__content">
+    @if (showTitle && title) {
+      <p class="leme-message__title">{{ title }}</p>
+    }
+    @if (message) {
+      <p class="leme-message__text">{{ message }}</p>
+    }
+  </div>
+
+</div>

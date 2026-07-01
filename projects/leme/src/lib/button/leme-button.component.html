@@ -1,0 +1,38 @@
+﻿<button
+  type="button"
+  class="leme-btn"
+  [class.leme-btn--filled]="variant === 'Filled'"
+  [class.leme-btn--outlined]="variant === 'Outlined'"
+  [class.leme-btn--transparent]="variant === 'Transparent'"
+  [class.leme-btn--primary]="hierarchy === 'Primary'"
+  [class.leme-btn--negative]="hierarchy === 'Negative'"
+  [class.leme-btn--common]="type === 'Common'"
+  [class.leme-btn--icon-only]="type === 'Icon'"
+  [class.leme-btn--loading]="loading"
+  [disabled]="disabled || loading"
+  [attr.aria-disabled]="disabled || loading"
+  [attr.aria-busy]="loading || null">
+
+  @if (loading) {
+    <!-- State=Spinner: exibe spinner centralizado, sem label nem ícones -->
+    <span class="leme-btn__spinner" aria-hidden="true"></span>
+  } @else if (type === 'Common') {
+    <!-- Type=Common: [icon-left] label [icon-right] -->
+    @if (showIconLeft && iconLeft) {
+      <span class="material-symbols-outlined leme-btn__icon" aria-hidden="true">{{ iconLeft }}</span>
+    }
+    <span class="leme-btn__label">{{ label }}</span>
+    @if (showIconRight && iconRight) {
+      <span class="material-symbols-outlined leme-btn__icon" aria-hidden="true">{{ iconRight }}</span>
+    }
+  } @else {
+    <!-- Type=Icon: apenas ícone centralizado 40×40 -->
+    <span class="material-symbols-outlined leme-btn__icon" aria-hidden="true">{{ iconLeft }}</span>
+  }
+
+  <!-- Badge — sobreposto no canto superior direito -->
+  @if (showBadge && !disabled && !loading) {
+    <span class="leme-btn__badge" aria-label="Badge: {{ badgeCount }}">{{ badgeCount }}</span>
+  }
+
+</button>

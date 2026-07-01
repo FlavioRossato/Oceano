@@ -1,0 +1,28 @@
+// =============================================================================
+// PROJECT TOKENS — decisões de projeto (NÃO são tokens oficiais do Figma)
+// =============================================================================
+//
+// Estes tokens NÃO vieram do export oficial de tokens do DS Leme. São decisões
+// de implementação aprovadas explicitamente pelo usuário e ficam segregadas
+// deste arquivo para preservar a fidelidade dos arquivos oficiais
+// (_navega-tokens.scss / _global-tokens.scss permanecem intocados).
+//
+// Reconciliar/substituir caso tokens oficiais equivalentes sejam fornecidos.
+// =============================================================================
+
+:root {
+  // ===========================================================================
+  // ICON SIZE — Sprint 5, decisão D3 (aprovada 2026-06-15)
+  // Material Symbols têm font-size: 24px por padrão (_icons.scss). Estes tokens
+  // padronizam os tamanhos de ícone do app e eliminam os `font-size: NNpx !important`
+  // que brigavam com o CSS global. Use via as classes utilitárias `.leme-icon-*`
+  // (ver _icons.scss) ou diretamente em SCSS de componente.
+  // ===========================================================================
+  --icon-size-2xs: 12px;
+  --icon-size-xs: 16px;
+  --icon-size-sm: 18px;
+  --icon-size-md: 20px;
+  --icon-size-lg: 24px; // = padrão do Material Symbols
+  --icon-size-xl: 32px;
+  --icon-size-2xl: 48px;
+}

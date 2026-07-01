@@ -1,0 +1,72 @@
+<div class="leme-select" [class.leme-select--disabled]="disabled">
+
+  @if (label) {
+    <label class="leme-select__label" [attr.for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="leme-select__required">*</span>
+      }
+    </label>
+  }
+
+  <div class="leme-select__field">
+
+    <div
+      class="leme-select__box"
+      [id]="fieldId"
+      [class.leme-select__box--inputed]="hasValue"
+      [class.leme-select__box--error]="error"
+      [class.leme-select__box--disabled]="disabled"
+      [attr.tabindex]="disabled ? -1 : 0"
+      [attr.role]="embedded ? 'combobox' : null"
+      [attr.aria-haspopup]="embedded ? 'listbox' : null"
+      [attr.aria-expanded]="embedded ? isOpen : null"
+      [attr.aria-disabled]="disabled"
+      (click)="onBoxClick()"
+      (keydown)="onKeydown($event)">
+
+      <span class="leme-select__display" [class.leme-select__display--placeholder]="!hasValue">
+        {{ hasValue ? displayLabel : placeholder }}
+      </span>
+
+      <div class="leme-select__icons">
+        @if (hasValue) {
+          <button
+            type="button"
+            class="leme-select__icon leme-select__icon--clear"
+            aria-label="Limpar"
+            (click)="clear($event)">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        }
+        <span class="material-symbols-outlined leme-select__icon leme-select__icon--chevron">expand_more</span>
+      </div>
+    </div>
+
+    @if (embedded && isOpen) {
+      <div class="leme-select__dropdown-panel">
+        <leme-select-dropdown
+          [items]="items!"
+          [type]="itemType"
+          [showSearch]="showSearch"
+          [selectedValues]="selectedValues"
+          [activeValue]="activeValue"
+          (selectionChange)="onDropdownSelection($event)">
+        </leme-select-dropdown>
+      </div>
+    }
+
+  </div>
+
+  @if (message && !error) {
+    <span class="leme-select__message">{{ message }}</span>
+  }
+
+  @if (error && errorMessage) {
+    <div class="leme-select__error-row">
+      <span class="material-symbols-outlined leme-select__error-icon">error_outline</span>
+      <span class="leme-select__error-text">{{ errorMessage }}</span>
+    </div>
+  }
+
+</div>

@@ -1,0 +1,32 @@
+<div
+  class="leme-select-item"
+  [class.leme-select-item--selected]="selected"
+  [class.leme-select-item--active]="active"
+  [class.leme-select-item--avatar]="type === 'Avatar'"
+  (click)="itemClick.emit()"
+  role="option"
+  [attr.aria-selected]="selected">
+
+  @if (type === 'Basic') {
+    <span class="leme-select-item__text">{{ label }}</span>
+  }
+
+  @if (type === 'Checkbox') {
+    <leme-checkbox
+      class="leme-select-item__checkbox"
+      [checked]="selected"
+      [label]="label"
+      [showLabel]="true">
+    </leme-checkbox>
+  }
+
+  @if (type === 'Avatar') {
+    <div class="leme-select-item__avatar">
+      <div class="leme-select-item__avatar-circle">
+        <span class="leme-select-item__avatar-initials">{{ avatarInitials }}</span>
+      </div>
+      <span class="leme-select-item__avatar-label">{{ label }}</span>
+    </div>
+  }
+
+</div>

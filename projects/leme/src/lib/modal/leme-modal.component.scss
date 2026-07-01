@@ -1,0 +1,37 @@
+// :host não impõe layout — o backdrop é a camada visual.
+:host {
+  display: contents;
+}
+
+.leme-modal__backdrop {
+  // position e z-index vêm de [style] (fixed/absolute conforme o caso de uso).
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xxs);
+
+  // align='start': caixa ancorada ao topo (ex.: paleta de busca).
+  &--start {
+    align-items: flex-start;
+  }
+  // Scrim padrão (token de scrim é decisão do Sprint 5). Consumidor pode sobrescrever
+  // definindo --leme-modal-scrim no elemento <leme-modal>.
+  background: var(--leme-modal-scrim, rgba(0, 0, 0, 0.38));
+  animation: lemeModalBackdropIn 0.15s ease;
+}
+
+// Wrapper de comportamento (role/aria/foco): sem caixa visual própria —
+// a caixa projetada pelo consumidor (ex.: .crud-modal) permanece o elemento visual.
+.leme-modal__dialog {
+  display: contents;
+}
+
+@keyframes lemeModalBackdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

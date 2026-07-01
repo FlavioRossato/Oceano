@@ -1,0 +1,38 @@
+﻿<div class="leme-text-field" [class.leme-text-field--disabled]="disabled">
+
+  @if (label) {
+    <label class="leme-text-field__label" [attr.for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="leme-text-field__required">*</span>
+      }
+    </label>
+  }
+
+  <div
+    class="leme-text-field__box"
+    [class.leme-text-field__box--error]="error"
+    [class.leme-text-field__box--disabled]="disabled">
+    <input
+      class="leme-text-field__input"
+      [id]="fieldId"
+      type="text"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      (input)="onInput($event)"
+      (blur)="onBlur()" />
+  </div>
+
+  @if (message && !error) {
+    <span class="leme-text-field__message">{{ message }}</span>
+  }
+
+  @if (error && errorMessage) {
+    <div class="leme-text-field__error-row">
+      <span class="material-symbols-outlined leme-text-field__error-icon">error_outline</span>
+      <span class="leme-text-field__error-text">{{ errorMessage }}</span>
+    </div>
+  }
+
+</div>

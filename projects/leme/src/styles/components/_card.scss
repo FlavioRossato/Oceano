@@ -1,0 +1,58 @@
+// =============================================================================
+// LEME-CARD — superfície de card do DS (classes globais)
+// =============================================================================
+//
+// Implementado como conjunto de classes GLOBAIS (não como componente Angular)
+// de propósito: o card envolve conteúdo arbitrário projetado e recebe
+// modificadores específicos de cada módulo. A encapsulação emulada do Angular
+// impede que o SCSS de um componente estilize conteúdo projetado via
+// <ng-content>; as alternativas (ViewEncapsulation.None / ::ng-deep) são
+// proibidas pelo DIRETRIZES §9. Decisão de projeto (Sprint 5, T5.4) — sinalizada.
+//
+// Uso:
+//   <div class="leme-card">
+//     <div class="leme-card__header">
+//       <span class="leme-card__title">Título</span>
+//       <!-- ação opcional à direita -->
+//     </div>
+//     <!-- corpo -->
+//   </div>
+//
+// Modificadores: --full-height, --clickable, --pad-lg, --pad-none
+// =============================================================================
+
+.leme-card {
+  background: var(--color-white-100);
+  border: var(--border-width-hairline) solid var(--color-gray-30);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xxs);
+
+  &--pad-lg { padding: var(--spacing-xs); }
+  &--pad-none { padding: var(--spacing-none); }
+  &--full-height { height: 100%; }
+
+  &--clickable {
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      border-color: var(--color-gray-40);
+      box-shadow: var(--TEMP_shadow-level-1);
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-nano);
+    margin-bottom: var(--spacing-xxxs);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-secondary-80);
+  }
+}

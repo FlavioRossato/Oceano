@@ -1,0 +1,39 @@
+// =============================================================================
+// LEME-LOADING-OVERLAY — overlay de carregamento (classes globais)
+// =============================================================================
+//
+// Padrão único para overlays de loading (consolida .crud-loading-overlay e
+// .relat-loading-overlay — Sprint 5, T5.4.3). Envolve um <leme-loading>.
+// Classes globais pela mesma razão do leme-card (conteúdo projetado).
+//
+// Uso:
+//   <div class="leme-loading-overlay"><leme-loading></leme-loading></div>
+//   <div class="leme-loading-overlay leme-loading-overlay--sm">...</div>          (inline, sem fundo)
+//   <div class="leme-loading-overlay leme-loading-overlay--fullscreen">...</div>  (tela cheia opaca)
+// =============================================================================
+
+.leme-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: var(--radius-xs);
+  // Exceção documentada: não existe token white-op-70 no DS (white-op vai até 24).
+  // Mantido como rgba até que um token oficial de branco translúcido seja fornecido.
+  background: rgba(255, 255, 255, 0.7);
+
+  &--sm {
+    position: relative;
+    height: 64px;
+    background: transparent;
+  }
+
+  &--fullscreen {
+    position: fixed;
+    z-index: 9999;
+    border-radius: var(--radius-none);
+    background: var(--color-white-100);
+  }
+}

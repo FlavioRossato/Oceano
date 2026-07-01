@@ -1,0 +1,88 @@
+﻿<div class="leme-date-picker">
+
+  <!-- Header -->
+  <div class="leme-date-picker__header">
+    <button class="leme-date-picker__nav" (click)="prev()" type="button" aria-label="Anterior">
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+
+    <div class="leme-date-picker__month-year">
+      @if (view === 'Full') {
+        <button class="leme-date-picker__month-btn" (click)="switchView('Months')" type="button">{{ displayMonth }}</button>
+        <button class="leme-date-picker__year-btn" (click)="switchView('Years')" type="button">{{ displayYear }}</button>
+      }
+      @if (view === 'Months') {
+        <span class="leme-date-picker__month-label">{{ displayMonth }}</span>
+        <button class="leme-date-picker__year-btn" (click)="switchView('Years')" type="button">{{ displayYear }}</button>
+      }
+      @if (view === 'Years') {
+        <button class="leme-date-picker__month-btn" (click)="switchView('Months')" type="button">{{ displayMonth }}</button>
+        <span class="leme-date-picker__year-label">{{ displayYear }}</span>
+      }
+    </div>
+
+    <button class="leme-date-picker__nav" (click)="next()" type="button" aria-label="Próximo">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+  </div>
+
+  <div class="leme-date-picker__divider"></div>
+
+  <!-- View: Full (calendário completo) -->
+  @if (view === 'Full') {
+    <div class="leme-date-picker__week-header">
+      @for (day of weekDays; track $index) {
+        <div class="leme-date-picker__week-day">{{ day }}</div>
+      }
+    </div>
+    <div class="leme-date-picker__grid" (keydown)="onGridKeydown($event)">
+      @for (week of calendarWeeks; track $index) {
+        <div class="leme-date-picker__week-row">
+          @for (day of week; track $index) {
+            <leme-calendar-content
+              type="Day"
+              [state]="day.state"
+              [range]="day.range"
+              [label]="day.label"
+              [focusable]="isFocused(day.date)"
+              (contentClick)="onDayClick(day)">
+            </leme-calendar-content>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- View: Months -->
+  @if (view === 'Months') {
+    <div class="leme-date-picker__grid leme-date-picker__grid--months">
+      @for (month of monthNames; track $index) {
+        <leme-calendar-content
+          type="Month"
+          [state]="monthState($index)"
+          range="None"
+          [label]="month"
+          [focusable]="true"
+          (contentClick)="onMonthClick($index)">
+        </leme-calendar-content>
+      }
+    </div>
+  }
+
+  <!-- View: Years -->
+  @if (view === 'Years') {
+    <div class="leme-date-picker__grid leme-date-picker__grid--years">
+      @for (year of yearRange; track year) {
+        <leme-calendar-content
+          type="Year"
+          [state]="yearState(year)"
+          range="None"
+          [label]="year.toString()"
+          [focusable]="true"
+          (contentClick)="onYearClick(year)">
+        </leme-calendar-content>
+      }
+    </div>
+  }
+
+</div>

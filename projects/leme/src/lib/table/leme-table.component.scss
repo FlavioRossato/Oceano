@@ -1,0 +1,342 @@
+// =============================================================================
+// LEME — Table
+// Ref: Navega Components v1 · node 3791:2341
+// Tokens: todos existentes no DS Leme — nenhum inventado
+// =============================================================================
+
+:host { display: block; }
+
+// ─── Container externo ────────────────────────────────────────────────────────
+
+.leme-table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+  background: var(--color-white-100);
+  border: var(--border-width-hairline) solid var(--color-gray-30);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xxs);
+  font-family: var(--font-family-primary);
+
+  // ─── Toolbar ─────────────────────────────────────────────────────────────
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-xxs);
+    min-height: 40px;
+  }
+
+  &__toolbar-left,
+  &__toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+  }
+
+  // ─── Table wrapper (scroll horizontal) ────────────────────────────────────
+
+  &__wrapper {
+    overflow-x: auto;
+    border: var(--border-width-hairline) solid var(--color-gray-30);
+    border-radius: var(--radius-xs);
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 100%;
+  }
+
+  // ─── Cabeçalho ────────────────────────────────────────────────────────────
+
+  &__head-row {
+    background: var(--color-gray-10);
+  }
+
+  &__th {
+    height: 48px;
+    padding: 0 var(--spacing-nano);
+    text-align: left;
+    border-bottom: var(--border-width-hairline) solid var(--color-gray-30);
+    border-right: var(--border-width-hairline) solid var(--color-gray-30);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-sm-14);
+    color: var(--color-gray-90);
+    white-space: nowrap;
+
+    &:last-child { border-right: none; }
+
+    // Tipos de coluna fixos
+    &--icon     { width: 36px; padding: 0; text-align: center; }
+    &--checkbox { width: 36px; text-align: center; }
+    &--action   { width: 53px; text-align: center; }
+    &--money    { text-align: right; }
+    &--sortable { cursor: pointer; user-select: none; }
+  }
+
+  // Wrapper interno do th (alinha texto + ícone de sort)
+  &__th-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-quarck);
+    height: 100%;
+  }
+
+  // Botão de ordenação dentro do <th> ordenável (foco/teclado nativos do <button>)
+  &__th-button {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-quarck);
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+
+    &:focus-visible {
+      outline: var(--border-width-thin) solid var(--color-primary-30);
+      outline-offset: -2px;
+    }
+  }
+
+  &__th-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__sort-icon {
+    font-size: 18px !important;
+    color: var(--color-gray-60);
+    flex-shrink: 0;
+  }
+
+  // ─── Body rows ────────────────────────────────────────────────────────────
+
+  &__row {
+    cursor: pointer;
+    transition: background 0.12s;
+
+    &:hover td { background: var(--color-gray-20); }
+    &:last-child td { border-bottom: none; }
+
+    &--selected td { background: var(--color-primary-10); }
+
+    &--dragging {
+      opacity: 0.35;
+      td { background: var(--color-gray-20); }
+    }
+
+    &--drag-over td {
+      border-top: var(--border-width-thin) solid var(--color-primary-60) !important;
+      background: var(--color-primary-10);
+    }
+  }
+
+  &__td {
+    height: 48px;
+    padding: 0 var(--spacing-nano);
+    border-bottom: var(--border-width-hairline) solid var(--color-gray-30);
+    border-right: var(--border-width-hairline) solid var(--color-gray-30);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-14);
+    color: var(--color-gray-90);
+    vertical-align: middle;
+    max-width: 0;       // força text-overflow no conteúdo
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:last-child { border-right: none; }
+
+    &--icon,
+    &--checkbox { width: 36px; text-align: center; padding: 0; max-width: unset; }
+
+    &--money { text-align: right; }
+  }
+
+  &__cell-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // ─── Ícones de controle ───────────────────────────────────────────────────
+
+  &__icon-cell {
+    font-size: 18px !important;
+    color: var(--color-gray-60);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &__drag-handle {
+    font-size: 18px !important;
+    color: var(--color-gray-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    user-select: none;
+    transition: color 0.12s;
+
+    &:active { cursor: grabbing; }
+
+    .leme-table__row:hover & { color: var(--color-gray-70); }
+  }
+
+  &__td--drag { cursor: grab; }
+
+  &__action-icon {
+    color: var(--color-gray-60);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: var(--spacing-quarck);
+    background: none;
+    border: none;
+    border-radius: var(--radius-xs);
+    transition: color 0.15s;
+
+    .material-symbols-outlined { font-size: 20px !important; }
+
+    &:hover { color: var(--color-gray-90); }
+
+    &:focus-visible {
+      outline: var(--border-width-thin) solid var(--color-primary-30);
+      outline-offset: -2px;
+    }
+  }
+
+  // ─── Tag ─────────────────────────────────────────────────────────────────
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-quarck) var(--spacing-nano);
+    background: var(--color-primary-10);
+    color: var(--color-primary-60);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-sm-12);
+    border-radius: var(--radius-xs);
+    white-space: nowrap;
+  }
+
+  // ─── Estado vazio ─────────────────────────────────────────────────────────
+
+  &__empty {
+    text-align: center;
+    padding: var(--spacing-lg);
+    color: var(--color-gray-60);
+    font-size: var(--font-size-xs);
+  }
+
+  // ─── Paginação ────────────────────────────────────────────────────────────
+
+  &__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--spacing-nano);
+    padding-top: var(--spacing-nano);
+  }
+
+  &__pagination-info {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-60);
+    white-space: nowrap;
+  }
+
+  &__pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-quarck);
+  }
+
+  &__page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 var(--spacing-quarck);
+    border: var(--border-width-hairline) solid transparent;
+    border-radius: var(--radius-xs);
+    background: transparent;
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-gray-90);
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+    user-select: none;
+
+    &:hover:not(:disabled):not(.leme-table__page-btn--active) {
+      background: var(--color-gray-20);
+    }
+
+    &:disabled {
+      color: var(--color-gray-50);
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: var(--border-width-thin) solid var(--color-primary-30);
+      outline-offset: 2px;
+    }
+
+    &--active {
+      background: var(--color-primary-60);
+      color: var(--color-white-100);
+      font-weight: var(--font-weight-semibold);
+      border-radius: var(--radius-circular);
+    }
+
+    .material-symbols-outlined {
+      font-size: 18px !important;
+    }
+  }
+
+  &__pagination-size {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-90);
+    white-space: nowrap;
+  }
+
+  &__page-size-select {
+    height: 32px;
+    padding: 0 var(--spacing-nano);
+    border: var(--border-width-hairline) solid var(--color-gray-40);
+    border-radius: var(--radius-xs);
+    background: var(--color-white-100);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-90);
+    cursor: pointer;
+    outline: none;
+
+    &:focus { border-color: var(--color-primary-60); }
+  }
+}

@@ -1,0 +1,26 @@
+<div
+  class="leme-switch"
+  [class.leme-switch--stack]="orientation === 'Stack'"
+  [class.leme-switch--inverse]="orientation === 'Inline' && order === 'Inverse'"
+  [class.leme-switch--disabled]="disabled">
+
+  @if (label) {
+    <span class="leme-switch__label" [class.leme-switch__label--disabled]="disabled">
+      {{ label }}
+    </span>
+  }
+
+  <div
+    class="leme-switch__track"
+    [class.leme-switch__track--active]="active"
+    [class.leme-switch__track--disabled]="disabled"
+    [class.leme-switch__track--active-disabled]="active && disabled"
+    (click)="toggle()"
+    role="switch"
+    [attr.aria-checked]="active"
+    [attr.aria-disabled]="disabled"
+    tabindex="0"
+    (keydown.space)="toggle(); $event.preventDefault()">
+    <div class="leme-switch__thumb"></div>
+  </div>
+</div>

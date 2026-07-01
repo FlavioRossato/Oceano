@@ -1,0 +1,139 @@
+// =============================================================================
+// GLOBAL TOKENS — fonte oficial do DS Leme
+// Nenhum valor foi alterado. Nenhum nome foi renomeado.
+// =============================================================================
+//
+// ATENÇÃO — SHADOW TOKENS (seção ao final):
+// Os tokens primitivos --shadow-y-* e --shadow-blur-* são valores isolados
+// recebidos dos tokens oficiais e foram preservados sem alteração.
+// Os tokens --TEMP_shadow-* são TEMPORÁRIOS (decisão técnica de implementação)
+// adicionados apenas para permitir composição de box-shadow até que os tokens
+// oficiais de composição sejam fornecidos. Substituir quando tokens oficiais chegarem.
+// =============================================================================
+
+:root {
+  // ===========================================================================
+  // GLOBAL COLORS - GRAY
+  // ===========================================================================
+  --color-gray-10: #fafafa;
+  --color-gray-20: #f6f6f6;
+  --color-gray-30: #eeeeee;
+  --color-gray-40: #e0e0e0;
+  --color-gray-50: #bdbdbd;
+  --color-gray-60: #9e9e9e;
+  --color-gray-70: #757575;
+  --color-gray-80: #616161;
+  --color-gray-90: #464646;
+  --color-gray-100: #212121;
+
+  // ===========================================================================
+  // BLACK
+  // ===========================================================================
+  --color-black-100: #000000;
+  --color-black-op-8: rgba(0, 0, 0, 0.08);
+  --color-black-op-16: rgba(0, 0, 0, 0.16);
+  --color-black-op-24: rgba(0, 0, 0, 0.24);
+
+  // ===========================================================================
+  // WHITE
+  // ===========================================================================
+  --color-white-100: #ffffff;
+  --color-white-op-8: rgba(255, 255, 255, 0.08);
+  --color-white-op-16: rgba(255, 255, 255, 0.16);
+  --color-white-op-24: rgba(255, 255, 255, 0.24);
+
+  // ===========================================================================
+  // SPACING
+  // ===========================================================================
+  --spacing-none: 0px;
+  --spacing-quarck: 4px;
+  --spacing-nano: 8px;
+  --spacing-xxxs: 12px;
+  --spacing-xxs: 16px;
+  --spacing-xs: 24px;
+  --spacing-sm: 32px;
+  --spacing-md: 40px;
+  --spacing-lg: 48px;
+  --spacing-xl: 56px;
+  --spacing-xxl: 64px;
+
+  // GAP (aliases resolvidos)
+  --gap-none: var(--spacing-none);
+  --gap-quarck: var(--spacing-quarck);
+  --gap-nano: var(--spacing-nano);
+  --gap-xxxs: var(--spacing-xxxs);
+  --gap-xxs: var(--spacing-xxs);
+  --gap-xs: var(--spacing-xs);
+  --gap-sm: var(--spacing-sm);
+  --gap-md: var(--spacing-md);
+  --gap-lg: var(--spacing-lg);
+  --gap-xl: var(--spacing-xl);
+  --gap-xxl: var(--spacing-xxl);
+
+  // EQUAL SPACING (semantic remap)
+  --spacing-equal-none: var(--spacing-none);
+  --spacing-equal-xxs: var(--spacing-quarck);
+  --spacing-equal-xs: var(--spacing-nano);
+  --spacing-equal-sm: var(--spacing-xxs);
+  --spacing-equal-md: var(--spacing-xs);
+  --spacing-equal-lg: var(--spacing-sm);
+  --spacing-equal-xl: var(--spacing-md);
+
+  // ===========================================================================
+  // BORDER RADIUS
+  // ===========================================================================
+  --radius-none: 0px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 500px;
+  --radius-circular: 1000px;
+
+  // ===========================================================================
+  // BORDER WIDTH
+  // ===========================================================================
+  --border-width-none: 0px;
+  --border-width-hairline: 1px;
+  --border-width-thin: 2px;
+  --border-width-thick: 4px;
+  --border-width-heavy: 8px;
+
+  // ===========================================================================
+  // SHADOW TOKENS — PRIMITIVOS (token oficial)
+  // ===========================================================================
+  --shadow-y-4: 4px;
+  --shadow-y-8: 8px;
+  --shadow-y-16: 16px;
+
+  --shadow-blur-8: 8px;
+  --shadow-blur-24: 24px;
+  --shadow-blur-32: 32px;
+  --shadow-blur-48: 48px;
+
+  // ===========================================================================
+  // SHADOW TOKENS — COMPOSTOS (TEMP_ — decisão técnica de implementação)
+  // Substituir assim que os tokens oficiais de composição forem fornecidos.
+  //
+  // Premissas adotadas:
+  //   offset-x  = 0px  (neutro)
+  //   spread    = 0px  (sem expansão)
+  //   cor       = --color-black-op-* (já existente nos tokens oficiais)
+  //
+  // Composição: offset-x | offset-y | blur | spread | cor
+  // ===========================================================================
+  --TEMP_shadow-x: 0px;
+  --TEMP_shadow-spread: 0px;
+
+  // level-1 → y-4 + blur-8 + op-8 (sombra sutil)
+  --TEMP_shadow-level-1: var(--TEMP_shadow-x) var(--shadow-y-4) var(--shadow-blur-8) var(--TEMP_shadow-spread) var(--color-black-op-8);
+
+  // level-2 → y-8 + blur-24 + op-16 (sombra média)
+  --TEMP_shadow-level-2: var(--TEMP_shadow-x) var(--shadow-y-8) var(--shadow-blur-24) var(--TEMP_shadow-spread) var(--color-black-op-16);
+
+  // level-3 → y-16 + blur-32 + op-24 (sombra forte)
+  --TEMP_shadow-level-3: var(--TEMP_shadow-x) var(--shadow-y-16) var(--shadow-blur-32) var(--TEMP_shadow-spread) var(--color-black-op-24);
+
+  // level-4 → y-16 + blur-48 + op-24 (sombra extra forte)
+  --TEMP_shadow-level-4: var(--TEMP_shadow-x) var(--shadow-y-16) var(--shadow-blur-48) var(--TEMP_shadow-spread) var(--color-black-op-24);
+}

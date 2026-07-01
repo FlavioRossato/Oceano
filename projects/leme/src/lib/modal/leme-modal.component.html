@@ -1,0 +1,18 @@
+<div
+  #backdrop
+  class="leme-modal__backdrop"
+  [class.leme-modal__backdrop--start]="align === 'start'"
+  [style.position]="positioning"
+  [style.zIndex]="zIndex"
+  [style.paddingTop]="align === 'start' && startOffset ? startOffset : null">
+  <div
+    #dialog
+    class="leme-modal__dialog"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="ariaLabelledby ? null : (ariaLabel || null)"
+    [attr.aria-labelledby]="ariaLabelledby || null"
+    tabindex="-1">
+    <ng-content></ng-content>
+  </div>
+</div>

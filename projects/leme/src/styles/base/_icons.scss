@@ -1,0 +1,43 @@
+// =============================================================================
+// ICONS — Material Symbols Outlined (variável)
+// Substituição de Material Icons pela geração mais recente do Google.
+// Fonte variável: weight 100–700, fill 0–1, grade -50–200, opsz 20–48.
+// =============================================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block');
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'liga';
+
+  // estilo padrão: peso 300, sem fill (outlined), opsz 24
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+// =============================================================================
+// ICON SIZE UTILITIES — Sprint 5, decisão D3
+// Aplicar junto da classe base: `class="material-symbols-outlined leme-icon-sm"`.
+// O seletor duplo (.material-symbols-outlined.leme-icon-*) tem especificidade
+// suficiente para vencer o font-size base sem precisar de `!important`.
+// =============================================================================
+
+.material-symbols-outlined {
+  &.leme-icon-2xs { font-size: var(--icon-size-2xs); }
+  &.leme-icon-xs { font-size: var(--icon-size-xs); }
+  &.leme-icon-sm { font-size: var(--icon-size-sm); }
+  &.leme-icon-md { font-size: var(--icon-size-md); }
+  &.leme-icon-lg { font-size: var(--icon-size-lg); }
+  &.leme-icon-xl { font-size: var(--icon-size-xl); }
+  &.leme-icon-2xl { font-size: var(--icon-size-2xl); }
+}

@@ -1,0 +1,42 @@
+﻿<div
+  class="leme-search"
+  [class.leme-search--general]="type === 'General'"
+  [class.leme-search--full-width]="fullWidth"
+  [class.leme-search--disabled]="disabled">
+
+  @if (type === 'Basic' && label) {
+    <label class="leme-search__label" [attr.for]="fieldId">{{ label }}</label>
+  }
+
+  <div
+    class="leme-search__box"
+    [class.leme-search__box--error]="error"
+    [class.leme-search__box--disabled]="disabled">
+    <input
+      class="leme-search__input"
+      [id]="fieldId"
+      type="text"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()" />
+    <div class="leme-search__icons">
+      @if (showFilter) {
+        <span
+          class="material-symbols-outlined leme-search__icon leme-search__icon--filter"
+          (click)="filterClick.emit()">tune</span>
+      }
+      <span class="material-symbols-outlined leme-search__icon leme-search__icon--search">search</span>
+    </div>
+  </div>
+
+  @if (type === 'Basic' && error && errorMessage) {
+    <div class="leme-search__error-row">
+      <span class="material-symbols-outlined leme-search__error-icon">error_outline</span>
+      <span class="leme-search__error-text">{{ errorMessage }}</span>
+    </div>
+  }
+
+</div>

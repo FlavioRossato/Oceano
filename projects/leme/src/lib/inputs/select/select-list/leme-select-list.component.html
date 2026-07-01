@@ -1,0 +1,17 @@
+<div
+  class="leme-select-list"
+  [class.leme-select-list--unlimited]="qtyOptions === 'Unlimited'"
+  role="listbox">
+  <div class="leme-select-list__inner">
+    @for (item of items; track item.value) {
+      <leme-select-item
+        [type]="type"
+        [label]="item.label"
+        [selected]="isSelected(item.value)"
+        [active]="item.value === activeValue"
+        [avatarInitials]="item.avatarInitials || ''"
+        (itemClick)="onItemClick(item.value)">
+      </leme-select-item>
+    }
+  </div>
+</div>
