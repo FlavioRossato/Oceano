@@ -1,0 +1,273 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.adesao-layout {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+
+  @include respond-to('md') {
+    flex-direction: row;
+  }
+
+  // ── Painel esquerdo (branding / stepper) ───────────────────────────────
+  &__panel {
+    background: linear-gradient(160deg, var(--color-primary-80) 0%, var(--color-primary-100) 100%);
+    color: var(--color-white-100);
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-xxs);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    flex-shrink: 0;
+    min-height: 180px;
+
+    @include respond-to('md') {
+      width: 26%;
+      min-width: 240px;
+      min-height: unset;
+      padding: var(--spacing-xs);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      z-index: -1;
+      transform: rotate(-35deg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='48'%3E%3Cpolygon points='14,0 28,8 28,24 14,32 0,24 0,8' fill='none' stroke='white' stroke-opacity='0.1' stroke-width='0.7'/%3E%3Cpolygon points='0,24 14,32 14,48 0,56 -14,48 -14,32' fill='none' stroke='white' stroke-opacity='0.1' stroke-width='0.7'/%3E%3Cpolygon points='28,24 42,32 42,48 28,56 14,48 14,32' fill='none' stroke='white' stroke-opacity='0.1' stroke-width='0.7'/%3E%3C/svg%3E");
+      background-size: 28px 48px;
+      background-repeat: repeat;
+      -webkit-mask-image: linear-gradient(to top, rgba(255,255,255,0.55) 0%, transparent 70%);
+      mask-image: linear-gradient(to top, rgba(255,255,255,0.55) 0%, transparent 70%);
+      pointer-events: none;
+    }
+  }
+
+  &__panel-top {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  &__logo {
+    height: 22px;
+    width: auto;
+    display: block;
+  }
+
+  &__panel-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  // ── Ícone badge (modo branding) ────────────────────────────────────────
+  &__panel-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-xs);
+    flex-shrink: 0;
+
+    .material-symbols-outlined {
+      font-size: 22px;
+      color: var(--color-white-100);
+    }
+  }
+
+  &__eyebrow {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary-30);
+    margin: 0 0 var(--spacing-xxs);
+  }
+
+  &__headline {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-lg-16);
+    color: var(--color-white-100);
+    margin: 0 0 var(--spacing-xxs);
+
+    @include respond-to('md') {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-lg-16);
+    }
+  }
+
+  &__description {
+    font-size: var(--font-size-xxs);
+    color: var(--color-primary-20);
+    line-height: var(--line-height-sm-14);
+    margin: 0;
+    display: none;
+
+    @include respond-to('md') {
+      display: block;
+    }
+  }
+
+  // ── Stepper de etapas ──────────────────────────────────────────────────
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-quarck);
+    width: 100%;
+    // Em mobile apenas a etapa ativa é visível (espaço compacto)
+    overflow: hidden;
+
+    @include respond-to('md') {
+      overflow: visible;
+    }
+  }
+
+  &__step {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+    padding: var(--spacing-nano) var(--spacing-xxs);
+    border-radius: var(--radius-pill);
+    transition: background 0.2s ease;
+    // Esconde etapas inativas no mobile
+    display: none;
+
+    @include respond-to('md') {
+      display: flex;
+    }
+
+    &--done {
+      display: flex;
+
+      .adesao-layout__step-num {
+        background: var(--color-primary-60);
+        border-color: transparent;
+        color: var(--color-white-100);
+      }
+
+      .adesao-layout__step-name {
+        color: rgba(255, 255, 255, 0.65);
+      }
+    }
+
+    &--active {
+      display: flex;
+      background: rgba(255, 255, 255, 0.14);
+
+      .adesao-layout__step-num {
+        background: var(--color-white-100);
+        color: var(--color-primary-70);
+        border-color: transparent;
+      }
+
+      .adesao-layout__step-name {
+        color: var(--color-white-100);
+        font-weight: var(--font-weight-semibold);
+      }
+    }
+  }
+
+  &__step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-circular);
+    border: var(--border-width-hairline) solid rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    color: rgba(255, 255, 255, 0.45);
+    flex-shrink: 0;
+    line-height: 1;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+    &--done .material-symbols-outlined {
+      font-size: 14px;
+      line-height: 1;
+    }
+  }
+
+  &__step-name {
+    font-size: var(--font-size-xxs);
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+
+  // ── Rodapé do painel ───────────────────────────────────────────────────
+  &__panel-bottom {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-xxs);
+    color: var(--color-primary-20);
+  }
+
+  // ── Coluna direita (conteúdo + nav) ────────────────────────────────────
+  &__right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  // ── Área de conteúdo ───────────────────────────────────────────────────
+  &__content {
+    flex: 1;
+    background: var(--color-gray-10);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__content-inner {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @media (min-width: 1440px) {
+      max-width: 900px;
+    }
+  }
+
+  &__content-inner--wide {
+    max-width: 1440px;
+
+    @media (min-width: 1440px) {
+      max-width: 1440px;
+    }
+  }
+
+  // ── Bottom nav ─────────────────────────────────────────────────────────
+  &__nav {
+    flex-shrink: 0;
+    background: var(--color-white-100);
+    border-top: var(--border-width-hairline) solid var(--color-gray-30);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-nano) var(--spacing-xxs);
+    height: 68px;
+
+    &--hidden {
+      display: none;
+    }
+  }
+}

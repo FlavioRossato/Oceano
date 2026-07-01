@@ -1,0 +1,75 @@
+<div class="boas-vindas">
+
+  <!-- Coluna esquerda: conteúdo -->
+  <div class="boas-vindas__left">
+    <div class="boas-vindas__body">
+      <p class="boas-vindas__eyebrow">Previdência Privada</p>
+      <h1 class="boas-vindas__title">Bem-vindo à sua adesão</h1>
+      <p class="boas-vindas__desc">
+        Em poucos minutos você garante sua previdência privada, no seu ritmo, com vantagens fiscais.
+      </p>
+
+      <ul class="boas-vindas__features">
+        <li class="boas-vindas__feature">
+          <div class="boas-vindas__feature-icon">
+            <span class="material-symbols-outlined">health_and_safety</span>
+          </div>
+          <div>
+            <p class="boas-vindas__feature-title">Segurança financeira</p>
+            <p class="boas-vindas__feature-desc">Uma renda extra garantida para sua aposentadoria.</p>
+          </div>
+        </li>
+        <li class="boas-vindas__feature">
+          <div class="boas-vindas__feature-icon">
+            <span class="material-symbols-outlined">tune</span>
+          </div>
+          <div>
+            <p class="boas-vindas__feature-title">Flexibilidade</p>
+            <p class="boas-vindas__feature-desc">Escolha o plano que se adapta aos seus objetivos.</p>
+          </div>
+        </li>
+        <li class="boas-vindas__feature">
+          <div class="boas-vindas__feature-icon">
+            <span class="material-symbols-outlined">account_balance</span>
+          </div>
+          <div>
+            <p class="boas-vindas__feature-title">Vantagens fiscais</p>
+            <p class="boas-vindas__feature-desc">Benefícios fiscais para investimentos de longo prazo.</p>
+          </div>
+        </li>
+        <li class="boas-vindas__feature">
+          <div class="boas-vindas__feature-icon">
+            <span class="material-symbols-outlined">trending_up</span>
+          </div>
+          <div>
+            <p class="boas-vindas__feature-title">Planejamento sob medida</p>
+            <p class="boas-vindas__feature-desc">Ajuste contribuições e benefícios às suas metas.</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="boas-vindas__cta">
+        <leme-button
+          variant="Filled"
+          hierarchy="Primary"
+          label="Iniciar adesão"
+          [showIconRight]="true"
+          iconRight="arrow_forward"
+          (click)="iniciar()"
+        />
+        <span class="boas-vindas__time">Leva cerca de 4 minutos</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Coluna direita: foto (somente desktop) -->
+  <div class="boas-vindas__photo" aria-hidden="true">
+    <img class="boas-vindas__photo-img" src="hero.png" alt="" />
+    <div class="boas-vindas__photo-overlay">
+      <p class="boas-vindas__photo-eyebrow">Seu futuro começa agora</p>
+      <h2 class="boas-vindas__photo-headline">Construa hoje o futuro que você merece.</h2>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,33 @@
+<div class="contato-endereco">
+  <header class="contato-endereco__header">
+    <p class="contato-endereco__eyebrow">Etapa 3 de 6</p>
+    <h1 class="contato-endereco__title">Contato &amp; endereço</h1>
+    <p class="contato-endereco__subtitle">Informe seus dados de contato e endereço residencial.</p>
+  </header>
+
+  <form class="contato-endereco__form" (submit)="$event.preventDefault()">
+
+    <div class="contato-endereco__row">
+      <div class="contato-endereco__field">
+        <leme-text-field label="E-MAIL" placeholder="seu@email.com" [(ngModel)]="email" name="email" />
+      </div>
+      <div class="contato-endereco__field">
+        <leme-text-field label="CELULAR" placeholder="(00) 00000-0000" [(ngModel)]="celular" name="celular" />
+      </div>
+    </div>
+
+    <div class="contato-endereco__row">
+      <div class="contato-endereco__field">
+        <leme-text-field label="CEP" placeholder="00000-000" [(ngModel)]="cep" name="cep" />
+      </div>
+      <div class="contato-endereco__field">
+        <leme-text-field label="CIDADE · UF" placeholder="Cidade · UF" [(ngModel)]="cidadeUf" name="cidadeUf" />
+      </div>
+    </div>
+
+    <div class="contato-endereco__field contato-endereco__field--full">
+      <leme-text-field label="ENDEREÇO" placeholder="Rua, número — Bairro" [(ngModel)]="endereco" name="endereco" />
+    </div>
+
+  </form>
+</div>

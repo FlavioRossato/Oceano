@@ -1,0 +1,128 @@
+@use 'mixins' as *;
+
+.empresa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xxs);
+
+  @include respond-to('md') {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  // ── Cabeçalho ──────────────────────────────────────────────────────────
+  &__eyebrow {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary-60);
+    margin: 0 0 var(--spacing-nano);
+  }
+
+  &__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-90);
+    margin: 0 0 var(--spacing-nano);
+
+    @include respond-to('md') {
+      font-size: var(--font-size-lg);
+    }
+  }
+
+  &__subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+  }
+
+  // ── Formulário ─────────────────────────────────────────────────────────
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xxs);
+
+    @include respond-to('sm') {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+
+    // Leme components ocupam 100% da célula
+    leme-text-field,
+    leme-select {
+      width: 100%;
+    }
+  }
+
+  // ── Campo de data — espelha exatamente o leme-text-field ─────────────
+  &__date {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-nano);
+  }
+
+  &__date-label {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-14);
+    color: var(--color-gray-90);
+    display: block;
+  }
+
+  &__date-box {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-nano);
+    padding: 0 var(--spacing-xxs);
+    border: var(--border-width-hairline) solid var(--color-gray-50);
+    border-radius: var(--radius-xs);
+    background: var(--color-white-100);
+    transition: border-color 0.15s ease;
+
+    &:hover {
+      border-color: var(--color-primary-60);
+    }
+
+    &:focus-within {
+      border-color: var(--color-primary-60);
+    }
+  }
+
+  &__date-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-14);
+    color: var(--color-gray-90);
+    min-width: 0;
+
+    &::placeholder {
+      color: var(--color-gray-50);
+    }
+  }
+
+  &__date-icon {
+    font-size: 16px;
+    color: var(--color-gray-50);
+    flex-shrink: 0;
+    user-select: none;
+  }
+}

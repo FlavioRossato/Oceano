@@ -1,0 +1,187 @@
+@use 'mixins' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.senha-acesso {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xxs);
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+
+  @include respond-to('md') {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  // ── Cabeçalho ──────────────────────────────────────────────────────────
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-nano);
+    margin-bottom: var(--spacing-nano);
+  }
+
+  &__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-90);
+    margin: 0;
+
+    @include respond-to('md') {
+      font-size: var(--font-size-lg);
+    }
+  }
+
+  &__subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+  }
+
+  // ── Campo de senha ─────────────────────────────────────────────────────
+  &__field-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-nano);
+  }
+
+  &__label {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-secondary-60);
+    display: block;
+  }
+
+  &__input-box {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+    padding: 0 var(--spacing-xxs);
+    border: var(--border-width-hairline) solid var(--color-gray-50);
+    border-radius: var(--radius-xs);
+    background: var(--color-white-100);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus-within {
+      border-color: var(--color-primary-60);
+      box-shadow: 0 0 0 3px rgba(var(--color-primary-60-rgb, 0, 168, 157), 0.12);
+    }
+  }
+
+  &__input-icon {
+    font-size: 18px;
+    color: var(--color-gray-50);
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  &__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    color: var(--color-secondary-80);
+    min-width: 0;
+
+    &::placeholder {
+      color: var(--color-gray-50);
+    }
+  }
+
+  &__toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    color: var(--color-gray-50);
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    &:hover {
+      color: var(--color-gray-80);
+    }
+  }
+
+  // ── Barra de força ─────────────────────────────────────────────────────
+  &__strength {
+    display: flex;
+    gap: var(--spacing-nano);
+    margin-top: var(--spacing-quarck);
+  }
+
+  &__bar {
+    flex: 1;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--color-gray-30);
+    transition: background 0.3s ease;
+
+    &--1 { background: var(--color-red-60);    }
+    &--2 { background: var(--color-yellow-60); }
+    &--3 { background: var(--color-green-60);  }
+  }
+
+  // ── Chips de requisitos ────────────────────────────────────────────────
+  &__requirements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-nano);
+  }
+
+  &__req {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-quarck);
+    padding: var(--spacing-quarck) var(--spacing-xxs);
+    border-radius: var(--radius-pill);
+    border: var(--border-width-hairline) solid var(--color-gray-40);
+    background: var(--color-white-100);
+    font-size: var(--font-size-xxs);
+    color: var(--color-secondary-50);
+    transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+
+    &--met {
+      border-color: var(--color-green-60);
+      background: var(--color-green-10);
+      color: var(--color-green-80);
+
+      .senha-acesso__req-dot {
+        background: var(--color-green-60);
+        border-color: var(--color-green-60);
+      }
+    }
+  }
+
+  &__req-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-circular);
+    border: var(--border-width-hairline) solid var(--color-gray-50);
+    background: transparent;
+    flex-shrink: 0;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  &__req-label {
+    line-height: 1;
+  }
+}

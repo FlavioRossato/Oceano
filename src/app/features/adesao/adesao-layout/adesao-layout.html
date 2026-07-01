@@ -1,0 +1,90 @@
+<div class="adesao-layout">
+  <aside class="adesao-layout__panel">
+    <div class="adesao-layout__panel-top">
+      <img class="adesao-layout__logo" src="visaomulti.svg" alt="Logo do plano" />
+    </div>
+
+    <div class="adesao-layout__panel-body">
+      @if (adesao.currentStep().panel.steps) {
+        <nav class="adesao-layout__steps">
+          @for (step of adesao.currentStep().panel.steps!; track $index; let i = $index) {
+            <div
+              class="adesao-layout__step"
+              [class.adesao-layout__step--active]="i === adesao.currentStep().panel.activeSubStep"
+              [class.adesao-layout__step--done]="i < (adesao.currentStep().panel.activeSubStep ?? 0)"
+            >
+              @if (i < (adesao.currentStep().panel.activeSubStep ?? 0)) {
+                <span class="adesao-layout__step-num adesao-layout__step-num--done">
+                  <span class="material-symbols-outlined">check</span>
+                </span>
+              } @else if (step.icon) {
+                <span class="adesao-layout__step-num">
+                  <span class="material-symbols-outlined">{{ step.icon }}</span>
+                </span>
+              } @else {
+                <span class="adesao-layout__step-num">{{ i + 1 }}</span>
+              }
+              <span class="adesao-layout__step-name">{{ step.label }}</span>
+            </div>
+          }
+        </nav>
+      } @else {
+        @if (adesao.currentStep().panel.icon) {
+          <div class="adesao-layout__panel-icon">
+            <span class="material-symbols-outlined">{{ adesao.currentStep().panel.icon }}</span>
+          </div>
+        }
+        @if (adesao.currentStep().panel.eyebrow) {
+          <p class="adesao-layout__eyebrow">{{ adesao.currentStep().panel.eyebrow }}</p>
+        }
+        @if (adesao.currentStep().panel.headline) {
+          <h2 class="adesao-layout__headline">{{ adesao.currentStep().panel.headline }}</h2>
+        }
+        @if (adesao.currentStep().panel.description) {
+          <p class="adesao-layout__description" [innerHTML]="adesao.currentStep().panel.description"></p>
+        }
+      }
+    </div>
+
+    <div class="adesao-layout__panel-bottom">
+      @if (adesao.currentStep().panel.estimatedTime) {
+        <span class="material-symbols-outlined leme-icon-sm">
+          {{ adesao.currentStep().panel.footerIcon ?? 'schedule' }}
+        </span>
+        <span>{{ adesao.currentStep().panel.estimatedTime }}</span>
+      } @else {
+        <span class="material-symbols-outlined leme-icon-sm">security</span>
+        <span>Ambiente seguro e regulado</span>
+      }
+    </div>
+  </aside>
+
+  <div class="adesao-layout__right">
+    <main class="adesao-layout__content">
+      <div class="adesao-layout__content-inner" [class.adesao-layout__content-inner--wide]="adesao.currentStep().wideContent">
+        <router-outlet />
+      </div>
+    </main>
+
+    <footer class="adesao-layout__nav" [class.adesao-layout__nav--hidden]="!adesao.currentStep().showBottomNav">
+      <leme-button
+        variant="Transparent"
+        hierarchy="Primary"
+        label="Voltar"
+        [showIconLeft]="true"
+        iconLeft="arrow_back"
+        [disabled]="adesao.isFirstStep()"
+        (click)="adesao.back()"
+      />
+      <leme-button
+        variant="Filled"
+        hierarchy="Primary"
+        label="Continuar"
+        [showIconRight]="true"
+        iconRight="arrow_forward"
+        [disabled]="!adesao.canContinue()"
+        (click)="adesao.next()"
+      />
+    </footer>
+  </div>
+</div>

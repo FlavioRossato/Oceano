@@ -1,0 +1,37 @@
+<div class="dados-pessoais">
+  <header class="dados-pessoais__header">
+    <p class="dados-pessoais__eyebrow">Etapa 2 de 6</p>
+    <h1 class="dados-pessoais__title">Dados pessoais</h1>
+    <p class="dados-pessoais__subtitle">Precisamos confirmar algumas informações para personalizar o seu plano.</p>
+  </header>
+
+  <form class="dados-pessoais__form" (submit)="$event.preventDefault()">
+
+    <div class="dados-pessoais__field dados-pessoais__field--full">
+      <leme-text-field label="NOME COMPLETO" placeholder="Seu nome completo" [(ngModel)]="nome" name="nome" />
+    </div>
+
+    <div class="dados-pessoais__row">
+      <div class="dados-pessoais__field">
+        <leme-text-field label="CPF" placeholder="000.000.000-00" [(ngModel)]="cpf" name="cpf" />
+      </div>
+      <div class="dados-pessoais__field">
+        <leme-text-field label="DATA DE NASCIMENTO" placeholder="DD/MM/AAAA" [(ngModel)]="dataNasc" name="dataNasc" />
+      </div>
+    </div>
+
+    <div class="dados-pessoais__row">
+      <div class="dados-pessoais__field">
+        <leme-select label="GÊNERO" placeholder="Selecione" [items]="generoOptions" [(ngModel)]="genero" name="genero" />
+      </div>
+      <div class="dados-pessoais__field">
+        <leme-select label="ESTADO CIVIL" placeholder="Selecione" [items]="estadoCivilOptions" [(ngModel)]="estadoCivil" name="estadoCivil" />
+      </div>
+    </div>
+
+    <div class="dados-pessoais__field dados-pessoais__field--full">
+      <leme-text-field label="NOME DA MÃE" placeholder="Nome completo da mãe" [(ngModel)]="nomeMae" name="nomeMae" />
+    </div>
+
+  </form>
+</div>

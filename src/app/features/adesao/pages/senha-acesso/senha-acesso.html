@@ -1,0 +1,61 @@
+<div class="senha-acesso">
+  <header class="senha-acesso__header">
+    <h1 class="senha-acesso__title">Crie sua senha de acesso</h1>
+    <p class="senha-acesso__subtitle">Defina uma senha forte. Os requisitos ficam verdes conforme você digita.</p>
+  </header>
+
+  <div class="senha-acesso__field-group">
+    <label class="senha-acesso__label" for="senha-input">Crie sua senha</label>
+
+    <div class="senha-acesso__input-box">
+      <span class="material-symbols-outlined senha-acesso__input-icon">lock</span>
+      <input
+        id="senha-input"
+        class="senha-acesso__input"
+        [type]="showPassword() ? 'text' : 'password'"
+        placeholder="Digite sua senha"
+        [value]="password()"
+        (input)="onPasswordInput($event)"
+        autocomplete="new-password"
+      />
+      <button
+        class="senha-acesso__toggle"
+        type="button"
+        (click)="togglePassword()"
+        [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Exibir senha'"
+      >
+        <span class="material-symbols-outlined">{{ showPassword() ? 'visibility_off' : 'visibility' }}</span>
+      </button>
+    </div>
+
+    <div class="senha-acesso__strength">
+      <div
+        class="senha-acesso__bar"
+        [class.senha-acesso__bar--1]="strengthLevel() >= 1"
+        [class.senha-acesso__bar--2]="strengthLevel() >= 2"
+        [class.senha-acesso__bar--3]="strengthLevel() >= 3"
+        [attr.data-level]="strengthLevel()"
+      ></div>
+      <div
+        class="senha-acesso__bar"
+        [class.senha-acesso__bar--2]="strengthLevel() >= 2"
+        [class.senha-acesso__bar--3]="strengthLevel() >= 3"
+        [attr.data-level]="strengthLevel()"
+      ></div>
+      <div
+        class="senha-acesso__bar"
+        [class.senha-acesso__bar--3]="strengthLevel() >= 3"
+        [attr.data-level]="strengthLevel()"
+      ></div>
+    </div>
+  </div>
+
+  <div class="senha-acesso__requirements">
+    @for (req of requirementList; track req.key) {
+      <div class="senha-acesso__req" [class.senha-acesso__req--met]="requirements()[req.key]">
+        <span class="senha-acesso__req-dot"></span>
+        <span class="senha-acesso__req-label">{{ req.label }}</span>
+      </div>
+    }
+  </div>
+</div>

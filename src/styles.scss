@@ -1,0 +1,21 @@
+// =============================================================================
+// GLOBAL STYLES — portal-admin
+// Ordem: (1) DS Leme completo → (2) variáveis do portal → (3) overrides
+// =============================================================================
+
+// 1. Design System Leme
+//    Inclui: tokens CSS (:root), reset, tipografia, Material Symbols, card, loading-overlay
+@use 'leme';
+
+// 2. Variáveis SCSS do portal (spacing, breakpoints, z-index)
+@use './styles/variables' as *;
+
+// 3. Mixins do portal (respond-to, visually-hidden)
+// @use './styles/mixins' as *;  // importar nos componentes que precisam, não globalmente
+
+// 4. Overrides e extensões globais do portal (adicionar quando necessário)
+
+html,
+body {
+  height: 100%;
+}

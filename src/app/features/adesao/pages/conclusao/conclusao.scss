@@ -1,0 +1,76 @@
+@use 'mixins' as *;
+
+.conclusao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-xxs);
+  flex: 1;
+
+  @include respond-to('md') {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  // ── Ícone de sucesso ────────────────────────────────────────────────────
+  &__icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-circular);
+    background: var(--color-green-10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-nano);
+  }
+
+  &__icon {
+    font-size: 40px;
+    color: var(--color-green-60);
+  }
+
+  // ── Textos ─────────────────────────────────────────────────────────────
+  &__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-90);
+    margin: 0;
+
+    @include respond-to('md') {
+      font-size: var(--font-size-xl);
+    }
+  }
+
+  &__desc {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+    max-width: 400px;
+  }
+
+  // ── Informações adicionais ──────────────────────────────────────────────
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-nano);
+    margin: var(--spacing-nano) 0;
+  }
+
+  &__info-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-nano);
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-60);
+  }
+
+  &__info-icon {
+    font-size: 16px;
+    color: var(--color-primary-60);
+    flex-shrink: 0;
+  }
+}
