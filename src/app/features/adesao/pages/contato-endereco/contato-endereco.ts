@@ -80,6 +80,8 @@ export class ContatoEndereco implements OnInit, OnDestroy {
   bairro = '';
   estado = '';
   cidade = '';
+  pais = '';
+  nif = '';
   enderecoPrincipal = false;
 
   // Contatos
@@ -103,6 +105,8 @@ export class ContatoEndereco implements OnInit, OnDestroy {
     this.bairro = end.bairro;
     this.estado = end.estado;
     this.cidade = end.cidade;
+    this.pais = end.pais;
+    this.nif = end.nif;
     this.enderecoPrincipal = end.principal;
 
     const contato = this.dados.contato();
@@ -127,6 +131,8 @@ export class ContatoEndereco implements OnInit, OnDestroy {
       bairro: this.bairro,
       estado: this.estado,
       cidade: this.cidade,
+      pais: this.pais,
+      nif: this.nif,
       principal: this.enderecoPrincipal,
     });
 

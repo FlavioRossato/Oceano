@@ -461,6 +461,10 @@ O conteúdo de cada step é centralizado horizontalmente pelo wrapper `__content
 
 Páginas dentro do wizard usam apenas `padding` interno — nunca `max-width` ou `margin: auto` — pois o layout já resolve o centramento.
 
+#### Exceção aprovada: `senha-acesso`
+
+A página `senha-acesso` (`src/app/features/adesao/pages/senha-acesso/senha-acesso.scss`) declara `max-width: 420px; margin: 0 auto;` na classe raiz, quebrando a regra acima **de forma intencional**: é um formulário de coluna única (criação de senha), e esticá-lo pela largura cheia do `__content-inner` (640–900px) deixaria os campos desproporcionalmente largos. Esta é a única exceção aprovada até o momento — qualquer nova página que "precise" de `max-width` próprio deve ser discutida antes, não replicada por precedente.
+
 ### 7.6 Path aliases TypeScript
 
 ```typescript
@@ -604,6 +608,16 @@ padding: 8px    // ← PROIBIDO; use var(--spacing-2)
 
 ### 11.1 Primeiro setup (após clonar o portal)
 
+**Antes de rodar o projeto pela primeira vez em uma sessão de trabalho, é obrigatório verificar se a branch local está atualizada em relação ao GitHub — e, se não estiver, rodar `git pull` antes de qualquer outro comando.**
+
+```bash
+git fetch origin
+git status -uno        # compara local vs. origin/<branch> — mostra "behind" se houver commits novos
+git pull                # se estiver desatualizado
+```
+
+Só depois disso:
+
 ```bash
 npm install
 npm run leme:build   # obrigatório — dist/leme é gitignored
@@ -681,6 +695,8 @@ mkdir src/app/features/minha-feature
 | 2026-07-01 | `provideAnimationsAsync` | Preferível ao `provideAnimations` em Angular 17+ para lazy animations |
 | 2026-07-01 | `withComponentInputBinding()` | Permite binding de route params em `@Input()` — padrão moderno |
 | 2026-07-01 | Material Symbols via `<link>` no `index.html` | Mais performático que CSS `@import`; a `_icons.scss` do Leme usa `@import url()` que pode ter posição inválida no CSS gerado |
+| 2026-07-07 | Exceção de `max-width`/`margin: auto` na página `senha-acesso` (regra §7.5) | Formulário de coluna única; esticar pela largura cheia do `__content-inner` (640–900px) deixaria os campos desproporcionais |
+| 2026-07-07 | `git pull` obrigatório antes do primeiro `npm start` da sessão (regra §11.1) | Evitar desenvolver sobre uma branch local desatualizada em relação ao GitHub |
 
 ---
 

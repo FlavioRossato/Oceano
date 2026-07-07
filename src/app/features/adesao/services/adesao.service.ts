@@ -4,20 +4,20 @@ import { filter } from 'rxjs';
 
 export interface AdesaoPanelSubStep {
   label: string;
-  icon?: string; // quando definido, exibe ícone no lugar do número
+  icon?: string;
+  /** Etapa de finalização (revisão/assinatura) — exibida à parte, sem numeração, no fim do stepper. */
+  final?: boolean;
 }
 
 export interface AdesaoPanelConfig {
-  // Branding mode
   icon?: string;
   eyebrow?: string;
   headline?: string;
   description?: string;
-  // Stepper mode
   steps?: AdesaoPanelSubStep[];
   activeSubStep?: number;
   estimatedTime?: string;
-  footerIcon?: string; // substitui o ícone padrão do rodapé do painel
+  footerIcon?: string;
 }
 
 export interface AdesaoStep {
@@ -25,7 +25,7 @@ export interface AdesaoStep {
   label: string;
   route: string;
   showBottomNav?: boolean;
-  wideContent?: boolean; // exceção: max-width expandido para páginas densas
+  wideContent?: boolean;
   panel: AdesaoPanelConfig;
 }
 
@@ -39,12 +39,12 @@ const DATA_STEPS: AdesaoPanelSubStep[] = [
   { label: 'Contribuição' },
   { label: 'Dados bancários' },
   { label: 'Documentos' },
-  { label: 'Termos' },
 ];
 
-const RESUMO_STEPS: AdesaoPanelSubStep[] = [
+const WIZARD_STEPS: AdesaoPanelSubStep[] = [
   ...DATA_STEPS,
-  { label: 'Revisão final', icon: 'receipt_long' },
+  { label: 'Revisão final', icon: 'fact_check', final: true },
+  { label: 'Termos', icon: 'draw', final: true },
 ];
 
 @Injectable({ providedIn: 'root' })
@@ -58,6 +58,9 @@ export class AdesaoService {
       route: '/adesao/boas-vindas',
       showBottomNav: false,
       panel: {
+        steps: WIZARD_STEPS,
+        activeSubStep: -1,
+        estimatedTime: 'Leva cerca de 4 minutos',
         eyebrow: 'Previdência Privada',
         headline: 'Construa hoje o futuro que você merece.',
         description: 'Uma renda complementar para viver a aposentadoria com tranquilidade, no seu ritmo, com vantagens fiscais.',
@@ -69,94 +72,32 @@ export class AdesaoService {
       route: '/adesao/senha-acesso',
       showBottomNav: true,
       panel: {
+        steps: WIZARD_STEPS,
+        activeSubStep: -1,
+        estimatedTime: 'Leva cerca de 4 minutos',
         icon: 'shield',
         headline: 'Sua segurança em primeiro lugar',
         description: 'Esta será a <strong>senha de acesso ao portal</strong>. Você vai usá-la sempre que entrar para acompanhar seu plano. Guarde-a com cuidado.',
       },
     },
-    {
-      id: 'vinculo',
-      label: 'Vínculo',
-      route: '/adesao/vinculo',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 0, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'dados-pessoais',
-      label: 'Dados pessoais',
-      route: '/adesao/dados-pessoais',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 1, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'contato-endereco',
-      label: 'Contato & endereço',
-      route: '/adesao/contato-endereco',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 2, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'pep',
-      label: 'PEP',
-      route: '/adesao/pep',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 3, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'perfil-investimento',
-      label: 'Perfil de investimento',
-      route: '/adesao/perfil-investimento',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 4, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'regime-tributacao',
-      label: 'Regime de tributação',
-      route: '/adesao/regime-tributacao',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 5, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'contribuicao',
-      label: 'Contribuição',
-      route: '/adesao/contribuicao',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 6, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'dados-bancarios',
-      label: 'Dados bancários',
-      route: '/adesao/dados-bancarios',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 7, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'documentos',
-      label: 'Documentos',
-      route: '/adesao/documentos',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 8, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
-    {
-      id: 'termo',
-      label: 'Termos',
-      route: '/adesao/termo',
-      showBottomNav: true,
-      panel: { steps: DATA_STEPS, activeSubStep: 9, estimatedTime: 'Leva cerca de 4 minutos' },
-    },
+    { id: 'vinculo', label: 'Vínculo', route: '/adesao/vinculo', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 0, estimatedTime: 'Leva cerca de 4 minutos' } },
+    { id: 'dados-pessoais', label: 'Dados pessoais', route: '/adesao/dados-pessoais', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 1, estimatedTime: 'Leva cerca de 4 minutos' } },
+    { id: 'contato-endereco', label: 'Contato & endereço', route: '/adesao/contato-endereco', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 2, estimatedTime: 'Leva cerca de 4 minutos' } },
+    { id: 'pep', label: 'PEP', route: '/adesao/pep', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 3, estimatedTime: 'Leva cerca de 4 minutos' } },
+    { id: 'perfil-investimento', label: 'Perfil de investimento', route: '/adesao/perfil-investimento', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 4, estimatedTime: 'Leva cerca de 4 minutos' } },
+    { id: 'regime-tributacao', label: 'Regime de tributação', route: '/adesao/regime-tributacao', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 5, estimatedTime: 'Leva cerca de 4 minutos' } },
+    { id: 'contribuicao', label: 'Contribuição', route: '/adesao/contribuicao', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 6, estimatedTime: 'Leva cerca de 4 minutos' } },
+    { id: 'dados-bancarios', label: 'Dados bancários', route: '/adesao/dados-bancarios', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 7, estimatedTime: 'Leva cerca de 4 minutos' } },
+    { id: 'documentos', label: 'Documentos', route: '/adesao/documentos', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 8, estimatedTime: 'Leva cerca de 4 minutos' } },
     {
       id: 'resumo',
       label: 'Revisão final',
       route: '/adesao/resumo',
       showBottomNav: true,
       wideContent: true,
-      panel: {
-        steps: RESUMO_STEPS,
-        activeSubStep: 10,
-        estimatedTime: 'Seus dados estão protegidos',
-        footerIcon: 'lock',
-      },
+      panel: { steps: WIZARD_STEPS, activeSubStep: 9, estimatedTime: 'Seus dados estão protegidos', footerIcon: 'lock' },
     },
+    { id: 'termo', label: 'Termos', route: '/adesao/termo', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 10, estimatedTime: 'Leva cerca de 4 minutos' } },
     {
       id: 'conclusao',
       label: 'Conclusão',
@@ -172,27 +113,21 @@ export class AdesaoService {
 
   readonly currentStepIndex = signal(0);
   readonly currentStep = computed(() => this.steps[this.currentStepIndex()]);
-
-  constructor() {
-    this.router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(e => {
-        const url = (e as NavigationEnd).urlAfterRedirects;
-        const idx = this.steps.findIndex(s => url.includes(s.id));
-        if (idx !== -1) this.currentStepIndex.set(idx);
-      });
-  }
   readonly isFirstStep = computed(() => this.currentStepIndex() === 0);
   readonly isLastStep = computed(() => this.currentStepIndex() === this.steps.length - 1);
   readonly canContinue = signal(true);
-
-  /**
-   * Permite que uma página intercepte os cliques de Voltar/Continuar do
-   * footer fixo do AdesaoLayout (ex.: Perfil de investimento navegando entre
-   * suas próprias perguntas antes de de fato avançar de rota).
-   */
   readonly nextOverride = signal<(() => void) | null>(null);
   readonly backOverride = signal<(() => void) | null>(null);
+
+  constructor() {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(event => {
+        const url = (event as NavigationEnd).urlAfterRedirects;
+        const index = this.steps.findIndex(step => url.includes(step.id));
+        if (index !== -1) this.currentStepIndex.set(index);
+      });
+  }
 
   setNextOverride(fn: (() => void) | null): void {
     this.nextOverride.set(fn);
@@ -212,11 +147,13 @@ export class AdesaoService {
       override();
       return;
     }
+
     if (this.isLastStep()) return;
-    const next = this.currentStepIndex() + 1;
-    this.currentStepIndex.set(next);
+
+    const nextIndex = this.currentStepIndex() + 1;
+    this.currentStepIndex.set(nextIndex);
     this.canContinue.set(true);
-    this.router.navigate([this.steps[next].route]);
+    this.router.navigate([this.steps[nextIndex].route]);
   }
 
   back(): void {
@@ -225,11 +162,13 @@ export class AdesaoService {
       override();
       return;
     }
+
     if (this.isFirstStep()) return;
-    const prev = this.currentStepIndex() - 1;
-    this.currentStepIndex.set(prev);
+
+    const previousIndex = this.currentStepIndex() - 1;
+    this.currentStepIndex.set(previousIndex);
     this.canContinue.set(true);
-    this.router.navigate([this.steps[prev].route]);
+    this.router.navigate([this.steps[previousIndex].route]);
   }
 
   goToStep(index: number): void {

@@ -1,21 +1,24 @@
 <div class="documentos">
   <header class="documentos__header">
-    <p class="documentos__eyebrow">Etapa 9 de 10</p>
+    <p class="documentos__eyebrow">Etapa 9 de 9</p>
     <h1 class="documentos__title">Documentos</h1>
     <p class="documentos__subtitle">Anexe os documentos para dar continuidade ao processo.</p>
   </header>
 
-  <div class="documentos__card">
-    <leme-message
-      severity="Informative"
-      [showTitle]="false"
-      message="Formatos aceitos PNG, JPG, PDF e DOCX. Tamanho máximo por documento 750kb."
-    />
+  <leme-message
+    severity="Informative"
+    [showTitle]="false"
+    message="Formatos aceitos PNG, JPG, PDF e DOCX. Tamanho máximo por documento 750kb."
+  />
 
-    <div class="documentos__list">
-      @for (doc of documentos; track doc.label) {
-        <app-document-upload-row [label]="doc.label" [required]="doc.required" />
-      }
-    </div>
+  <div class="documentos__list">
+    @for (doc of documentos; track doc.label) {
+      <app-document-upload-row
+        [label]="doc.label"
+        [required]="doc.required"
+        [fileName]="adesaoDados.documentos()[doc.label]"
+        (fileSelected)="onFileSelected(doc.label, $event)"
+      />
+    }
   </div>
 </div>

@@ -40,12 +40,13 @@
   &__form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xs);
+    gap: var(--spacing-xxs);
   }
 
   &__divider {
     height: var(--border-width-hairline);
     background: var(--color-gray-30);
+    margin: 0;
   }
 
   // ── Campo — espelha o leme-text-field, com ícone à direita ─────────────
@@ -62,6 +63,10 @@
     line-height: var(--line-height-sm-14);
     color: var(--color-gray-90);
     display: block;
+  }
+
+  &__field-required {
+    color: var(--color-red-60);
   }
 
   &__field-box {
@@ -151,7 +156,7 @@
   &__section {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
   }
 
   &__section-header {
@@ -255,18 +260,19 @@
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
     margin: 0;
+    color: var(--color-gray-20);
   }
 
   &__summary-label {
     font-size: var(--font-size-xs);
-    color: var(--color-white-op-24);
+    color: var(--color-gray-20);
     margin: 0;
   }
 
   &__summary-total {
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-bold);
-    color: var(--color-chart-teal-30);
+    color: var(--color-gray-20);
     margin: 0 0 var(--spacing-xxs);
   }
 
@@ -281,11 +287,13 @@
   &__summary-row-label {
     flex: 1;
     font-size: var(--font-size-xs);
+    color: var(--color-gray-20);
   }
 
   &__summary-row-value {
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-20);
   }
 
   &__summary-dot {
@@ -295,17 +303,18 @@
     flex-shrink: 0;
 
     &--sua {
-      background: var(--color-white-op-24);
+      background: var(--color-chart-green-60);
     }
 
-    &--contrapartida {
-      background: var(--color-chart-green-60);
+    &--adicional {
+      background: var(--color-chart-teal-60);
     }
   }
 
   &__summary-composicao {
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-20);
     margin: var(--spacing-xs) 0 var(--spacing-nano);
   }
 
@@ -339,6 +348,6 @@
     align-items: center;
     gap: var(--gap-nano);
     font-size: var(--font-size-xxs);
-    color: var(--color-white-op-24);
+    color: var(--color-gray-20);
   }
 }

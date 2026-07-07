@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LemeMessageComponent } from 'leme';
 import { DocumentUploadRow } from '@shared/components/document-upload-row/document-upload-row';
+import { AdesaoDadosService } from '../../services/adesao-dados.service';
 
 interface DocumentoItem {
   label: string;
@@ -16,6 +17,8 @@ interface DocumentoItem {
   styleUrl: './documentos.scss',
 })
 export class Documentos {
+  protected readonly adesaoDados = inject(AdesaoDadosService);
+
   readonly documentos: DocumentoItem[] = [
     { label: 'Documento de identidade', required: true },
     { label: 'CPF', required: false },
@@ -24,4 +27,8 @@ export class Documentos {
     { label: 'RG dos beneficiários', required: false },
     { label: 'Título de eleitor', required: false },
   ];
+
+  onFileSelected(label: string, file: File): void {
+    this.adesaoDados.updateDocumento(label, file.name);
+  }
 }

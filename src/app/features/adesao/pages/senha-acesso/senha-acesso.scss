@@ -62,6 +62,10 @@
     display: block;
   }
 
+  &__label-required {
+    color: var(--color-red-60);
+  }
+
   &__input-box {
     height: 48px;
     display: flex;

@@ -67,14 +67,14 @@ export const ADESAO_ROUTES: Routes = [
           import('./pages/documentos/documentos').then(m => m.Documentos),
       },
       {
-        path: 'termo',
-        loadComponent: () =>
-          import('./pages/termo/termo').then(m => m.Termo),
-      },
-      {
         path: 'resumo',
         loadComponent: () =>
           import('./pages/resumo/resumo').then(m => m.Resumo),
+      },
+      {
+        path: 'termo',
+        loadComponent: () =>
+          import('./pages/termo/termo').then(m => m.Termo),
       },
       {
         path: 'conclusao',

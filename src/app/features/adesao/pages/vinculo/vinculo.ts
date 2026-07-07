@@ -14,34 +14,47 @@ import { AdesaoDadosService } from '../../services/adesao-dados.service';
 export class Vinculo implements OnInit, OnDestroy {
   constructor(private readonly dados: AdesaoDadosService) {}
 
-  readonly tipoVinculoOptions = [
-    { value: 'marido',  label: 'Marido' },
-    { value: 'esposa',  label: 'Esposa' },
-    { value: 'filho',   label: 'Filho(a)' },
-    { value: 'pai',     label: 'Pai' },
-    { value: 'mae',     label: 'Mãe' },
-    { value: 'irmao',   label: 'Irmão(ã)' },
-    { value: 'outro',   label: 'Outro' },
+  readonly empresaOptions = [
+    { value: 'ford', label: 'Ford' },
+    { value: 'volkswagen', label: 'Volkswagen' },
+    { value: 'general-motors', label: 'General Motors' },
+    { value: 'outra', label: 'Outra' },
   ];
 
-  cpfTitular = '';
-  nomeParticipante = '';
-  tipoVinculo = '';
+  readonly regimeContratacaoOptions = [
+    { value: 'clt', label: 'CLT' },
+    { value: 'pj', label: 'PJ' },
+    { value: 'estatutario', label: 'Estatutário' },
+    { value: 'autonomo', label: 'Autônomo' },
+  ];
+
+  empresa = '';
+  matricula = '';
+  cargo = '';
+  salarioMensal = '';
+  dataAdmissao = '';
+  regimeContratacao = '';
   confirmado = false;
 
   ngOnInit(): void {
     const atual = this.dados.vinculo();
-    this.cpfTitular = atual.cpfTitular;
-    this.nomeParticipante = atual.nomeParticipante;
-    this.tipoVinculo = atual.tipoVinculo;
+    this.empresa = atual.empresa;
+    this.matricula = atual.matricula;
+    this.cargo = atual.cargo;
+    this.salarioMensal = atual.salarioMensal;
+    this.dataAdmissao = atual.dataAdmissao;
+    this.regimeContratacao = atual.regimeContratacao;
     this.confirmado = atual.confirmado;
   }
 
   ngOnDestroy(): void {
     this.dados.updateVinculo({
-      cpfTitular: this.cpfTitular,
-      nomeParticipante: this.nomeParticipante,
-      tipoVinculo: this.tipoVinculo,
+      empresa: this.empresa,
+      matricula: this.matricula,
+      cargo: this.cargo,
+      salarioMensal: this.salarioMensal,
+      dataAdmissao: this.dataAdmissao,
+      regimeContratacao: this.regimeContratacao,
       confirmado: this.confirmado,
     });
   }

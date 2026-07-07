@@ -1,131 +1,41 @@
 <div class="resumo">
-
   <header class="resumo__header">
     <div class="resumo__header-text">
+      <p class="resumo__eyebrow">Finalização</p>
       <h1 class="resumo__title">Resumo da adesão</h1>
       <p class="resumo__subtitle">Revise as informações antes de confirmar. Você pode editar qualquer seção.</p>
     </div>
-    <leme-button
-      variant="Outlined"
-      hierarchy="Primary"
-      label="Baixar recibo (PDF)"
-      [showIconLeft]="true"
-      iconLeft="download"
-    />
   </header>
 
-  <div class="resumo__grid">
+  <div class="resumo__accordion">
+    @for (card of resumoCards(); track card.title; let i = $index) {
+      <div class="resumo__item" [class.resumo__item--expanded]="isExpanded(i)">
+        <div class="resumo__item-header">
+          <button
+            type="button"
+            class="resumo__item-toggle"
+            (click)="toggle(i)"
+            [attr.aria-expanded]="isExpanded(i)"
+          >
+            <span class="material-symbols-outlined resumo__card-icon">{{ card.icon }}</span>
+            <span class="resumo__card-title">{{ card.title }}</span>
+            <span class="material-symbols-outlined resumo__chevron">{{ isExpanded(i) ? 'expand_less' : 'expand_more' }}</span>
+          </button>
+          <a class="resumo__edit" href="#">{{ card.editLabel }}</a>
+        </div>
 
-    <!-- Empresa -->
-    <div class="resumo__card">
-      <div class="resumo__card-header">
-        <span class="resumo__card-title">
-          <span class="material-symbols-outlined resumo__card-icon">grid_view</span>
-          Empresa
-        </span>
-        <a class="resumo__edit" href="#">Editar</a>
+        @if (isExpanded(i)) {
+          <div class="resumo__rows">
+            @for (line of card.lines; track line.label) {
+              <div class="resumo__row">
+                <span class="resumo__label">{{ line.label }}</span>
+                <span class="resumo__value">{{ line.value }}</span>
+              </div>
+            }
+          </div>
+        }
       </div>
-      <div class="resumo__rows">
-        <div class="resumo__row">
-          <span class="resumo__label">Empresa</span>
-          <span class="resumo__value">Ford do Brasil</span>
-        </div>
-        <div class="resumo__row">
-          <span class="resumo__label">Cargo</span>
-          <span class="resumo__value">Engenheiro mecânico</span>
-        </div>
-        <div class="resumo__row">
-          <span class="resumo__label">Relação</span>
-          <span class="resumo__value">CLT</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dados pessoais -->
-    <div class="resumo__card">
-      <div class="resumo__card-header">
-        <span class="resumo__card-title">
-          <span class="material-symbols-outlined resumo__card-icon">person</span>
-          Dados pessoais
-        </span>
-        <a class="resumo__edit" href="#">Editar</a>
-      </div>
-      <div class="resumo__rows">
-        <div class="resumo__row">
-          <span class="resumo__label">Nome</span>
-          <span class="resumo__value">Jéssica S. M. Santos</span>
-        </div>
-        <div class="resumo__row">
-          <span class="resumo__label">CPF</span>
-          <span class="resumo__value">999.999.999-09</span>
-        </div>
-        <div class="resumo__row">
-          <span class="resumo__label">Nascimento</span>
-          <span class="resumo__value">20/12/1989</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contato & endereço -->
-    <div class="resumo__card">
-      <div class="resumo__card-header">
-        <span class="resumo__card-title">
-          <span class="material-symbols-outlined resumo__card-icon">contact_mail</span>
-          Contato &amp; endereço
-        </span>
-        <a class="resumo__edit" href="#">Editar</a>
-      </div>
-      <div class="resumo__rows">
-        <div class="resumo__row">
-          <span class="resumo__label">E-mail</span>
-          <span class="resumo__value">jessica.santos&#64;email.com</span>
-        </div>
-        <div class="resumo__row">
-          <span class="resumo__label">Celular</span>
-          <span class="resumo__value">(11) 98957-8989</span>
-        </div>
-        <div class="resumo__row">
-          <span class="resumo__label">Cidade</span>
-          <span class="resumo__value">São Paulo · SP</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contribuição -->
-    <div class="resumo__card">
-      <div class="resumo__card-header">
-        <span class="resumo__card-title">
-          <span class="material-symbols-outlined resumo__card-icon">savings</span>
-          Contribuição
-        </span>
-        <a class="resumo__edit" href="#">Editar</a>
-      </div>
-      <div class="resumo__rows">
-        <div class="resumo__row">
-          <span class="resumo__label">Mensal</span>
-          <span class="resumo__value">R$ 650,00</span>
-        </div>
-        <div class="resumo__row">
-          <span class="resumo__label">Contrapartida</span>
-          <span class="resumo__value">R$ 650,00</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Perfil de investimento -->
-  <div class="resumo__profile-card">
-    <div class="resumo__profile-main">
-      <span class="material-symbols-outlined resumo__profile-icon">query_stats</span>
-      <div>
-        <p class="resumo__profile-title">Perfil de investimento</p>
-        <p class="resumo__profile-desc">
-          Com base nas suas respostas, seu <strong>perfil indicado é Conservador</strong>.
-        </p>
-      </div>
-    </div>
-    <a class="resumo__edit" href="#">Alterar</a>
+    }
   </div>
 
 </div>

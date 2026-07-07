@@ -1,31 +1,41 @@
 <div class="conclusao">
-  <div class="conclusao__icon-wrap">
-    <span class="material-symbols-outlined conclusao__icon">check_circle</span>
-  </div>
-
-  <h1 class="conclusao__title">Solicitação enviada!</h1>
-
-  <p class="conclusao__desc">
-    Recebemos seu pedido de adesão ao plano de previdência.<br />
-    Nossa equipe irá analisar as informações e você receberá um retorno em breve.
-  </p>
-
-  <div class="conclusao__info">
-    <div class="conclusao__info-row">
-      <span class="material-symbols-outlined conclusao__info-icon">mail</span>
-      <span>Confira seu e-mail para o próximo passo.</span>
+  <div class="conclusao__card">
+    <div class="conclusao__icon-wrap">
+      <span class="material-symbols-outlined conclusao__icon">check_circle</span>
     </div>
-    <div class="conclusao__info-row">
-      <span class="material-symbols-outlined conclusao__info-icon">schedule</span>
-      <span>O prazo de análise é de até 5 dias úteis.</span>
-    </div>
-  </div>
 
-  <leme-button
-    variant="Filled"
-    hierarchy="Primary"
-    label="Acessar meu portal"
-    [showIconRight]="true"
-    iconRight="arrow_forward"
-  />
+    <h1 class="conclusao__title">Solicitação enviada!</h1>
+
+    <p class="conclusao__desc">
+      Recebemos seu pedido de adesão ao plano de previdência.<br />
+      Nossa equipe irá analisar as informações e você receberá um retorno em breve.
+    </p>
+
+    <div class="conclusao__info">
+      <div class="conclusao__info-row">
+        <span class="material-symbols-outlined conclusao__info-icon">mail</span>
+        <span>Confira seu e-mail para o próximo passo.</span>
+      </div>
+      <div class="conclusao__info-row">
+        <span class="material-symbols-outlined conclusao__info-icon">schedule</span>
+        <span>O prazo de análise é de até 5 dias úteis.</span>
+      </div>
+    </div>
+
+    <leme-button
+      variant="Outlined"
+      hierarchy="Primary"
+      label="Voltar para tela inicial"
+      [showIconLeft]="true"
+      iconLeft="home"
+    />
+
+    <leme-button
+      variant="Filled"
+      hierarchy="Primary"
+      label="Baixar recibo (PDF)"
+      [showIconLeft]="true"
+      iconLeft="download"
+    />
+  </div>
 </div>

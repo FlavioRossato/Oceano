@@ -1,6 +1,6 @@
 <div class="pep">
   <header class="pep__header">
-    <p class="pep__eyebrow">Etapa 4 de 10</p>
+    <p class="pep__eyebrow">Etapa 4 de 9</p>
     <h1 class="pep__title">Pessoa Exposta Politicamente</h1>
     <p class="pep__subtitle">Você ocupa ou ocupou nos últimos 5 anos algum cargo público relevante, ou é familiar próximo de alguém que ocupa?</p>
   </header>
@@ -18,10 +18,10 @@
     @if (isPep) {
       <div class="pep__row">
         <div class="pep__field">
-          <leme-select label="RELAÇÃO" placeholder="Selecione" [items]="relacaoOptions" [(ngModel)]="relacao" name="relacao" />
+          <leme-select label="RELAÇÃO" [required]="true" placeholder="Selecione" [items]="relacaoOptions" [(ngModel)]="relacao" name="relacao" />
         </div>
         <div class="pep__field">
-          <leme-text-field label="CARGO OCUPADO" placeholder="Cargo ocupado" [(ngModel)]="cargo" name="cargo" />
+          <leme-text-field label="CARGO OCUPADO" [required]="true" placeholder="Cargo ocupado" [(ngModel)]="cargo" name="cargo" />
         </div>
       </div>
     }

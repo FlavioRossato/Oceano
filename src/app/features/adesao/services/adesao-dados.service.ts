@@ -1,9 +1,12 @@
 import { Injectable, computed, signal } from '@angular/core';
 
 export interface VinculoForm {
-  cpfTitular: string;
-  nomeParticipante: string;
-  tipoVinculo: string;
+  empresa: string;
+  matricula: string;
+  cargo: string;
+  salarioMensal: string;
+  dataAdmissao: string;
+  regimeContratacao: string;
   confirmado: boolean;
 }
 
@@ -31,6 +34,8 @@ export interface EnderecoForm {
   bairro: string;
   estado: string;
   cidade: string;
+  pais: string;
+  nif: string;
   principal: boolean;
 }
 
@@ -96,9 +101,12 @@ export interface DadosBancariosForm {
 @Injectable({ providedIn: 'root' })
 export class AdesaoDadosService {
   readonly vinculo = signal<VinculoForm>({
-    cpfTitular: '000.000.000-00',
-    nomeParticipante: 'João Vicente',
-    tipoVinculo: 'marido',
+    empresa: 'ford',
+    matricula: '75486',
+    cargo: 'Engenheiro mecânico',
+    salarioMensal: 'R$ 99.999,99',
+    dataAdmissao: '20/11/2014',
+    regimeContratacao: 'clt',
     confirmado: false,
   });
 
@@ -126,6 +134,8 @@ export class AdesaoDadosService {
     bairro: 'Nova Esperança',
     estado: 'sp',
     cidade: 'São Paulo',
+    pais: '',
+    nif: '',
     principal: false,
   });
 
@@ -182,6 +192,8 @@ export class AdesaoDadosService {
     principal: false,
   });
 
+  readonly documentos = signal<Record<string, string>>({});
+
   /** CPF do participante (Dados pessoais) sugerido como Chave PIX. */
   readonly cpfSugeridoPix = computed(() => this.dadosPessoais().cpf);
 
@@ -219,5 +231,9 @@ export class AdesaoDadosService {
 
   updateDadosBancarios(patch: Partial<DadosBancariosForm>): void {
     this.dadosBancarios.update(v => ({ ...v, ...patch }));
+  }
+
+  updateDocumento(label: string, fileName: string): void {
+    this.documentos.update(v => ({ ...v, [label]: fileName }));
   }
 }

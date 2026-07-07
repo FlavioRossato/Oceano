@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { LemeTagComponent } from 'leme';
 
 @Component({
@@ -12,15 +12,13 @@ import { LemeTagComponent } from 'leme';
 export class DocumentUploadRow {
   @Input() label = '';
   @Input() required = false;
+  @Input() fileName = '';
   @Output() fileSelected = new EventEmitter<File>();
-
-  readonly fileName = signal('');
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (file) {
-      this.fileName.set(file.name);
       this.fileSelected.emit(file);
     }
   }

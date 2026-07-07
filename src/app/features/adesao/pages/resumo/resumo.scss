@@ -19,6 +19,15 @@
     flex-wrap: wrap;
   }
 
+  &__eyebrow {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary-60);
+    margin: 0 0 var(--spacing-nano);
+  }
+
   &__title {
     font-size: var(--font-size-md);
     font-weight: var(--font-weight-bold);
@@ -37,47 +46,61 @@
     margin: 0;
   }
 
-  // ── Grid 2×2 de cards ──────────────────────────────────────────────────
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr;
+  // ── Acordeão de seções ───────────────────────────────────────────────────
+  &__accordion {
+    display: flex;
+    flex-direction: column;
     gap: var(--spacing-xxs);
-
-    @include respond-to('sm') {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 
-  // ── Card de seção ──────────────────────────────────────────────────────
-  &__card {
+  &__item {
     background: var(--color-white-100);
     border: var(--border-width-hairline) solid var(--color-gray-30);
     border-radius: var(--radius-sm);
-    padding: var(--spacing-xxs);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
+    overflow: hidden;
   }
 
-  &__card-header {
+  &__item-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-xs);
+    padding: var(--spacing-xxs);
+  }
+
+  &__item-toggle {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    gap: var(--spacing-nano);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
   }
 
   &__card-title {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-nano);
+    flex: 1;
+    min-width: 0;
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     color: var(--color-primary-70);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__card-icon {
     font-size: 18px;
     color: var(--color-primary-60);
+    flex-shrink: 0;
+  }
+
+  &__chevron {
+    font-size: 20px;
+    color: var(--color-gray-60);
     flex-shrink: 0;
   }
 
@@ -101,6 +124,8 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-nano);
+    padding: var(--spacing-xs) var(--spacing-xxs) var(--spacing-xxs);
+    border-top: var(--border-width-hairline) solid var(--color-gray-20);
   }
 
   &__row {

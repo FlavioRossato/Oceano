@@ -1,58 +1,49 @@
 <div class="termo">
   <header class="termo__header">
-    <p class="termo__eyebrow">Etapa 10 de 10</p>
+    <p class="termo__eyebrow">Finalização</p>
     <h1 class="termo__title">Termos</h1>
+    <p class="termo__subtitle">Leia todo o termo a baixo e em seguida, caso aceitar, marque o aceite do termo.</p>
   </header>
 
-  <div class="termo__card">
-    <div class="termo__card-header">
-      <span class="material-symbols-outlined termo__card-icon">description</span>
-      <div>
-        <h2 class="termo__card-title">Termos de concordância</h2>
-        <p class="termo__card-subtitle">Leia todo o termo a baixo e em seguida, caso aceitar, marque o aceite do termo.</p>
+  <div class="termo__panel">
+    <button type="button" class="termo__panel-toggle" (click)="expandido.set(!expandido())">
+      TERMOS DE USO QUANDO PREVIDÊNCIA, DE 22 DE NOVEMBRO DE 2021
+      <span class="material-symbols-outlined">{{ expandido() ? 'expand_less' : 'expand_more' }}</span>
+    </button>
+
+    @if (expandido()) {
+      <div class="termo__panel-body">
+        <p>
+          "§ 1º Para fins do disposto nesta Resolução, consideram-se pessoas expostas politicamente:<br />
+          I - os detentores de mandatos eletivos dos Poderes Executivo e Legislativo da União;<br />
+          II - os ocupantes de cargo, no Poder Executivo da União, de:<br />
+          a) Ministro de Estado ou equiparado;<br />
+          b) Natureza Especial ou equivalente;<br />
+          c) Presidente, Vice-Presidente e Diretor, ou equivalentes, de entidades da administração pública
+          indireta; e<br />
+          d) Direção e Assessoramento Superior - DAS de nível 6 ou equivalente;<br />
+          III - os membros do Conselho Nacional de Justiça, do Supremo Tribunal Federal, dos Tribunais
+          Superiores, dos Tribunais Regionais Federais, dos Tribunais Regionais do Trabalho, dos Tribunais
+          Regionais Eleitorais, do Conselho Superior da Justiça do Trabalho e do Conselho da Justiça Federal;<br />
+          IV - os membros do Conselho Nacional do Ministério Público, o Procurador-Geral da República, o
+          Vice-Procurador-Geral da República, o Procurador-Geral do Trabalho, o Procurador-Geral da Justiça
+          Militar, os Subprocuradores-Gerais da República e os Procuradores-Gerais de Justiça dos Estados e do
+          Distrito Federal;<br />
+          V - os membros do Tribunal de Contas da União, o Procurador-Geral e os Subprocuradores-Gerais do
+          Ministério Público junto ao Tribunal de Contas da União;<br />
+          VI - os Presidentes e Tesoureiros nacionais, ou equivalentes, de partidos políticos;<br />
+          VII - os Governadores e Secretários de Estado e do Distrito Federal, os Deputados Estaduais e
+          Distritais, os Presidentes, ou equivalentes, de entidades da administração pública indireta estadual
+          e distrital."
+        </p>
       </div>
-    </div>
-
-    <div class="termo__panel">
-      <button type="button" class="termo__panel-toggle" (click)="expandido.set(!expandido())">
-        TERMOS DE USO QUANDO PREVIDÊNCIA, DE 22 DE NOVEMBRO DE 2021
-        <span class="material-symbols-outlined">{{ expandido() ? 'expand_less' : 'expand_more' }}</span>
-      </button>
-
-      @if (expandido()) {
-        <div class="termo__panel-body">
-          <p>
-            "§ 1º Para fins do disposto nesta Resolução, consideram-se pessoas expostas politicamente:<br />
-            I - os detentores de mandatos eletivos dos Poderes Executivo e Legislativo da União;<br />
-            II - os ocupantes de cargo, no Poder Executivo da União, de:<br />
-            a) Ministro de Estado ou equiparado;<br />
-            b) Natureza Especial ou equivalente;<br />
-            c) Presidente, Vice-Presidente e Diretor, ou equivalentes, de entidades da administração pública
-            indireta; e<br />
-            d) Direção e Assessoramento Superior - DAS de nível 6 ou equivalente;<br />
-            III - os membros do Conselho Nacional de Justiça, do Supremo Tribunal Federal, dos Tribunais
-            Superiores, dos Tribunais Regionais Federais, dos Tribunais Regionais do Trabalho, dos Tribunais
-            Regionais Eleitorais, do Conselho Superior da Justiça do Trabalho e do Conselho da Justiça Federal;<br />
-            IV - os membros do Conselho Nacional do Ministério Público, o Procurador-Geral da República, o
-            Vice-Procurador-Geral da República, o Procurador-Geral do Trabalho, o Procurador-Geral da Justiça
-            Militar, os Subprocuradores-Gerais da República e os Procuradores-Gerais de Justiça dos Estados e do
-            Distrito Federal;<br />
-            V - os membros do Tribunal de Contas da União, o Procurador-Geral e os Subprocuradores-Gerais do
-            Ministério Público junto ao Tribunal de Contas da União;<br />
-            VI - os Presidentes e Tesoureiros nacionais, ou equivalentes, de partidos políticos;<br />
-            VII - os Governadores e Secretários de Estado e do Distrito Federal, os Deputados Estaduais e
-            Distritais, os Presidentes, ou equivalentes, de entidades da administração pública indireta estadual
-            e distrital."
-          </p>
-        </div>
-      }
-    </div>
-
-    <leme-checkbox
-      label="Declaro ter lido e aceito o(s) termo(s) de concordância"
-      [ngModel]="aceito"
-      (ngModelChange)="onAceitoChange($event)"
-      name="aceito"
-    />
+    }
   </div>
+
+  <leme-checkbox
+    label="Declaro ter lido e aceito o(s) termo(s) de concordância"
+    [ngModel]="aceito"
+    (ngModelChange)="onAceitoChange($event)"
+    name="aceito"
+  />
 </div>

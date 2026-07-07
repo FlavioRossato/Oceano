@@ -1,6 +1,6 @@
 <div class="contribuicao">
   <header class="contribuicao__header">
-    <p class="contribuicao__eyebrow">Etapa 7 de 10</p>
+    <p class="contribuicao__eyebrow">Etapa 7 de 9</p>
     <h1 class="contribuicao__title">Contribuições ao plano</h1>
     <p class="contribuicao__subtitle">Simule diferentes cenários e veja o impacto em tempo real.</p>
   </header>
@@ -9,7 +9,7 @@
     <form class="contribuicao__form" (submit)="$event.preventDefault()">
 
       <div class="contribuicao__field">
-        <label class="contribuicao__field-label" for="renda-mensal">RENDA MENSAL DESEJADA</label>
+        <label class="contribuicao__field-label" for="renda-mensal">RENDA MENSAL DESEJADA <span class="contribuicao__field-required">*</span></label>
         <div class="contribuicao__field-box">
           <input
             id="renda-mensal"
@@ -33,7 +33,7 @@
       </div>
 
       <div class="contribuicao__field">
-        <label class="contribuicao__field-label" for="idade-beneficio">IDADE PARA O BENEFÍCIO</label>
+        <label class="contribuicao__field-label" for="idade-beneficio">IDADE PARA O BENEFÍCIO <span class="contribuicao__field-required">*</span></label>
         <div class="contribuicao__field-box">
           <input
             id="idade-beneficio"
@@ -79,7 +79,7 @@
 
           @if (tipoBasica() === 'valores') {
             <div class="contribuicao__field">
-              <label class="contribuicao__field-label" for="valor-basico">VALOR EM REAIS</label>
+              <label class="contribuicao__field-label" for="valor-basico">VALOR EM REAIS <span class="contribuicao__field-required">*</span></label>
               <div class="contribuicao__field-box" [class.contribuicao__field-box--error]="erroValorBasico()">
                 <input
                   id="valor-basico"
@@ -101,7 +101,7 @@
             </div>
           } @else {
             <div class="contribuicao__field">
-              <label class="contribuicao__field-label" for="percentual-basico">PORCENTAGEM</label>
+              <label class="contribuicao__field-label" for="percentual-basico">PORCENTAGEM <span class="contribuicao__field-required">*</span></label>
               <div class="contribuicao__field-box">
                 <input
                   id="percentual-basico"
@@ -120,7 +120,7 @@
           <leme-message
             severity="Informative"
             [showTitle]="false"
-            message="Com essa contribuição, a patrocinadora acrescenta mais R$ 225,00 por mês."
+            message="A contribuição acima é simulada em tempo real conforme os valores informados."
           />
         </div>
 
@@ -154,7 +154,7 @@
 
             @if (tipoAdicional() === 'valores') {
               <div class="contribuicao__field">
-                <label class="contribuicao__field-label" for="valor-adicional">VALOR EM REAIS</label>
+                <label class="contribuicao__field-label" for="valor-adicional">VALOR EM REAIS <span class="contribuicao__field-required">*</span></label>
                 <div class="contribuicao__field-box" [class.contribuicao__field-box--error]="erroValorAdicional()">
                   <input
                     id="valor-adicional"
@@ -176,7 +176,7 @@
               </div>
             } @else {
               <div class="contribuicao__field">
-                <label class="contribuicao__field-label" for="percentual-adicional">PORCENTAGEM</label>
+                <label class="contribuicao__field-label" for="percentual-adicional">PORCENTAGEM <span class="contribuicao__field-required">*</span></label>
                 <div class="contribuicao__field-box">
                   <input
                     id="percentual-adicional"
@@ -211,11 +211,6 @@
         <span class="contribuicao__summary-row-label">Sua contribuição</span>
         <span class="contribuicao__summary-row-value">{{ suaContribuicao() }}</span>
       </div>
-      <div class="contribuicao__summary-row">
-        <span class="contribuicao__summary-dot contribuicao__summary-dot--contrapartida"></span>
-        <span class="contribuicao__summary-row-label">Contrapartida</span>
-        <span class="contribuicao__summary-row-value">{{ contrapartida() }}</span>
-      </div>
 
       <p class="contribuicao__summary-composicao">Composição</p>
       <div class="contribuicao__donut" [style.background]="donutBackground()"></div>
@@ -223,12 +218,14 @@
       <div class="contribuicao__summary-legend">
         <span class="contribuicao__summary-legend-item">
           <span class="contribuicao__summary-dot contribuicao__summary-dot--sua"></span>
-          Sua contribuição
+          Contribuição básica
         </span>
-        <span class="contribuicao__summary-legend-item">
-          <span class="contribuicao__summary-dot contribuicao__summary-dot--contrapartida"></span>
-          Patrocinadora
-        </span>
+        @if (temAdicional()) {
+          <span class="contribuicao__summary-legend-item">
+            <span class="contribuicao__summary-dot contribuicao__summary-dot--adicional"></span>
+            Contribuição adicional
+          </span>
+        }
       </div>
     </aside>
   </div>

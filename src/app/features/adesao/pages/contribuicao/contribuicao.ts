@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, computed, effect, inject
 import { LemeRadioComponent, LemeSwitchComponent, LemeMessageComponent } from 'leme';
 import { AdesaoService } from '../../services/adesao.service';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
-import { formatCurrencyInput, formatPercentInput, parseCurrencyToNumber } from '@shared/utils/currency-format.util';
+import { formatCurrencyInput, formatPercentInput, parseCurrencyToNumber, parsePercentToNumber } from '@shared/utils/currency-format.util';
 
 type TipoContribuicao = 'valores' | 'porcentagem';
 
@@ -34,15 +34,40 @@ export class Contribuicao implements OnDestroy {
   readonly valorAdicional = signal(this.atual.valorAdicional);
   readonly percentualAdicional = signal(this.atual.percentualAdicional);
 
-  // Resumo lateral — valores de exemplo do print (não calculados a partir dos campos acima).
-  readonly totalInvestido = signal('R$ 975,00');
-  readonly suaContribuicao = signal('R$ 975,00');
-  readonly contrapartida = signal('R$ 975,00');
-  readonly percentualContrapartidaNoDonut = 25;
+  private readonly rendaMensalValor = computed(() => parseCurrencyToNumber(this.rendaMensalDesejada()));
+
+  private readonly contribuicaoBasicaValor = computed(() => {
+    if (this.tipoBasica() === 'valores') {
+      return parseCurrencyToNumber(this.valorBasico());
+    }
+
+    return (this.rendaMensalValor() * parsePercentToNumber(this.percentualBasico())) / 100;
+  });
+
+  private readonly contribuicaoAdicionalValor = computed(() => {
+    if (!this.temAdicional()) {
+      return 0;
+    }
+
+    if (this.tipoAdicional() === 'valores') {
+      return parseCurrencyToNumber(this.valorAdicional());
+    }
+
+    return (this.rendaMensalValor() * parsePercentToNumber(this.percentualAdicional())) / 100;
+  });
+
+  readonly suaContribuicao = computed(() => this.formatCurrency(this.contribuicaoBasicaValor() + this.contribuicaoAdicionalValor()));
+  readonly totalInvestido = computed(() => this.suaContribuicao());
+
+  readonly percentualBasicaNoDonut = computed(() => {
+    const total = this.contribuicaoBasicaValor() + this.contribuicaoAdicionalValor();
+    if (!total) return 0;
+    return (this.contribuicaoBasicaValor() / total) * 100;
+  });
 
   readonly donutBackground = computed(
     () =>
-      `conic-gradient(var(--color-chart-green-60) 0% ${this.percentualContrapartidaNoDonut}%, var(--color-white-op-24) ${this.percentualContrapartidaNoDonut}% 100%)`
+      `conic-gradient(var(--color-chart-green-60) 0% ${this.percentualBasicaNoDonut()}%, var(--color-chart-teal-60) ${this.percentualBasicaNoDonut()}% 100%)`
   );
 
   readonly erroValorBasico = computed(
@@ -100,6 +125,10 @@ export class Contribuicao implements OnDestroy {
     input.value = formatted;
     input.setSelectionRange(formatted.length, formatted.length);
     return formatted;
+  }
+
+  private formatCurrency(value: number): string {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
   ngOnDestroy(): void {

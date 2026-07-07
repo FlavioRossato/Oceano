@@ -1,6 +1,6 @@
 <div class="contato-endereco">
   <header class="contato-endereco__header">
-    <p class="contato-endereco__eyebrow">Etapa 3 de 10</p>
+    <p class="contato-endereco__eyebrow">Etapa 3 de 9</p>
     <h1 class="contato-endereco__title">Contato &amp; endereço</h1>
     <p class="contato-endereco__subtitle">Informe seus dados de contato e endereço residencial.</p>
   </header>
@@ -15,41 +15,58 @@
 
       <leme-switch label="Reside no exterior?" [(ngModel)]="resideExterior" name="resideExterior" />
 
-      <div class="contato-endereco__row">
-        <div class="contato-endereco__field">
-          <leme-select label="TIPO DE ENDEREÇO" placeholder="Selecione" [items]="tipoEnderecoOptions" [(ngModel)]="tipoEndereco" name="tipoEndereco" />
+      @if (!resideExterior) {
+        <div class="contato-endereco__row">
+          <div class="contato-endereco__field">
+            <leme-select label="TIPO DE ENDEREÇO" [required]="true" placeholder="Selecione" [items]="tipoEnderecoOptions" [(ngModel)]="tipoEndereco" name="tipoEndereco" />
+          </div>
+          <div class="contato-endereco__field">
+            <leme-text-field label="CEP" [required]="true" placeholder="00000-000" [(ngModel)]="cep" name="cep" />
+          </div>
         </div>
-        <div class="contato-endereco__field">
-          <leme-text-field label="CEP" placeholder="00000-000" [(ngModel)]="cep" name="cep" />
-        </div>
-      </div>
 
-      <div class="contato-endereco__row">
-        <div class="contato-endereco__field">
-          <leme-text-field label="ENDEREÇO" placeholder="Rua, avenida..." [(ngModel)]="endereco" name="endereco" />
+        <div class="contato-endereco__row">
+          <div class="contato-endereco__field">
+            <leme-text-field label="ENDEREÇO" [required]="true" placeholder="Rua, avenida..." [(ngModel)]="endereco" name="endereco" />
+          </div>
+          <div class="contato-endereco__field">
+            <leme-text-field label="NÚMERO" [required]="true" placeholder="Número" [(ngModel)]="numero" name="numero" />
+          </div>
         </div>
-        <div class="contato-endereco__field">
-          <leme-text-field label="NÚMERO" placeholder="Número" [(ngModel)]="numero" name="numero" />
-        </div>
-      </div>
 
-      <div class="contato-endereco__row">
-        <div class="contato-endereco__field">
-          <leme-text-field label="COMPLEMENTO" placeholder="Apto, bloco..." [(ngModel)]="complemento" name="complemento" />
+        <div class="contato-endereco__row">
+          <div class="contato-endereco__field">
+            <leme-text-field label="COMPLEMENTO" [required]="true" placeholder="Apto, bloco..." [(ngModel)]="complemento" name="complemento" />
+          </div>
+          <div class="contato-endereco__field">
+            <leme-text-field label="BAIRRO" [required]="true" placeholder="Bairro" [(ngModel)]="bairro" name="bairro" />
+          </div>
         </div>
-        <div class="contato-endereco__field">
-          <leme-text-field label="BAIRRO" placeholder="Bairro" [(ngModel)]="bairro" name="bairro" />
-        </div>
-      </div>
 
-      <div class="contato-endereco__row">
-        <div class="contato-endereco__field">
-          <leme-select label="ESTADO" placeholder="Selecione" [items]="ufOptions" [(ngModel)]="estado" name="estado" />
+        <div class="contato-endereco__row">
+          <div class="contato-endereco__field">
+            <leme-select label="ESTADO" [required]="true" placeholder="Selecione" [items]="ufOptions" [(ngModel)]="estado" name="estado" />
+          </div>
+          <div class="contato-endereco__field">
+            <leme-text-field label="CIDADE" [required]="true" placeholder="Cidade" [(ngModel)]="cidade" name="cidade" />
+          </div>
         </div>
-        <div class="contato-endereco__field">
-          <leme-text-field label="CIDADE" placeholder="Cidade" [(ngModel)]="cidade" name="cidade" />
+      } @else {
+        <div class="contato-endereco__row">
+          <div class="contato-endereco__field">
+            <leme-text-field label="PAÍS" [required]="true" placeholder="País" [(ngModel)]="pais" name="pais" />
+          </div>
+          <div class="contato-endereco__field">
+            <leme-text-field label="NIF" [required]="true" placeholder="NIF" [(ngModel)]="nif" name="nif" />
+          </div>
         </div>
-      </div>
+
+        <div class="contato-endereco__row">
+          <div class="contato-endereco__field">
+            <leme-text-field label="COMPLEMENTO" [required]="true" placeholder="Apto, bloco..." [(ngModel)]="complemento" name="complemento" />
+          </div>
+        </div>
+      }
 
       <leme-checkbox label="Tornar endereço principal" [(ngModel)]="enderecoPrincipal" name="enderecoPrincipal" />
     </section>
@@ -67,10 +84,10 @@
 
         <div class="contato-endereco__row">
           <div class="contato-endereco__field">
-            <leme-select label="TIPO DE TELEFONE" placeholder="Selecione" [items]="tipoContatoOptions" [(ngModel)]="telefoneTipo" name="telefoneTipo" />
+            <leme-select label="TIPO DE TELEFONE" [required]="true" placeholder="Selecione" [items]="tipoContatoOptions" [(ngModel)]="telefoneTipo" name="telefoneTipo" />
           </div>
           <div class="contato-endereco__field">
-            <leme-text-field label="TELEFONE" placeholder="(00) 00000-0000" [(ngModel)]="telefone" name="telefone" />
+            <leme-text-field label="TELEFONE" [required]="true" placeholder="(00) 00000-0000" [(ngModel)]="telefone" name="telefone" />
           </div>
         </div>
 
@@ -93,10 +110,10 @@
 
         <div class="contato-endereco__row">
           <div class="contato-endereco__field">
-            <leme-select label="TIPO DE EMAIL" placeholder="Selecione" [items]="tipoContatoOptions" [(ngModel)]="emailTipo" name="emailTipo" />
+            <leme-select label="TIPO DE EMAIL" [required]="true" placeholder="Selecione" [items]="tipoContatoOptions" [(ngModel)]="emailTipo" name="emailTipo" />
           </div>
           <div class="contato-endereco__field">
-            <leme-text-field label="EMAIL" placeholder="seu@email.com" [(ngModel)]="email" name="email" />
+            <leme-text-field label="EMAIL" [required]="true" placeholder="seu@email.com" [(ngModel)]="email" name="email" />
           </div>
         </div>
 

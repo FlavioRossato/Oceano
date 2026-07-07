@@ -1,26 +1,38 @@
 <div class="vinculo">
   <header class="vinculo__header">
-    <p class="vinculo__eyebrow">Etapa 1 de 10</p>
-    <h1 class="vinculo__title">Vínculo com o participante</h1>
-    <p class="vinculo__subtitle">Informe quem é o titular do plano ao qual você está vinculado.</p>
+    <p class="vinculo__eyebrow">Etapa 1 de 9</p>
+    <h1 class="vinculo__title">Vínculo com a empresa</h1>
+    <p class="vinculo__subtitle">Informe os dados do seu vínculo empregatício com a empresa patrocinadora do plano.</p>
   </header>
 
   <form class="vinculo__form" (submit)="$event.preventDefault()">
+    <div class="vinculo__row">
+      <div class="vinculo__field">
+        <leme-select label="EMPRESA ONDE TRABALHA" [required]="true" placeholder="Selecione" [items]="empresaOptions" [(ngModel)]="empresa" name="empresa" />
+      </div>
+      <div class="vinculo__field">
+        <leme-text-field label="MATRÍCULA" [required]="true" placeholder="Matrícula" [(ngModel)]="matricula" name="matricula" />
+      </div>
+    </div>
 
     <div class="vinculo__row">
       <div class="vinculo__field">
-        <leme-text-field label="CPF DO PARTICIPANTE TITULAR" placeholder="000.000.000-00" [(ngModel)]="cpfTitular" name="cpfTitular" />
+        <leme-text-field label="CARGO" [required]="true" placeholder="Cargo ocupado" [(ngModel)]="cargo" name="cargo" />
       </div>
       <div class="vinculo__field">
-        <leme-text-field label="NOME DO PARTICIPANTE" placeholder="Nome completo do titular" [(ngModel)]="nomeParticipante" name="nomeParticipante" />
+        <leme-text-field label="SALÁRIO MENSAL" [required]="true" placeholder="R$ 0,00" [(ngModel)]="salarioMensal" name="salarioMensal" />
       </div>
     </div>
 
-    <div class="vinculo__field vinculo__field--full">
-      <leme-select label="TIPO DE VÍNCULO" placeholder="Selecione" [items]="tipoVinculoOptions" [(ngModel)]="tipoVinculo" name="tipoVinculo" />
+    <div class="vinculo__row">
+      <div class="vinculo__field">
+        <leme-text-field label="DATA DE ADMISSÃO" [required]="true" placeholder="DD/MM/AAAA" [(ngModel)]="dataAdmissao" name="dataAdmissao" />
+      </div>
+      <div class="vinculo__field">
+        <leme-select label="REGIME DE CONTRATAÇÃO" [required]="true" placeholder="Selecione" [items]="regimeContratacaoOptions" [(ngModel)]="regimeContratacao" name="regimeContratacao" />
+      </div>
     </div>
 
-    <leme-checkbox label="Confirmo possuir o vínculo com o participante" [(ngModel)]="confirmado" name="confirmado" />
-
+    <leme-checkbox label="Confirmo ser colaborador da empresa patrocinadora indicada acima" [(ngModel)]="confirmado" name="confirmado" />
   </form>
 </div>

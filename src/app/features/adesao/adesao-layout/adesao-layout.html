@@ -7,25 +7,50 @@
     <div class="adesao-layout__panel-body">
       @if (adesao.currentStep().panel.steps) {
         <nav class="adesao-layout__steps">
-          @for (step of adesao.currentStep().panel.steps!; track $index; let i = $index) {
-            <div
+          @for (entry of numberedStepEntries(); track entry.index) {
+            <button
+              type="button"
               class="adesao-layout__step"
-              [class.adesao-layout__step--active]="i === adesao.currentStep().panel.activeSubStep"
-              [class.adesao-layout__step--done]="i < (adesao.currentStep().panel.activeSubStep ?? 0)"
+              [class.adesao-layout__step--active]="entry.index === adesao.currentStep().panel.activeSubStep"
+              [class.adesao-layout__step--done]="entry.index < (adesao.currentStep().panel.activeSubStep ?? 0)"
+              [attr.aria-current]="entry.index === adesao.currentStep().panel.activeSubStep ? 'step' : null"
+              (click)="goToPanelStep(entry.index)"
             >
-              @if (i < (adesao.currentStep().panel.activeSubStep ?? 0)) {
+              @if (entry.index < (adesao.currentStep().panel.activeSubStep ?? 0)) {
                 <span class="adesao-layout__step-num adesao-layout__step-num--done">
                   <span class="material-symbols-outlined">check</span>
                 </span>
-              } @else if (step.icon) {
-                <span class="adesao-layout__step-num">
-                  <span class="material-symbols-outlined">{{ step.icon }}</span>
-                </span>
               } @else {
-                <span class="adesao-layout__step-num">{{ i + 1 }}</span>
+                <span class="adesao-layout__step-num">{{ entry.index + 1 }}</span>
               }
-              <span class="adesao-layout__step-name">{{ step.label }}</span>
-            </div>
+              <span class="adesao-layout__step-name">{{ entry.step.label }}</span>
+            </button>
+          }
+
+          @if (finalStepEntries().length) {
+            <p class="adesao-layout__steps-divider">Finalização</p>
+
+            @for (entry of finalStepEntries(); track entry.index) {
+              <button
+                type="button"
+                class="adesao-layout__step adesao-layout__step--final"
+                [class.adesao-layout__step--active]="entry.index === adesao.currentStep().panel.activeSubStep"
+                [class.adesao-layout__step--done]="entry.index < (adesao.currentStep().panel.activeSubStep ?? 0)"
+                [attr.aria-current]="entry.index === adesao.currentStep().panel.activeSubStep ? 'step' : null"
+                (click)="goToPanelStep(entry.index)"
+              >
+                @if (entry.index < (adesao.currentStep().panel.activeSubStep ?? 0)) {
+                  <span class="adesao-layout__step-num adesao-layout__step-num--done">
+                    <span class="material-symbols-outlined">check</span>
+                  </span>
+                } @else {
+                  <span class="adesao-layout__step-num">
+                    <span class="material-symbols-outlined">{{ entry.step.icon }}</span>
+                  </span>
+                }
+                <span class="adesao-layout__step-name">{{ entry.step.label }}</span>
+              </button>
+            }
           }
         </nav>
       } @else {
@@ -66,6 +91,70 @@
       </div>
     </main>
 
+    @if (adesao.currentStep().panel.steps) {
+      <div class="adesao-layout__mobile-steps" [class.adesao-layout__mobile-steps--expanded]="mobileStepsExpanded()">
+        @if (mobileStepsExpanded()) {
+          <nav class="adesao-layout__mobile-steps-list">
+            @for (entry of numberedStepEntries(); track entry.index) {
+              <button
+                type="button"
+                class="adesao-layout__mobile-step"
+                [class.adesao-layout__mobile-step--active]="entry.index === adesao.currentStep().panel.activeSubStep"
+                [class.adesao-layout__mobile-step--done]="entry.index < (adesao.currentStep().panel.activeSubStep ?? 0)"
+                [attr.aria-current]="entry.index === adesao.currentStep().panel.activeSubStep ? 'step' : null"
+                (click)="goToPanelStep(entry.index)"
+              >
+                @if (entry.index < (adesao.currentStep().panel.activeSubStep ?? 0)) {
+                  <span class="adesao-layout__mobile-step-num adesao-layout__mobile-step-num--done">
+                    <span class="material-symbols-outlined">check</span>
+                  </span>
+                } @else {
+                  <span class="adesao-layout__mobile-step-num">{{ entry.index + 1 }}</span>
+                }
+                <span class="adesao-layout__mobile-step-name">{{ entry.step.label }}</span>
+              </button>
+            }
+
+            @if (finalStepEntries().length) {
+              <p class="adesao-layout__mobile-steps-divider">Finalização</p>
+
+              @for (entry of finalStepEntries(); track entry.index) {
+                <button
+                  type="button"
+                  class="adesao-layout__mobile-step"
+                  [class.adesao-layout__mobile-step--active]="entry.index === adesao.currentStep().panel.activeSubStep"
+                  [class.adesao-layout__mobile-step--done]="entry.index < (adesao.currentStep().panel.activeSubStep ?? 0)"
+                  [attr.aria-current]="entry.index === adesao.currentStep().panel.activeSubStep ? 'step' : null"
+                  (click)="goToPanelStep(entry.index)"
+                >
+                  @if (entry.index < (adesao.currentStep().panel.activeSubStep ?? 0)) {
+                    <span class="adesao-layout__mobile-step-num adesao-layout__mobile-step-num--done">
+                      <span class="material-symbols-outlined">check</span>
+                    </span>
+                  } @else {
+                    <span class="adesao-layout__mobile-step-num">
+                      <span class="material-symbols-outlined">{{ entry.step.icon }}</span>
+                    </span>
+                  }
+                  <span class="adesao-layout__mobile-step-name">{{ entry.step.label }}</span>
+                </button>
+              }
+            }
+          </nav>
+        }
+
+        <button
+          type="button"
+          class="adesao-layout__mobile-steps-toggle"
+          (click)="toggleMobileSteps()"
+          [attr.aria-expanded]="mobileStepsExpanded()"
+        >
+          <span class="adesao-layout__mobile-steps-label">{{ mobileStepsLabel() }}</span>
+          <span class="material-symbols-outlined">{{ mobileStepsExpanded() ? 'expand_more' : 'expand_less' }}</span>
+        </button>
+      </div>
+    }
+
     <footer class="adesao-layout__nav" [class.adesao-layout__nav--hidden]="!adesao.currentStep().showBottomNav">
       <leme-button
         variant="Transparent"
@@ -79,9 +168,9 @@
       <leme-button
         variant="Filled"
         hierarchy="Primary"
-        label="Continuar"
+        [label]="footerLabel()"
         [showIconRight]="true"
-        iconRight="arrow_forward"
+        [iconRight]="footerIcon()"
         [disabled]="!adesao.canContinue()"
         (click)="adesao.next()"
       />

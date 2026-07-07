@@ -6,8 +6,8 @@
     <span class="document-upload-row__text">{{ label }}</span>
   </div>
 
-  @if (fileName()) {
-    <span class="document-upload-row__filename">{{ fileName() }}</span>
+  @if (fileName) {
+    <span class="document-upload-row__filename">{{ fileName }}</span>
   }
 
   <input #fileInput type="file" class="document-upload-row__input" (change)="onFileChange($event)" />

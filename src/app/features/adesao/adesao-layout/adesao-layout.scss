@@ -121,16 +121,17 @@
     }
   }
 
-  // ── Stepper de etapas ──────────────────────────────────────────────────
+  // ── Stepper de etapas (painel lateral — apenas desktop) ─────────────────
+  // Em telas menores que 'md' o stepper vira a barra expansível
+  // `__mobile-steps`, ancorada acima do rodapé — ver seção dedicada abaixo.
   &__steps {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-quarck);
-    width: 100%;
-    // Em mobile apenas a etapa ativa é visível (espaço compacto)
-    overflow: hidden;
+    display: none;
 
     @include respond-to('md') {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-quarck);
+      width: 100%;
       flex: 1;
       min-height: 0;
       overflow-y: auto;
@@ -153,17 +154,18 @@
     gap: var(--spacing-nano);
     padding: var(--spacing-nano) var(--spacing-xxs);
     border-radius: var(--radius-pill);
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
     transition: background 0.2s ease;
-    // Esconde etapas inativas no mobile
-    display: none;
 
-    @include respond-to('md') {
-      display: flex;
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
     }
 
     &--done {
-      display: flex;
-
       .adesao-layout__step-num {
         background: var(--color-primary-60);
         border-color: transparent;
@@ -176,7 +178,6 @@
     }
 
     &--active {
-      display: flex;
       background: rgba(255, 255, 255, 0.14);
 
       .adesao-layout__step-num {
@@ -207,7 +208,7 @@
     line-height: 1;
     transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 
-    &--done .material-symbols-outlined {
+    .material-symbols-outlined {
       font-size: 14px;
       line-height: 1;
     }
@@ -218,6 +219,18 @@
     color: rgba(255, 255, 255, 0.45);
     line-height: 1;
     transition: color 0.2s ease;
+  }
+
+  // ── Divisor "Finalização" — separa a revisão/assinatura dos passos numerados
+  &__steps-divider {
+    margin: var(--spacing-nano) 0 0;
+    padding: var(--spacing-xxs) var(--spacing-xxs) 0;
+    border-top: var(--border-width-hairline) solid rgba(255, 255, 255, 0.14);
+    font-size: var(--font-size-xxxs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
   }
 
   // ── Rodapé do painel ───────────────────────────────────────────────────
@@ -266,6 +279,142 @@
     @media (min-width: 1440px) {
       max-width: 1440px;
     }
+  }
+
+  // ── Stepper expansível (mobile/tablet — abaixo do conteúdo) ─────────────
+  // Some a partir de 'md', onde o stepper completo já vive fixo no painel lateral.
+  &__mobile-steps {
+    flex-shrink: 0;
+    background: var(--color-white-100);
+    border-top: var(--border-width-hairline) solid var(--color-gray-30);
+    display: flex;
+    flex-direction: column;
+
+    @include respond-to('md') {
+      display: none;
+    }
+  }
+
+  &__mobile-steps-toggle {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-xs);
+    width: 100%;
+    border: none;
+    background: none;
+    padding: var(--spacing-xxs);
+    cursor: pointer;
+    text-align: left;
+
+    .material-symbols-outlined {
+      color: var(--color-gray-60);
+      flex-shrink: 0;
+    }
+  }
+
+  &__mobile-steps-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-90);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__mobile-steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-quarck);
+    max-height: 45vh;
+    overflow-y: auto;
+    padding: var(--spacing-xxs);
+    border-bottom: var(--border-width-hairline) solid var(--color-gray-20);
+  }
+
+  &__mobile-step {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+    padding: var(--spacing-nano) var(--spacing-xxs);
+    border-radius: var(--radius-pill);
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: var(--color-gray-10);
+    }
+
+    &--done {
+      .adesao-layout__mobile-step-num {
+        background: var(--color-primary-60);
+        border-color: transparent;
+        color: var(--color-white-100);
+      }
+
+      .adesao-layout__mobile-step-name {
+        color: var(--color-gray-60);
+      }
+    }
+
+    &--active {
+      background: var(--color-primary-10);
+
+      .adesao-layout__mobile-step-num {
+        background: var(--color-primary-60);
+        color: var(--color-white-100);
+        border-color: transparent;
+      }
+
+      .adesao-layout__mobile-step-name {
+        color: var(--color-primary-80);
+        font-weight: var(--font-weight-semibold);
+      }
+    }
+  }
+
+  &__mobile-step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-circular);
+    border: var(--border-width-hairline) solid var(--color-gray-40);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-60);
+    flex-shrink: 0;
+    line-height: 1;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+    .material-symbols-outlined {
+      font-size: 14px;
+      line-height: 1;
+    }
+  }
+
+  &__mobile-steps-divider {
+    margin: var(--spacing-nano) 0 0;
+    padding: var(--spacing-xxs) var(--spacing-xxs) 0;
+    border-top: var(--border-width-hairline) solid var(--color-gray-20);
+    font-size: var(--font-size-xxxs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-gray-50);
+  }
+
+  &__mobile-step-name {
+    font-size: var(--font-size-xxs);
+    color: var(--color-gray-70);
+    line-height: 1.4;
+    transition: color 0.2s ease;
   }
 
   // ── Bottom nav ─────────────────────────────────────────────────────────
