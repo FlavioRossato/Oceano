@@ -1,0 +1,235 @@
+<div class="contribuicao">
+  <header class="contribuicao__header">
+    <p class="contribuicao__eyebrow">Etapa 7 de 10</p>
+    <h1 class="contribuicao__title">Contribuições ao plano</h1>
+    <p class="contribuicao__subtitle">Simule diferentes cenários e veja o impacto em tempo real.</p>
+  </header>
+
+  <div class="contribuicao__layout">
+    <form class="contribuicao__form" (submit)="$event.preventDefault()">
+
+      <div class="contribuicao__field">
+        <label class="contribuicao__field-label" for="renda-mensal">RENDA MENSAL DESEJADA</label>
+        <div class="contribuicao__field-box">
+          <input
+            id="renda-mensal"
+            class="contribuicao__field-input"
+            type="text"
+            inputmode="numeric"
+            [value]="rendaMensalDesejada()"
+            (input)="onRendaInput($event)"
+          />
+          @if (rendaMensalDesejada()) {
+            <button
+              type="button"
+              class="contribuicao__field-icon-btn"
+              aria-label="Limpar renda mensal desejada"
+              (click)="rendaMensalDesejada.set('')"
+            >
+              <span class="material-symbols-outlined contribuicao__field-icon">close</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="contribuicao__field">
+        <label class="contribuicao__field-label" for="idade-beneficio">IDADE PARA O BENEFÍCIO</label>
+        <div class="contribuicao__field-box">
+          <input
+            id="idade-beneficio"
+            class="contribuicao__field-input"
+            type="text"
+            [value]="idadeBeneficio()"
+            (input)="onIdadeInput($event)"
+          />
+          @if (idadeBeneficio()) {
+            <button
+              type="button"
+              class="contribuicao__field-icon-btn"
+              aria-label="Limpar idade para o benefício"
+              (click)="idadeBeneficio.set('')"
+            >
+              <span class="material-symbols-outlined contribuicao__field-icon">close</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="contribuicao__divider"></div>
+
+      <section class="contribuicao__section">
+        <div class="contribuicao__section-header">
+          <h2 class="contribuicao__section-title">Contribuição mensal</h2>
+          <p class="contribuicao__section-subtitle">Quanto você quer contribuir todo mês?</p>
+        </div>
+
+        <div class="contribuicao__group">
+          <div class="contribuicao__radios">
+            <leme-radio
+              label="Valores"
+              [checked]="tipoBasica() === 'valores'"
+              (checkedChange)="tipoBasica.set('valores')"
+            />
+            <leme-radio
+              label="Porcentagem"
+              [checked]="tipoBasica() === 'porcentagem'"
+              (checkedChange)="tipoBasica.set('porcentagem')"
+            />
+          </div>
+
+          @if (tipoBasica() === 'valores') {
+            <div class="contribuicao__field">
+              <label class="contribuicao__field-label" for="valor-basico">VALOR EM REAIS</label>
+              <div class="contribuicao__field-box" [class.contribuicao__field-box--error]="erroValorBasico()">
+                <input
+                  id="valor-basico"
+                  class="contribuicao__field-input"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="R$ 0,00"
+                  [value]="valorBasico()"
+                  (input)="onValorBasicoInput($event)"
+                />
+                <span class="material-symbols-outlined contribuicao__field-icon">edit</span>
+              </div>
+              @if (erroValorBasico()) {
+                <div class="contribuicao__field-error">
+                  <span class="material-symbols-outlined contribuicao__field-error-icon">error_outline</span>
+                  <span class="contribuicao__field-error-text">Valor mínimo R$ 500,00</span>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="contribuicao__field">
+              <label class="contribuicao__field-label" for="percentual-basico">PORCENTAGEM</label>
+              <div class="contribuicao__field-box">
+                <input
+                  id="percentual-basico"
+                  class="contribuicao__field-input"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="0%"
+                  [value]="percentualBasico()"
+                  (input)="onPercentualBasicoInput($event)"
+                />
+                <span class="material-symbols-outlined contribuicao__field-icon">edit</span>
+              </div>
+            </div>
+          }
+
+          <leme-message
+            severity="Informative"
+            [showTitle]="false"
+            message="Com essa contribuição, a patrocinadora acrescenta mais R$ 225,00 por mês."
+          />
+        </div>
+
+        <div class="contribuicao__divider"></div>
+
+        <div class="contribuicao__adicional-header">
+          <div class="contribuicao__toggle-row">
+            <leme-switch
+              label="Contribuição adicional"
+              [active]="temAdicional()"
+              (activeChange)="temAdicional.set($event)"
+            />
+          </div>
+          <p class="contribuicao__helper-text">Aportes extras para acelerar sua aposentadoria.</p>
+        </div>
+
+        @if (temAdicional()) {
+          <div class="contribuicao__group">
+            <div class="contribuicao__radios">
+              <leme-radio
+                label="Valores"
+                [checked]="tipoAdicional() === 'valores'"
+                (checkedChange)="tipoAdicional.set('valores')"
+              />
+              <leme-radio
+                label="Porcentagem"
+                [checked]="tipoAdicional() === 'porcentagem'"
+                (checkedChange)="tipoAdicional.set('porcentagem')"
+              />
+            </div>
+
+            @if (tipoAdicional() === 'valores') {
+              <div class="contribuicao__field">
+                <label class="contribuicao__field-label" for="valor-adicional">VALOR EM REAIS</label>
+                <div class="contribuicao__field-box" [class.contribuicao__field-box--error]="erroValorAdicional()">
+                  <input
+                    id="valor-adicional"
+                    class="contribuicao__field-input"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="R$ 0,00"
+                    [value]="valorAdicional()"
+                    (input)="onValorAdicionalInput($event)"
+                  />
+                  <span class="material-symbols-outlined contribuicao__field-icon">edit</span>
+                </div>
+                @if (erroValorAdicional()) {
+                  <div class="contribuicao__field-error">
+                    <span class="material-symbols-outlined contribuicao__field-error-icon">error_outline</span>
+                    <span class="contribuicao__field-error-text">Valor mínimo R$ 500,00</span>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="contribuicao__field">
+                <label class="contribuicao__field-label" for="percentual-adicional">PORCENTAGEM</label>
+                <div class="contribuicao__field-box">
+                  <input
+                    id="percentual-adicional"
+                    class="contribuicao__field-input"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="0%"
+                    [value]="percentualAdicional()"
+                    (input)="onPercentualAdicionalInput($event)"
+                  />
+                  <span class="material-symbols-outlined contribuicao__field-icon">edit</span>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </section>
+
+    </form>
+
+    <aside class="contribuicao__summary">
+      <div class="contribuicao__summary-header">
+        <span class="material-symbols-outlined contribuicao__summary-icon">show_chart</span>
+        <h2 class="contribuicao__summary-title">Seu investimento mensal</h2>
+      </div>
+
+      <p class="contribuicao__summary-label">Total investido por mês</p>
+      <p class="contribuicao__summary-total">{{ totalInvestido() }}</p>
+
+      <div class="contribuicao__summary-row">
+        <span class="contribuicao__summary-dot contribuicao__summary-dot--sua"></span>
+        <span class="contribuicao__summary-row-label">Sua contribuição</span>
+        <span class="contribuicao__summary-row-value">{{ suaContribuicao() }}</span>
+      </div>
+      <div class="contribuicao__summary-row">
+        <span class="contribuicao__summary-dot contribuicao__summary-dot--contrapartida"></span>
+        <span class="contribuicao__summary-row-label">Contrapartida</span>
+        <span class="contribuicao__summary-row-value">{{ contrapartida() }}</span>
+      </div>
+
+      <p class="contribuicao__summary-composicao">Composição</p>
+      <div class="contribuicao__donut" [style.background]="donutBackground()"></div>
+
+      <div class="contribuicao__summary-legend">
+        <span class="contribuicao__summary-legend-item">
+          <span class="contribuicao__summary-dot contribuicao__summary-dot--sua"></span>
+          Sua contribuição
+        </span>
+        <span class="contribuicao__summary-legend-item">
+          <span class="contribuicao__summary-dot contribuicao__summary-dot--contrapartida"></span>
+          Patrocinadora
+        </span>
+      </div>
+    </aside>
+  </div>
+</div>

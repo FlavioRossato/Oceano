@@ -1,0 +1,22 @@
+<div class="document-upload-row">
+  <div class="document-upload-row__label">
+    @if (required) {
+      <leme-tag label="Obrigatório" severity="Informative" size="sm" />
+    }
+    <span class="document-upload-row__text">{{ label }}</span>
+  </div>
+
+  @if (fileName()) {
+    <span class="document-upload-row__filename">{{ fileName() }}</span>
+  }
+
+  <input #fileInput type="file" class="document-upload-row__input" (change)="onFileChange($event)" />
+  <button
+    type="button"
+    class="document-upload-row__btn"
+    [attr.aria-label]="'Enviar ' + label"
+    (click)="fileInput.click()"
+  >
+    <span class="material-symbols-outlined">upload</span>
+  </button>
+</div>

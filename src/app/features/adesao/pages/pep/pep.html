@@ -1,0 +1,63 @@
+<div class="pep">
+  <header class="pep__header">
+    <p class="pep__eyebrow">Etapa 4 de 10</p>
+    <h1 class="pep__title">Pessoa Exposta Politicamente</h1>
+    <p class="pep__subtitle">Você ocupa ou ocupou nos últimos 5 anos algum cargo público relevante, ou é familiar próximo de alguém que ocupa?</p>
+  </header>
+
+  <div class="pep__card">
+    <div class="pep__card-header">
+      <div class="pep__toggle-row">
+        <leme-switch label="Declaro que sou uma Pessoa Exposta Politicamente" [(ngModel)]="isPep" name="isPep" />
+        <button type="button" class="pep__info-btn" aria-label="O que é PEP?" (click)="showInfo.set(true)">
+          <span class="material-symbols-outlined">info</span>
+        </button>
+      </div>
+    </div>
+
+    @if (isPep) {
+      <div class="pep__row">
+        <div class="pep__field">
+          <leme-select label="RELAÇÃO" placeholder="Selecione" [items]="relacaoOptions" [(ngModel)]="relacao" name="relacao" />
+        </div>
+        <div class="pep__field">
+          <leme-text-field label="CARGO OCUPADO" placeholder="Cargo ocupado" [(ngModel)]="cargo" name="cargo" />
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (showInfo()) {
+    <leme-modal ariaLabelledby="pep-info-title" (closed)="showInfo.set(false)">
+      <div class="pep__modal">
+        <div class="pep__modal-header">
+          <h2 id="pep-info-title" class="pep__modal-title">Pessoa Exposta Politicamente (PEP)</h2>
+          <button type="button" class="pep__modal-close" aria-label="Fechar" (click)="showInfo.set(false)">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <p class="pep__modal-text">
+          São todas as pessoas que, nos últimos cinco anos, exercem ou exerceram, no Brasil ou no exterior, algum
+          cargo, emprego ou função pública relevante ou se têm, nessas condições, familiares, representantes ou
+          ainda pessoas de seu relacionamento próximo.
+        </p>
+        <div class="pep__modal-quote">
+          <p class="pep__modal-quote-title">RESOLUÇÃO COAF Nº 40, DE 22 DE NOVEMBRO DE 2021</p>
+          <p>
+            "§ 1º Para fins do disposto nesta Resolução, consideram-se pessoas expostas politicamente:<br />
+            I - os detentores de mandatos eletivos dos Poderes Executivo e Legislativo da União;<br />
+            II - os ocupantes de cargo, no Poder Executivo da União, de:<br />
+            a) Ministro de Estado ou equiparado;<br />
+            b) Natureza Especial ou equivalente;<br />
+            c) Presidente, Vice-Presidente e Diretor, ou equivalentes, de entidades da administração pública
+            indireta; e<br />
+            d) Direção e Assessoramento Superior - DAS de nível 6 ou equivalente;<br />
+            III - os membros do Conselho Nacional de Justiça, do Supremo Tribunal Federal, dos Tribunais
+            Superiores, dos Tribunais Regionais Federais, dos Tribunais Regionais do Trabalho, dos Tribunais
+            Regionais Eleitorais, do Conselho Superior da Justiça do Trabalho e do Conselho da Justiça Federal."
+          </p>
+        </div>
+      </div>
+    </leme-modal>
+  }
+</div>

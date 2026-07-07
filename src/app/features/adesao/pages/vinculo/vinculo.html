@@ -1,0 +1,26 @@
+<div class="vinculo">
+  <header class="vinculo__header">
+    <p class="vinculo__eyebrow">Etapa 1 de 10</p>
+    <h1 class="vinculo__title">Vínculo com o participante</h1>
+    <p class="vinculo__subtitle">Informe quem é o titular do plano ao qual você está vinculado.</p>
+  </header>
+
+  <form class="vinculo__form" (submit)="$event.preventDefault()">
+
+    <div class="vinculo__row">
+      <div class="vinculo__field">
+        <leme-text-field label="CPF DO PARTICIPANTE TITULAR" placeholder="000.000.000-00" [(ngModel)]="cpfTitular" name="cpfTitular" />
+      </div>
+      <div class="vinculo__field">
+        <leme-text-field label="NOME DO PARTICIPANTE" placeholder="Nome completo do titular" [(ngModel)]="nomeParticipante" name="nomeParticipante" />
+      </div>
+    </div>
+
+    <div class="vinculo__field vinculo__field--full">
+      <leme-select label="TIPO DE VÍNCULO" placeholder="Selecione" [items]="tipoVinculoOptions" [(ngModel)]="tipoVinculo" name="tipoVinculo" />
+    </div>
+
+    <leme-checkbox label="Confirmo possuir o vínculo com o participante" [(ngModel)]="confirmado" name="confirmado" />
+
+  </form>
+</div>

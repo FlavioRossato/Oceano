@@ -1,6 +1,6 @@
 @use 'mixins' as *;
 
-.contato-endereco {
+.dados-bancarios {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
@@ -40,50 +40,7 @@
   &__form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  &__divider {
-    height: var(--border-width-hairline);
-    background: var(--color-gray-30);
-  }
-
-  &__section {
-    display: flex;
-    flex-direction: column;
     gap: var(--spacing-xs);
-  }
-
-  &__section-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-nano);
-  }
-
-  &__section-title {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-gray-90);
-    margin: 0;
-  }
-
-  &__section-subtitle {
-    font-size: var(--font-size-xs);
-    color: var(--color-gray-70);
-    margin: 0;
-  }
-
-  &__group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxs);
-  }
-
-  &__group-label {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-gray-90);
-    margin: 0;
   }
 
   &__row {

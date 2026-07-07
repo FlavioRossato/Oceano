@@ -1,0 +1,344 @@
+@use 'mixins' as *;
+
+.contribuicao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xxs);
+
+  @include respond-to('md') {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  &__eyebrow {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary-60);
+    margin: 0 0 var(--spacing-nano);
+  }
+
+  &__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-90);
+    margin: 0 0 var(--spacing-nano);
+
+    @include respond-to('md') {
+      font-size: var(--font-size-lg);
+    }
+  }
+
+  &__subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  &__divider {
+    height: var(--border-width-hairline);
+    background: var(--color-gray-30);
+  }
+
+  // ── Campo — espelha o leme-text-field, com ícone à direita ─────────────
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-nano);
+  }
+
+  &__field-label {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-14);
+    color: var(--color-gray-90);
+    display: block;
+  }
+
+  &__field-box {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-nano);
+    padding: 0 var(--spacing-xxs);
+    border: var(--border-width-hairline) solid var(--color-gray-50);
+    border-radius: var(--radius-xs);
+    background: var(--color-white-100);
+    transition: border-color 0.15s ease;
+
+    &:hover:not(.contribuicao__field-box--error) {
+      border-color: var(--color-primary-60);
+    }
+
+    &:focus-within:not(.contribuicao__field-box--error) {
+      border-color: var(--color-primary-60);
+    }
+
+    &--error {
+      border-color: var(--color-red-60);
+    }
+  }
+
+  &__field-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-14);
+    color: var(--color-gray-90);
+    min-width: 0;
+
+    &::placeholder {
+      color: var(--color-gray-50);
+    }
+  }
+
+  &__field-icon {
+    font-size: 16px;
+    color: var(--color-gray-50);
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  &__field-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  &__field-error {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-nano);
+  }
+
+  &__field-error-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: var(--color-red-60);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  &__field-error-text {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-sm-12);
+    color: var(--color-red-60);
+  }
+
+  // ── Seção "Contribuições" ────────────────────────────────────────────
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  &__section-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-nano);
+  }
+
+  &__section-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-90);
+    margin: 0;
+  }
+
+  &__section-subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    margin: 0;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+  }
+
+  &__group-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-90);
+    margin: 0;
+  }
+
+  &__radios {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+
+  &__adicional-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-nano);
+  }
+
+  &__toggle-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+  }
+
+  &__info-icon {
+    font-size: 16px;
+    color: var(--color-gray-50);
+    cursor: help;
+  }
+
+  &__helper-text {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+  }
+
+  // ── Layout: formulário + resumo lateral ──────────────────────────────
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    align-items: start;
+
+    @include respond-to('lg') {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+
+  // ── Card "Seu investimento mensal" ───────────────────────────────────
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    background: var(--color-gray-100);
+    color: var(--color-white-100);
+  }
+
+  &__summary-header {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-nano);
+    margin-bottom: var(--spacing-nano);
+  }
+
+  &__summary-icon {
+    font-size: 18px;
+    color: var(--color-white-100);
+  }
+
+  &__summary-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+  }
+
+  &__summary-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-white-op-24);
+    margin: 0;
+  }
+
+  &__summary-total {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-chart-teal-30);
+    margin: 0 0 var(--spacing-xxs);
+  }
+
+  &__summary-row {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-nano);
+    padding: var(--spacing-nano) 0;
+    border-top: var(--border-width-hairline) solid var(--color-white-op-16);
+  }
+
+  &__summary-row-label {
+    flex: 1;
+    font-size: var(--font-size-xs);
+  }
+
+  &__summary-row-value {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  &__summary-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-circular);
+    flex-shrink: 0;
+
+    &--sua {
+      background: var(--color-white-op-24);
+    }
+
+    &--contrapartida {
+      background: var(--color-chart-green-60);
+    }
+  }
+
+  &__summary-composicao {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    margin: var(--spacing-xs) 0 var(--spacing-nano);
+  }
+
+  &__donut {
+    width: 120px;
+    height: 120px;
+    border-radius: var(--radius-circular);
+    align-self: center;
+    margin: var(--spacing-xxs) 0;
+
+    // "furo" do donut — mantém só o anel visível
+    &::after {
+      content: '';
+      display: block;
+      margin: 20px;
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-circular);
+      background: var(--color-gray-100);
+    }
+  }
+
+  &__summary-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-xs);
+  }
+
+  &__summary-legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-nano);
+    font-size: var(--font-size-xxs);
+    color: var(--color-white-op-24);
+  }
+}

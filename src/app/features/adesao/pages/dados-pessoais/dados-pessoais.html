@@ -1,6 +1,6 @@
 <div class="dados-pessoais">
   <header class="dados-pessoais__header">
-    <p class="dados-pessoais__eyebrow">Etapa 2 de 6</p>
+    <p class="dados-pessoais__eyebrow">Etapa 2 de 10</p>
     <h1 class="dados-pessoais__title">Dados pessoais</h1>
     <p class="dados-pessoais__subtitle">Precisamos confirmar algumas informações para personalizar o seu plano.</p>
   </header>
@@ -8,7 +8,7 @@
   <form class="dados-pessoais__form" (submit)="$event.preventDefault()">
 
     <div class="dados-pessoais__field dados-pessoais__field--full">
-      <leme-text-field label="NOME COMPLETO" placeholder="Seu nome completo" [(ngModel)]="nome" name="nome" />
+      <leme-text-field label="NOME COMPLETO" placeholder="Seu nome completo" [(ngModel)]="nomeCompleto" name="nomeCompleto" />
     </div>
 
     <div class="dados-pessoais__row">
@@ -16,21 +16,44 @@
         <leme-text-field label="CPF" placeholder="000.000.000-00" [(ngModel)]="cpf" name="cpf" />
       </div>
       <div class="dados-pessoais__field">
-        <leme-text-field label="DATA DE NASCIMENTO" placeholder="DD/MM/AAAA" [(ngModel)]="dataNasc" name="dataNasc" />
+        <leme-text-field label="DATA DE NASCIMENTO" placeholder="DD/MM/AAAA" [(ngModel)]="dataNascimento" name="dataNascimento" />
       </div>
     </div>
 
     <div class="dados-pessoais__row">
       <div class="dados-pessoais__field">
-        <leme-select label="GÊNERO" placeholder="Selecione" [items]="generoOptions" [(ngModel)]="genero" name="genero" />
+        <leme-select label="SEXO" placeholder="Selecione" [items]="sexoOptions" [(ngModel)]="sexo" name="sexo" />
       </div>
       <div class="dados-pessoais__field">
         <leme-select label="ESTADO CIVIL" placeholder="Selecione" [items]="estadoCivilOptions" [(ngModel)]="estadoCivil" name="estadoCivil" />
       </div>
     </div>
 
-    <div class="dados-pessoais__field dados-pessoais__field--full">
-      <leme-text-field label="NOME DA MÃE" placeholder="Nome completo da mãe" [(ngModel)]="nomeMae" name="nomeMae" />
+    <div class="dados-pessoais__row">
+      <div class="dados-pessoais__field">
+        <leme-select label="ESCOLARIDADE" placeholder="Selecione" [items]="escolaridadeOptions" [(ngModel)]="escolaridade" name="escolaridade" />
+      </div>
+      <div class="dados-pessoais__field">
+        <leme-select label="TIPO DE DOCUMENTO" placeholder="Selecione" [items]="tipoDocumentoOptions" [(ngModel)]="tipoDocumento" name="tipoDocumento" />
+      </div>
+    </div>
+
+    <div class="dados-pessoais__row">
+      <div class="dados-pessoais__field">
+        <leme-text-field label="NÚMERO DO DOCUMENTO" placeholder="00.000.000-0" [(ngModel)]="numeroDocumento" name="numeroDocumento" />
+      </div>
+      <div class="dados-pessoais__field">
+        <leme-text-field label="DATA DE EMISSÃO" placeholder="DD/MM/AAAA" [(ngModel)]="dataEmissao" name="dataEmissao" />
+      </div>
+    </div>
+
+    <div class="dados-pessoais__row">
+      <div class="dados-pessoais__field">
+        <leme-text-field label="NOME DA MÃE" placeholder="Nome completo da mãe" [(ngModel)]="nomeMae" name="nomeMae" />
+      </div>
+      <div class="dados-pessoais__field">
+        <leme-text-field label="NOME DO PAI" placeholder="Nome completo do pai" [(ngModel)]="nomePai" name="nomePai" />
+      </div>
     </div>
 
   </form>

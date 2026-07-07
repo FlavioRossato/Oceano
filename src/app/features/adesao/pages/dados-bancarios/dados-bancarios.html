@@ -1,0 +1,60 @@
+<div class="dados-bancarios">
+  <header class="dados-bancarios__header">
+    <p class="dados-bancarios__eyebrow">Etapa 8 de 10</p>
+    <h1 class="dados-bancarios__title">Dados bancários</h1>
+    <p class="dados-bancarios__subtitle">Informe a conta onde você quer receber seus valores. Você pode adicionar uma chave PIX para agilizar transferências futuras.</p>
+  </header>
+
+  <form class="dados-bancarios__form" (submit)="$event.preventDefault()">
+
+    <div class="dados-bancarios__row">
+      <div class="dados-bancarios__field">
+        <leme-select label="FINALIDADE" placeholder="Selecione" [items]="finalidadeOptions" [(ngModel)]="finalidade" name="finalidade" />
+      </div>
+      <div class="dados-bancarios__field">
+        <leme-select label="BANCO" placeholder="Selecione" [items]="bancoOptions" [(ngModel)]="banco" name="banco" />
+      </div>
+    </div>
+
+    <div class="dados-bancarios__row">
+      <div class="dados-bancarios__field">
+        <leme-select label="TIPO DE CONTA" placeholder="Selecione" [items]="tipoContaOptions" [(ngModel)]="tipoConta" name="tipoConta" />
+      </div>
+      <div class="dados-bancarios__field">
+        <leme-text-field label="AGÊNCIA" placeholder="0000" [(ngModel)]="agencia" name="agencia" />
+      </div>
+    </div>
+
+    <div class="dados-bancarios__row">
+      <div class="dados-bancarios__field">
+        <leme-text-field label="NÚMERO DA CONTA" placeholder="00000-00" [(ngModel)]="numeroConta" name="numeroConta" />
+      </div>
+      <div class="dados-bancarios__field">
+        <leme-text-field label="DÍGITO" placeholder="00" [(ngModel)]="digito" name="digito" />
+      </div>
+    </div>
+
+    <leme-switch label="Aceita transferência via PIX:" [(ngModel)]="aceitaPix" name="aceitaPix" />
+
+    @if (aceitaPix) {
+      <div class="dados-bancarios__row">
+        <div class="dados-bancarios__field">
+          <leme-select
+            label="TIPO DE CHAVE PIX"
+            placeholder="Selecione"
+            [items]="tipoChavePixOptions"
+            [ngModel]="tipoChavePix"
+            (ngModelChange)="onTipoChavePixChange($event)"
+            name="tipoChavePix"
+          />
+        </div>
+        <div class="dados-bancarios__field">
+          <leme-text-field label="CHAVE PIX" placeholder="Chave PIX" [(ngModel)]="chavePix" name="chavePix" />
+        </div>
+      </div>
+    }
+
+    <leme-checkbox label="Tornar dado bancário principal" [(ngModel)]="principal" name="principal" />
+
+  </form>
+</div>

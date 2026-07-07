@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LemeTextFieldComponent, LemeSelectComponent } from 'leme';
+import { AdesaoDadosService } from '../../services/adesao-dados.service';
 
 @Component({
   selector: 'app-dados-pessoais',
@@ -10,8 +11,10 @@ import { LemeTextFieldComponent, LemeSelectComponent } from 'leme';
   templateUrl: './dados-pessoais.html',
   styleUrl: './dados-pessoais.scss',
 })
-export class DadosPessoais {
-  readonly generoOptions = [
+export class DadosPessoais implements OnInit, OnDestroy {
+  constructor(private readonly dados: AdesaoDadosService) {}
+
+  readonly sexoOptions = [
     { value: 'feminino',  label: 'Feminino' },
     { value: 'masculino', label: 'Masculino' },
     { value: 'outro',     label: 'Outro' },
@@ -24,10 +27,62 @@ export class DadosPessoais {
     { value: 'viuvo',      label: 'Viúvo(a)' },
   ];
 
-  nome         = 'Jéssica Santos';
-  cpf          = '123.456.789-00';
-  dataNasc     = '15/04/1990';
-  genero       = 'feminino';
-  estadoCivil  = 'solteiro';
-  nomeMae      = 'Maria Santos';
+  readonly escolaridadeOptions = [
+    { value: 'fundamental-incompleto', label: 'Fundamental Incompleto' },
+    { value: 'fundamental-completo',   label: 'Fundamental Completo' },
+    { value: 'medio-incompleto',       label: 'Médio Incompleto' },
+    { value: 'medio-completo',         label: 'Médio Completo' },
+    { value: 'superior-incompleto',    label: 'Superior Incompleto' },
+    { value: 'superior-completo',      label: 'Superior Completo' },
+    { value: 'pos-graduacao',          label: 'Pós-graduação' },
+  ];
+
+  readonly tipoDocumentoOptions = [
+    { value: 'rg',          label: 'RG' },
+    { value: 'cnh',         label: 'CNH' },
+    { value: 'passaporte',  label: 'Passaporte' },
+  ];
+
+  nomeCompleto = '';
+  cpf = '';
+  sexo = '';
+  dataNascimento = '';
+  estadoCivil = '';
+  escolaridade = '';
+  tipoDocumento = '';
+  numeroDocumento = '';
+  dataEmissao = '';
+  nomeMae = '';
+  nomePai = '';
+
+  ngOnInit(): void {
+    const atual = this.dados.dadosPessoais();
+    this.nomeCompleto = atual.nomeCompleto;
+    this.cpf = atual.cpf;
+    this.sexo = atual.sexo;
+    this.dataNascimento = atual.dataNascimento;
+    this.estadoCivil = atual.estadoCivil;
+    this.escolaridade = atual.escolaridade;
+    this.tipoDocumento = atual.tipoDocumento;
+    this.numeroDocumento = atual.numeroDocumento;
+    this.dataEmissao = atual.dataEmissao;
+    this.nomeMae = atual.nomeMae;
+    this.nomePai = atual.nomePai;
+  }
+
+  ngOnDestroy(): void {
+    this.dados.updateDadosPessoais({
+      nomeCompleto: this.nomeCompleto,
+      cpf: this.cpf,
+      sexo: this.sexo,
+      dataNascimento: this.dataNascimento,
+      estadoCivil: this.estadoCivil,
+      escolaridade: this.escolaridade,
+      tipoDocumento: this.tipoDocumento,
+      numeroDocumento: this.numeroDocumento,
+      dataEmissao: this.dataEmissao,
+      nomeMae: this.nomeMae,
+      nomePai: this.nomePai,
+    });
+  }
 }

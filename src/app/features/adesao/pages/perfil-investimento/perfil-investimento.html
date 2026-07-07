@@ -1,0 +1,143 @@
+<div class="perfil-investimento">
+  <header class="perfil-investimento__header">
+    <p class="perfil-investimento__eyebrow">Etapa 5 de 10</p>
+    <h1 class="perfil-investimento__title">Perfil de investimento</h1>
+  </header>
+
+  @if (subStep() === 'intro') {
+    <div class="perfil-investimento__card">
+      <div class="perfil-investimento__card-header">
+        <span class="material-symbols-outlined perfil-investimento__card-icon">show_chart</span>
+        <div>
+          <h2 class="perfil-investimento__card-title">Teste de perfil de investimento</h2>
+          <p class="perfil-investimento__card-subtitle">Com base nas suas respostas, identificaremos o perfil mais adequado para a sua previdência.</p>
+        </div>
+      </div>
+
+      <div class="perfil-investimento__info-row">
+        <span class="material-symbols-outlined perfil-investimento__info-icon">help</span>
+        <div>
+          <p class="perfil-investimento__info-title">O que é o perfil de investidor?</p>
+          <p class="perfil-investimento__info-text">
+            É uma classificação que indica quanto risco você está disposto a aceitar. Ela define como os recursos
+            da sua previdência serão distribuídos entre diferentes tipos de investimento.
+          </p>
+        </div>
+      </div>
+
+      <div class="perfil-investimento__info-row">
+        <span class="material-symbols-outlined perfil-investimento__info-icon">query_stats</span>
+        <div>
+          <p class="perfil-investimento__info-title">Por que isso importa?</p>
+          <p class="perfil-investimento__info-text">
+            Escolher um perfil adequado ao seu momento de vida aumenta as chances de atingir seus objetivos com
+            mais tranquilidade, e menos surpresas no caminho.
+          </p>
+        </div>
+      </div>
+
+      <div class="perfil-investimento__info-row">
+        <span class="material-symbols-outlined perfil-investimento__info-icon">schedule</span>
+        <div>
+          <p class="perfil-investimento__info-title">É rapidinho!</p>
+          <p class="perfil-investimento__info-text">O questionário tem 6 perguntas e leva cerca de 2 minutos.</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (perguntaAtual(); as pergunta) {
+    <div class="perfil-investimento__card">
+      <div class="perfil-investimento__card-header">
+        <span class="material-symbols-outlined perfil-investimento__card-icon">show_chart</span>
+        <div>
+          <h2 class="perfil-investimento__card-title">Teste de perfil de investimento</h2>
+          <p class="perfil-investimento__card-subtitle">Para encontrar o perfil mais adequado, responda algumas perguntas rápidas.</p>
+        </div>
+      </div>
+
+      <div class="perfil-investimento__progress">
+        <p class="perfil-investimento__progress-label">Pergunta {{ pergunta.numero }} de {{ perguntas.length }}</p>
+        <div class="perfil-investimento__progress-track">
+          <div class="perfil-investimento__progress-bar" [style.width.%]="progressoPercentual()"></div>
+        </div>
+      </div>
+
+      <p class="perfil-investimento__question">{{ pergunta.numero }}. {{ pergunta.texto }}</p>
+
+      <div class="perfil-investimento__options">
+        @if (!pergunta.multipla) {
+          @for (opcao of pergunta.opcoes; track opcao.value) {
+            <leme-radio
+              [label]="opcao.label"
+              [checked]="isSelecionada(pergunta.numero, opcao.value)"
+              (checkedChange)="selecionarUnica(pergunta.numero, opcao.value)"
+            />
+          }
+        } @else {
+          @for (opcao of pergunta.opcoes; track opcao.value) {
+            <leme-checkbox
+              [label]="opcao.label"
+              [checked]="isSelecionada(pergunta.numero, opcao.value)"
+              (checkedChange)="toggleMultipla(pergunta.numero, opcao.value, $event)"
+            />
+          }
+        }
+      </div>
+    </div>
+  }
+
+  @if (subStep() === 'resultado') {
+    <div class="perfil-investimento__card">
+      <div class="perfil-investimento__card-header">
+        <span class="material-symbols-outlined perfil-investimento__card-icon">show_chart</span>
+        <div>
+          <h2 class="perfil-investimento__card-title">Seu perfil de investimento</h2>
+          <p class="perfil-investimento__card-subtitle">Confirme seu perfil de investimento.</p>
+        </div>
+      </div>
+
+      <div class="perfil-investimento__resultado">
+        <p class="perfil-investimento__resultado-label">O perfil mais indicado para você é:</p>
+        <p class="perfil-investimento__resultado-perfil">{{ perfis[perfilIndicado()].label }}</p>
+        <p class="perfil-investimento__resultado-desc">{{ perfis[perfilIndicado()].descricao }}</p>
+
+        <div class="perfil-investimento__alerta">
+          <span class="material-symbols-outlined perfil-investimento__alerta-icon">warning</span>
+          <p><strong>Atenção:</strong> {{ perfis[perfilIndicado()].alerta }}</p>
+        </div>
+
+        <leme-checkbox
+          label="Desejo seguir com o perfil indicado"
+          [checked]="seguirIndicado()"
+          (checkedChange)="escolherPerfilIndicado()"
+        />
+      </div>
+
+      <button type="button" class="perfil-investimento__toggle-outras" (click)="mostrarOutrasOpcoes.set(!mostrarOutrasOpcoes())">
+        Para conhecer outras opções, clique aqui
+        <span class="material-symbols-outlined">{{ mostrarOutrasOpcoes() ? 'expand_less' : 'expand_more' }}</span>
+      </button>
+
+      @if (mostrarOutrasOpcoes()) {
+        <div class="perfil-investimento__alternativas">
+          @for (perfil of perfisAlternativos; track perfil) {
+            <button
+              type="button"
+              class="perfil-investimento__alternativa"
+              [class.perfil-investimento__alternativa--selecionada]="!seguirIndicado() && perfilEscolhido() === perfil"
+              (click)="escolherPerfilAlternativo(perfil)"
+            >
+              <span class="material-symbols-outlined perfil-investimento__alternativa-icon">insights</span>
+              <span class="perfil-investimento__alternativa-body">
+                <span class="perfil-investimento__alternativa-title">{{ perfis[perfil].label }}</span>
+                <span class="perfil-investimento__alternativa-desc">{{ perfis[perfil].descricao }}</span>
+              </span>
+              <span class="perfil-investimento__alternativa-radio" aria-hidden="true"></span>
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

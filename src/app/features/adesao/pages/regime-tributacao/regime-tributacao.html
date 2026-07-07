@@ -1,0 +1,120 @@
+<div class="regime-tributacao">
+  <header class="regime-tributacao__header">
+    <p class="regime-tributacao__eyebrow">Etapa 6 de 10</p>
+    <h1 class="regime-tributacao__title">Regime de tributação</h1>
+  </header>
+
+  <div class="regime-tributacao__card">
+    <div class="regime-tributacao__card-header">
+      <span class="material-symbols-outlined regime-tributacao__card-icon">mail</span>
+      <div>
+        <h2 class="regime-tributacao__card-title">Como você quer pagar o imposto?</h2>
+        <p class="regime-tributacao__card-subtitle">Escolha o regime de tributação. Essa decisão é definitiva após a confirmação.</p>
+      </div>
+    </div>
+
+    <!-- Regime Progressivo -->
+    <div class="regime-tributacao__option" [class.regime-tributacao__option--selecionada]="regime() === 'progressivo'">
+      <button
+        type="button"
+        class="regime-tributacao__option-header"
+        (click)="regime.set('progressivo')"
+      >
+        <span class="regime-tributacao__radio" aria-hidden="true"></span>
+        <span class="regime-tributacao__option-title">Regime Progressivo</span>
+      </button>
+
+      <div class="regime-tributacao__tags">
+        <leme-tag label="Alíquotas: 0% a 27,5%" severity="Informative" />
+        <leme-tag label="Ajuste na declaração anual" severity="Informative" />
+        <leme-tag label="Retenção de 15% no resgate" severity="Informative" />
+      </div>
+
+      <p class="regime-tributacao__desc">
+        A alíquota do IR aumenta conforme o valor do benefício ou resgate, seguindo as faixas da tabela
+        progressiva da Receita Federal. É o mesmo mecanismo utilizado para a tributação do salário, permitindo
+        deduções legais e sujeitando-se ao ajuste anual da declaração.
+      </p>
+
+      <button type="button" class="regime-tributacao__toggle" (click)="mostrarProgressivas.set(!mostrarProgressivas())">
+        Ver alíquotas detalhadas
+        <span class="material-symbols-outlined">{{ mostrarProgressivas() ? 'expand_less' : 'expand_more' }}</span>
+      </button>
+
+      @if (mostrarProgressivas()) {
+        <table class="regime-tributacao__table">
+          <thead>
+            <tr>
+              <th>Base de cálculo</th>
+              <th>Alíquota</th>
+              <th>Parcela a deduzir do IR</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (linha of aliquotasProgressivas; track linha.base) {
+              <tr>
+                <td>{{ linha.base }}</td>
+                <td>{{ linha.aliquota }}</td>
+                <td>{{ linha.deducao }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+
+    <!-- Regime Regressivo -->
+    <div class="regime-tributacao__option" [class.regime-tributacao__option--selecionada]="regime() === 'regressivo'">
+      <button
+        type="button"
+        class="regime-tributacao__option-header"
+        (click)="regime.set('regressivo')"
+      >
+        <span class="regime-tributacao__radio" aria-hidden="true"></span>
+        <span class="regime-tributacao__option-title">Regime Regressivo</span>
+      </button>
+
+      <div class="regime-tributacao__tags">
+        <leme-tag label="Alíquotas: 35% a 10%" severity="Informative" />
+        <leme-tag label="Imposto exclusivo na fonte" severity="Informative" />
+        <leme-tag label="Não entra na declaração anual" severity="Informative" />
+      </div>
+
+      <p class="regime-tributacao__desc">
+        A alíquota diminui de acordo com o tempo de acumulação dos recursos. Quanto maior o prazo em que as
+        contribuições permanecem investidas, menor será o imposto incidente, podendo chegar à alíquota mínima
+        após dez anos. Nesse regime, a tributação é definitiva na fonte e não há possibilidade de deduções.
+      </p>
+
+      <button type="button" class="regime-tributacao__toggle" (click)="mostrarRegressivas.set(!mostrarRegressivas())">
+        Ver alíquotas por prazo
+        <span class="material-symbols-outlined">{{ mostrarRegressivas() ? 'expand_less' : 'expand_more' }}</span>
+      </button>
+
+      @if (mostrarRegressivas()) {
+        <table class="regime-tributacao__table">
+          <thead>
+            <tr>
+              <th>Prazo de acumulação</th>
+              <th>Alíquota</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (linha of aliquotasRegressivas; track linha.prazo) {
+              <tr>
+                <td>{{ linha.prazo }}</td>
+                <td>{{ linha.aliquota }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+
+    <leme-message
+      severity="Warn"
+      title="Esta escolha é irreversível"
+      message="Após o envio da adesão, o regime de tributação não pode ser alterado. Em caso de dúvida, consulte um assessor financeiro ou entre em contato com a entidade antes de prosseguir."
+    />
+  </div>
+</div>

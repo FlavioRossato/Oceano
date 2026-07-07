@@ -30,12 +30,16 @@ export interface AdesaoStep {
 }
 
 const DATA_STEPS: AdesaoPanelSubStep[] = [
-  { label: 'Empresa' },
+  { label: 'Vínculo' },
   { label: 'Dados pessoais' },
   { label: 'Contato & endereço' },
-  { label: 'Contribuição' },
-  { label: 'Banco & beneficiários' },
+  { label: 'PEP' },
   { label: 'Perfil de investimento' },
+  { label: 'Regime de tributação' },
+  { label: 'Contribuição' },
+  { label: 'Dados bancários' },
+  { label: 'Documentos' },
+  { label: 'Termos' },
 ];
 
 const RESUMO_STEPS: AdesaoPanelSubStep[] = [
@@ -56,7 +60,7 @@ export class AdesaoService {
       panel: {
         eyebrow: 'Previdência Privada',
         headline: 'Construa hoje o futuro que você merece.',
-        description: 'Uma renda complementar para viver a aposentadoria com tranquilidade — no seu ritmo, com vantagens fiscais.',
+        description: 'Uma renda complementar para viver a aposentadoria com tranquilidade, no seu ritmo, com vantagens fiscais.',
       },
     },
     {
@@ -67,13 +71,13 @@ export class AdesaoService {
       panel: {
         icon: 'shield',
         headline: 'Sua segurança em primeiro lugar',
-        description: 'Esta será a <strong>senha de acesso ao portal</strong> — você vai usá-la sempre que entrar para acompanhar seu plano. Guarde-a com cuidado.',
+        description: 'Esta será a <strong>senha de acesso ao portal</strong>. Você vai usá-la sempre que entrar para acompanhar seu plano. Guarde-a com cuidado.',
       },
     },
     {
-      id: 'empresa',
-      label: 'Empresa',
-      route: '/adesao/empresa',
+      id: 'vinculo',
+      label: 'Vínculo',
+      route: '/adesao/vinculo',
       showBottomNav: true,
       panel: { steps: DATA_STEPS, activeSubStep: 0, estimatedTime: 'Leva cerca de 4 minutos' },
     },
@@ -92,6 +96,55 @@ export class AdesaoService {
       panel: { steps: DATA_STEPS, activeSubStep: 2, estimatedTime: 'Leva cerca de 4 minutos' },
     },
     {
+      id: 'pep',
+      label: 'PEP',
+      route: '/adesao/pep',
+      showBottomNav: true,
+      panel: { steps: DATA_STEPS, activeSubStep: 3, estimatedTime: 'Leva cerca de 4 minutos' },
+    },
+    {
+      id: 'perfil-investimento',
+      label: 'Perfil de investimento',
+      route: '/adesao/perfil-investimento',
+      showBottomNav: true,
+      panel: { steps: DATA_STEPS, activeSubStep: 4, estimatedTime: 'Leva cerca de 4 minutos' },
+    },
+    {
+      id: 'regime-tributacao',
+      label: 'Regime de tributação',
+      route: '/adesao/regime-tributacao',
+      showBottomNav: true,
+      panel: { steps: DATA_STEPS, activeSubStep: 5, estimatedTime: 'Leva cerca de 4 minutos' },
+    },
+    {
+      id: 'contribuicao',
+      label: 'Contribuição',
+      route: '/adesao/contribuicao',
+      showBottomNav: true,
+      panel: { steps: DATA_STEPS, activeSubStep: 6, estimatedTime: 'Leva cerca de 4 minutos' },
+    },
+    {
+      id: 'dados-bancarios',
+      label: 'Dados bancários',
+      route: '/adesao/dados-bancarios',
+      showBottomNav: true,
+      panel: { steps: DATA_STEPS, activeSubStep: 7, estimatedTime: 'Leva cerca de 4 minutos' },
+    },
+    {
+      id: 'documentos',
+      label: 'Documentos',
+      route: '/adesao/documentos',
+      showBottomNav: true,
+      panel: { steps: DATA_STEPS, activeSubStep: 8, estimatedTime: 'Leva cerca de 4 minutos' },
+    },
+    {
+      id: 'termo',
+      label: 'Termos',
+      route: '/adesao/termo',
+      showBottomNav: true,
+      panel: { steps: DATA_STEPS, activeSubStep: 9, estimatedTime: 'Leva cerca de 4 minutos' },
+    },
+    {
       id: 'resumo',
       label: 'Revisão final',
       route: '/adesao/resumo',
@@ -99,7 +152,7 @@ export class AdesaoService {
       wideContent: true,
       panel: {
         steps: RESUMO_STEPS,
-        activeSubStep: 6,
+        activeSubStep: 10,
         estimatedTime: 'Seus dados estão protegidos',
         footerIcon: 'lock',
       },
@@ -133,11 +186,32 @@ export class AdesaoService {
   readonly isLastStep = computed(() => this.currentStepIndex() === this.steps.length - 1);
   readonly canContinue = signal(true);
 
+  /**
+   * Permite que uma página intercepte os cliques de Voltar/Continuar do
+   * footer fixo do AdesaoLayout (ex.: Perfil de investimento navegando entre
+   * suas próprias perguntas antes de de fato avançar de rota).
+   */
+  readonly nextOverride = signal<(() => void) | null>(null);
+  readonly backOverride = signal<(() => void) | null>(null);
+
+  setNextOverride(fn: (() => void) | null): void {
+    this.nextOverride.set(fn);
+  }
+
+  setBackOverride(fn: (() => void) | null): void {
+    this.backOverride.set(fn);
+  }
+
   setCanContinue(value: boolean): void {
     this.canContinue.set(value);
   }
 
   next(): void {
+    const override = this.nextOverride();
+    if (override) {
+      override();
+      return;
+    }
     if (this.isLastStep()) return;
     const next = this.currentStepIndex() + 1;
     this.currentStepIndex.set(next);
@@ -146,6 +220,11 @@ export class AdesaoService {
   }
 
   back(): void {
+    const override = this.backOverride();
+    if (override) {
+      override();
+      return;
+    }
     if (this.isFirstStep()) return;
     const prev = this.currentStepIndex() - 1;
     this.currentStepIndex.set(prev);

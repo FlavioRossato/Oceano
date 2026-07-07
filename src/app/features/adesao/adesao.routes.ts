@@ -22,9 +22,9 @@ export const ADESAO_ROUTES: Routes = [
           import('./pages/senha-acesso/senha-acesso').then(m => m.SenhaAcesso),
       },
       {
-        path: 'empresa',
+        path: 'vinculo',
         loadComponent: () =>
-          import('./pages/empresa/empresa').then(m => m.Empresa),
+          import('./pages/vinculo/vinculo').then(m => m.Vinculo),
       },
       {
         path: 'dados-pessoais',
@@ -35,6 +35,41 @@ export const ADESAO_ROUTES: Routes = [
         path: 'contato-endereco',
         loadComponent: () =>
           import('./pages/contato-endereco/contato-endereco').then(m => m.ContatoEndereco),
+      },
+      {
+        path: 'pep',
+        loadComponent: () =>
+          import('./pages/pep/pep').then(m => m.Pep),
+      },
+      {
+        path: 'perfil-investimento',
+        loadComponent: () =>
+          import('./pages/perfil-investimento/perfil-investimento').then(m => m.PerfilInvestimento),
+      },
+      {
+        path: 'regime-tributacao',
+        loadComponent: () =>
+          import('./pages/regime-tributacao/regime-tributacao').then(m => m.RegimeTributacao),
+      },
+      {
+        path: 'contribuicao',
+        loadComponent: () =>
+          import('./pages/contribuicao/contribuicao').then(m => m.Contribuicao),
+      },
+      {
+        path: 'dados-bancarios',
+        loadComponent: () =>
+          import('./pages/dados-bancarios/dados-bancarios').then(m => m.DadosBancarios),
+      },
+      {
+        path: 'documentos',
+        loadComponent: () =>
+          import('./pages/documentos/documentos').then(m => m.Documentos),
+      },
+      {
+        path: 'termo',
+        loadComponent: () =>
+          import('./pages/termo/termo').then(m => m.Termo),
       },
       {
         path: 'resumo',

@@ -1,0 +1,41 @@
+.document-upload-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: var(--border-width-hairline) solid var(--color-gray-30);
+  border-radius: var(--radius-xs);
+  background: var(--color-white-100);
+
+  &__label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-nano);
+  }
+
+  &__text {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-90);
+  }
+
+  &__filename {
+    font-size: var(--font-size-xxs);
+    color: var(--color-gray-60);
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-primary-60);
+    cursor: pointer;
+  }
+}
