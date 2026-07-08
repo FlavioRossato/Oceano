@@ -133,17 +133,24 @@
     justify-content: space-between;
     align-items: baseline;
     gap: var(--spacing-xs);
+    padding: var(--spacing-nano) var(--spacing-quarck);
+    border-radius: var(--radius-xs);
+
+    &:nth-child(even) {
+      background: var(--color-gray-10);
+    }
   }
 
   &__label {
     font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
     color: var(--color-gray-60);
     flex-shrink: 0;
   }
 
   &__value {
     font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-regular);
     color: var(--color-gray-90);
     text-align: right;
   }
