@@ -641,7 +641,36 @@ npm run leme:build:prod   # build parcial (correto para publicação)
 npm run build             # build do portal
 ```
 
-### 11.4 Gerar componentes
+### 11.4 Deploy — Vercel (dois remotes!)
+
+**Este workspace tem dois remotes Git apontando para repositórios GitHub diferentes.** O Vercel só observa um deles — pushes no outro não geram deploy nenhum, mesmo que o build local esteja perfeito.
+
+```bash
+git remote -v
+# origin  → https://github.com/FlavioRossato/Oceano.git           (branch: master)
+# vercel  → https://github.com/FlavioRossato/prototipooceanov2.git (branch: main)
+```
+
+- `origin` / `master` — repositório principal de trabalho (histórico "oficial" do projeto).
+- `vercel` / `main` — repositório conectado ao projeto Vercel `prototipooceanov2` (domínio `prototipooceanov2.vercel.app`). **É esse que precisa receber o push para o site atualizar.**
+
+**Sempre que uma mudança precisar aparecer no Vercel, faça os dois pushes:**
+
+```bash
+git push origin master        # histórico principal
+git push vercel master:main   # dispara o deploy no Vercel
+```
+
+Antes do segundo push, se houver dúvida sobre divergência de histórico, confirme que é fast-forward:
+
+```bash
+git fetch vercel
+git merge-base --is-ancestor vercel/main master && echo "fast-forward OK"
+```
+
+Se não for fast-forward (alguém commitou direto em `prototipooceanov2` fora deste fluxo), pare e resolva a divergência manualmente — não force o push sem entender a causa.
+
+### 11.5 Gerar componentes
 
 ```bash
 # Componente em shared
@@ -697,6 +726,8 @@ mkdir src/app/features/minha-feature
 | 2026-07-01 | Material Symbols via `<link>` no `index.html` | Mais performático que CSS `@import`; a `_icons.scss` do Leme usa `@import url()` que pode ter posição inválida no CSS gerado |
 | 2026-07-07 | Exceção de `max-width`/`margin: auto` na página `senha-acesso` (regra §7.5) | Formulário de coluna única; esticar pela largura cheia do `__content-inner` (640–900px) deixaria os campos desproporcionais |
 | 2026-07-07 | `git pull` obrigatório antes do primeiro `npm start` da sessão (regra §11.1) | Evitar desenvolver sobre uma branch local desatualizada em relação ao GitHub |
+| 2026-07-08 | `ignoreDeprecations` em `tsconfig.app.json` corrigido de `"6.0"` para `"5.0"` | Valor `"6.0"` é inválido para TypeScript `~5.9.2` instalado (erro TS5103), quebrava a build após um `git pull` |
+| 2026-07-08 | Push sempre em dois remotes — `origin master` e `vercel master:main` (regra §11.4) | Vercel monitora o repositório `prototipooceanov2` (remote `vercel`), diferente do repositório principal `Oceano` (remote `origin`); push só em `origin` não gera deploy |
 
 ---
 
@@ -713,4 +744,4 @@ Registrar aqui quando implementar:
 
 ---
 
-*Última atualização: 2026-07-01 — Flávio Rossato + Claude*
+*Última atualização: 2026-07-08 — Flávio Rossato + Claude*
