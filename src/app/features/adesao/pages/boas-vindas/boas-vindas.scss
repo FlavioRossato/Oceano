@@ -95,7 +95,7 @@
     flex-shrink: 0;
 
     .material-symbols-outlined {
-      font-size: 16px;
+      font-size: var(--icon-size-xs);
       color: var(--color-primary-60);
     }
   }

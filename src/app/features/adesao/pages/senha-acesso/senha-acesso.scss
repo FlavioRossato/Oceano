@@ -84,7 +84,7 @@
   }
 
   &__input-icon {
-    font-size: 18px;
+    font-size: var(--icon-size-sm);
     color: var(--color-gray-50);
     flex-shrink: 0;
     user-select: none;
@@ -117,7 +117,7 @@
     transition: color 0.15s ease;
 
     .material-symbols-outlined {
-      font-size: 18px;
+      font-size: var(--icon-size-sm);
     }
 
     &:hover {

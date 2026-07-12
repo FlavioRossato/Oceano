@@ -461,9 +461,22 @@ O conteúdo de cada step é centralizado horizontalmente pelo wrapper `__content
 
 Páginas dentro do wizard usam apenas `padding` interno — nunca `max-width` ou `margin: auto` — pois o layout já resolve o centramento.
 
-#### Exceção aprovada: `senha-acesso`
+#### Categoria de exceção aprovada: telas de cartão único centralizado
 
-A página `senha-acesso` (`src/app/features/adesao/pages/senha-acesso/senha-acesso.scss`) declara `max-width: 420px; margin: 0 auto;` na classe raiz, quebrando a regra acima **de forma intencional**: é um formulário de coluna única (criação de senha), e esticá-lo pela largura cheia do `__content-inner` (640–900px) deixaria os campos desproporcionalmente largos. Esta é a única exceção aprovada até o momento — qualquer nova página que "precise" de `max-width` próprio deve ser discutida antes, não replicada por precedente.
+Páginas que não são "steps" de coleta de dados do wizard, e sim uma tela isolada de card único (ícone + título + descrição + uma ação, sem os pares de campo lado a lado do restante do wizard), podem declarar seu próprio `max-width`/`margin: 0 auto` na classe raiz. Esticar esse tipo de card pela largura cheia do `__content-inner` (640–900px) o deixaria desproporcional — o padrão visual pede uma coluna estreita e centralizada.
+
+Páginas nesta categoria hoje:
+
+| Página | Arquivo | Motivo |
+|---|---|---|
+| `senha-acesso` | `pages/senha-acesso/senha-acesso.scss` | Formulário de coluna única (criação de senha) — exceção original, aprovada 2026-07-07 |
+| `verificacao-cpf` | `pages/verificacao-cpf/verificacao-cpf.scss` | Card único (campo de CPF) |
+| `retomar-adesao` | `pages/retomar-adesao/retomar-adesao.scss` | Card único (login por senha) |
+| `recuperar-senha` | `pages/recuperar-senha/recuperar-senha.scss` | Card único (redefinição de senha) |
+| `conclusao` | `pages/conclusao/conclusao.scss` | Card único (confirmação de envio) |
+| `acompanhamento` | `pages/acompanhamento/acompanhamento.scss` | Card único (status da solicitação) |
+
+Qualquer página que colete dados em formulário largo (pares de campo lado a lado, ao estilo `vinculo`/`dados-pessoais`/`contribuicao` etc.) **continua proibida** de declarar `max-width` próprio — essas usam apenas `padding` interno, e o centramento vem do `__content-inner`. Uma nova página "card único" que precise entrar nesta categoria deve ser discutida e adicionada explicitamente a esta tabela, não apenas replicada por precedente sem registro.
 
 ### 7.6 Path aliases TypeScript
 
@@ -728,6 +741,9 @@ mkdir src/app/features/minha-feature
 | 2026-07-07 | `git pull` obrigatório antes do primeiro `npm start` da sessão (regra §11.1) | Evitar desenvolver sobre uma branch local desatualizada em relação ao GitHub |
 | 2026-07-08 | `ignoreDeprecations` em `tsconfig.app.json` corrigido de `"6.0"` para `"5.0"` | Valor `"6.0"` é inválido para TypeScript `~5.9.2` instalado (erro TS5103), quebrava a build após um `git pull` |
 | 2026-07-08 | Push sempre em dois remotes — `origin master` e `vercel master:main` (regra §11.4) | Vercel monitora o repositório `prototipooceanov2` (remote `vercel`), diferente do repositório principal `Oceano` (remote `origin`); push só em `origin` não gera deploy |
+| 2026-07-12 | Exceção de `max-width` (regra §7.5) ampliada de "só `senha-acesso`" para uma categoria "telas de cartão único centralizado" (`verificacao-cpf`, `retomar-adesao`, `recuperar-senha`, `conclusao`, `acompanhamento`) | Essas páginas já haviam sido implementadas com `max-width` próprio, no mesmo padrão da exceção original, sem que a exceção tivesse sido formalmente estendida — auditoria de conformidade encontrou o desvio e a documentação foi atualizada para refletir a decisão real |
+| 2026-07-12 | `--icon-size-*` (tokens de `_project-tokens.scss`) aplicados nos ícones do app que ainda usavam `font-size` em px hardcoded | Auditoria de conformidade com a regra §4 (sem hardcode); tokens já existiam mas não eram usados em `src/app/` |
+| 2026-07-12 | Removido `$spacing-*` (dead code) de `_variables.scss` e apagado `_typography.scss` | Nenhum dos dois era importado em `styles.scss`; `$spacing-*` duplicava tokens que já existem no Leme (`var(--spacing-*)`) e `_typography.scss` tinha um `font-family` hardcoded sem efeito real |
 
 ---
 
@@ -744,4 +760,4 @@ Registrar aqui quando implementar:
 
 ---
 
-*Última atualização: 2026-07-08 — Flávio Rossato + Claude*
+*Última atualização: 2026-07-12 — Flávio Rossato + Claude*

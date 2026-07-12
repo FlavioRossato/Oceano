@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LemeTextFieldComponent, LemeSelectComponent, LemeSwitchComponent, LemeModalComponent } from 'leme';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
@@ -12,7 +12,7 @@ import { AdesaoDadosService } from '../../services/adesao-dados.service';
   styleUrl: './pep.scss',
 })
 export class Pep implements OnInit, OnDestroy {
-  constructor(private readonly dados: AdesaoDadosService) {}
+  private readonly dados = inject(AdesaoDadosService);
 
   readonly relacaoOptions = [
     { value: 'pai',     label: 'Pai' },

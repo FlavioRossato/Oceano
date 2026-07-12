@@ -1,15 +1,4 @@
-// Placeholders neutros — substitua pelos tokens do seu design system
-
-// Spacing scale
-$spacing-1:  4px;
-$spacing-2:  8px;
-$spacing-3:  12px;
-$spacing-4:  16px;
-$spacing-5:  20px;
-$spacing-6:  24px;
-$spacing-8:  32px;
-$spacing-10: 40px;
-$spacing-12: 48px;
+// Spacing já vem do Leme (var(--spacing-*)) — não duplicar aqui.
 
 // Breakpoints
 $bp-sm:  576px;

@@ -93,13 +93,13 @@
   }
 
   &__card-icon {
-    font-size: 18px;
+    font-size: var(--icon-size-sm);
     color: var(--color-primary-60);
     flex-shrink: 0;
   }
 
   &__chevron {
-    font-size: 20px;
+    font-size: var(--icon-size-md);
     color: var(--color-gray-60);
     flex-shrink: 0;
   }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   LemeTextFieldComponent,
@@ -55,7 +55,7 @@ const UF_OPTIONS = [
   styleUrl: './contato-endereco.scss',
 })
 export class ContatoEndereco implements OnInit, OnDestroy {
-  constructor(private readonly dados: AdesaoDadosService) {}
+  private readonly dados = inject(AdesaoDadosService);
 
   readonly ufOptions = UF_OPTIONS;
 
