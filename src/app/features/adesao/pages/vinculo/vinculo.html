@@ -29,10 +29,15 @@
         <leme-text-field label="DATA DE ADMISSÃO" [required]="true" placeholder="DD/MM/AAAA" [(ngModel)]="dataAdmissao" name="dataAdmissao" />
       </div>
       <div class="vinculo__field">
-        <leme-select label="REGIME DE CONTRATAÇÃO" [required]="true" placeholder="Selecione" [items]="regimeContratacaoOptions" [(ngModel)]="regimeContratacao" name="regimeContratacao" />
+        <leme-select label="REGIME DE CONTRATAÇÃO" placeholder="Selecione" [items]="regimeContratacaoOptions" [(ngModel)]="regimeContratacao" name="regimeContratacao" />
       </div>
     </div>
 
-    <leme-checkbox label="Confirmo ser colaborador da empresa patrocinadora indicada acima" [(ngModel)]="confirmado" name="confirmado" />
+    <leme-checkbox
+      label="Confirmo ser colaborador da empresa patrocinadora indicada acima"
+      [ngModel]="confirmado"
+      (ngModelChange)="onConfirmadoChange($event)"
+      name="confirmado"
+    />
   </form>
 </div>

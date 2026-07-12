@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LemeTextFieldComponent, LemeSelectComponent, LemeCheckboxComponent } from 'leme';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
+import { AdesaoService } from '../../services/adesao.service';
 
 @Component({
   selector: 'app-vinculo',
@@ -12,7 +13,8 @@ import { AdesaoDadosService } from '../../services/adesao-dados.service';
   styleUrl: './vinculo.scss',
 })
 export class Vinculo implements OnInit, OnDestroy {
-  constructor(private readonly dados: AdesaoDadosService) {}
+  private readonly dados = inject(AdesaoDadosService);
+  private readonly adesao = inject(AdesaoService);
 
   readonly empresaOptions = [
     { value: 'ford', label: 'Ford' },
@@ -36,6 +38,11 @@ export class Vinculo implements OnInit, OnDestroy {
   regimeContratacao = '';
   confirmado = false;
 
+  onConfirmadoChange(value: boolean): void {
+    this.confirmado = value;
+    this.adesao.setCanContinue(value);
+  }
+
   ngOnInit(): void {
     const atual = this.dados.vinculo();
     this.empresa = atual.empresa;
@@ -45,9 +52,11 @@ export class Vinculo implements OnInit, OnDestroy {
     this.dataAdmissao = atual.dataAdmissao;
     this.regimeContratacao = atual.regimeContratacao;
     this.confirmado = atual.confirmado;
+    this.adesao.setCanContinue(this.confirmado);
   }
 
   ngOnDestroy(): void {
+    this.adesao.setCanContinue(true);
     this.dados.updateVinculo({
       empresa: this.empresa,
       matricula: this.matricula,

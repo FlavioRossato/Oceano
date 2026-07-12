@@ -40,13 +40,7 @@
   &__form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xxs);
-  }
-
-  &__divider {
-    height: var(--border-width-hairline);
-    background: var(--color-gray-30);
-    margin: 0;
+    gap: var(--spacing-sm);
   }
 
   // ── Campo — espelha o leme-text-field, com ícone à direita ─────────────
@@ -62,11 +56,23 @@
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-sm-14);
     color: var(--color-gray-90);
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-nano);
   }
 
-  &__field-required {
-    color: var(--color-red-60);
+  &__field-tag {
+    padding: 2px 8px;
+    border-radius: var(--radius-circular);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    background: var(--color-gray-20);
+    color: var(--color-gray-70);
+
+    &--obrigatoria {
+      background: var(--color-primary-10);
+      color: var(--color-primary-60);
+    }
   }
 
   &__field-box {
@@ -80,16 +86,12 @@
     background: var(--color-white-100);
     transition: border-color 0.15s ease;
 
-    &:hover:not(.contribuicao__field-box--error) {
+    &:hover {
       border-color: var(--color-primary-60);
     }
 
-    &:focus-within:not(.contribuicao__field-box--error) {
+    &:focus-within {
       border-color: var(--color-primary-60);
-    }
-
-    &--error {
-      border-color: var(--color-red-60);
     }
   }
 
@@ -111,114 +113,31 @@
   }
 
   &__field-icon {
-    font-size: 16px;
+    font-size: var(--icon-size-xs);
     color: var(--color-gray-50);
     flex-shrink: 0;
     user-select: none;
   }
 
-  &__field-icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    flex-shrink: 0;
+  &__field-helper {
+    font-size: var(--font-size-xxs);
+    color: var(--color-gray-70);
+    margin: 0;
   }
 
-  &__field-error {
+  &__field-nota {
     display: flex;
     align-items: center;
     gap: var(--gap-nano);
-  }
-
-  &__field-error-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    color: var(--color-red-60);
-    line-height: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  &__field-error-text {
-    font-family: var(--font-family-primary);
     font-size: var(--font-size-xxs);
-    font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-sm-12);
-    color: var(--color-red-60);
-  }
-
-  // ── Seção "Contribuições" ────────────────────────────────────────────
-  &__section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-  }
-
-  &__section-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-nano);
-  }
-
-  &__section-title {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-gray-90);
-    margin: 0;
-  }
-
-  &__section-subtitle {
-    font-size: var(--font-size-xs);
     color: var(--color-gray-70);
     margin: 0;
   }
 
-  &__group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxs);
-  }
-
-  &__group-label {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-gray-90);
-    margin: 0;
-  }
-
-  &__radios {
-    display: flex;
-    gap: var(--spacing-sm);
-  }
-
-  &__adicional-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-nano);
-  }
-
-  &__toggle-row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-nano);
-  }
-
-  &__info-icon {
-    font-size: 16px;
+  &__field-nota-icon {
+    font-size: 14px;
     color: var(--color-gray-50);
-    cursor: help;
-  }
-
-  &__helper-text {
-    font-size: var(--font-size-xs);
-    color: var(--color-gray-70);
-    line-height: var(--line-height-lg-14);
-    margin: 0;
+    flex-shrink: 0;
   }
 
   // ── Layout: formulário + resumo lateral ──────────────────────────────
@@ -233,11 +152,11 @@
     }
   }
 
-  // ── Card "Seu investimento mensal" ───────────────────────────────────
+  // ── Card "Quanto você vai contribuir" ────────────────────────────────
   &__summary {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xxs);
+    gap: var(--spacing-xs);
     padding: var(--spacing-sm);
     border-radius: var(--radius-md);
     background: var(--color-gray-100);
@@ -248,11 +167,10 @@
     display: flex;
     align-items: center;
     gap: var(--gap-nano);
-    margin-bottom: var(--spacing-nano);
   }
 
   &__summary-icon {
-    font-size: 18px;
+    font-size: var(--icon-size-sm);
     color: var(--color-white-100);
   }
 
@@ -263,25 +181,38 @@
     color: var(--color-gray-20);
   }
 
-  &__summary-label {
+  &__summary-total-label {
     font-size: var(--font-size-xs);
-    color: var(--color-gray-20);
+    color: var(--color-gray-40);
     margin: 0;
   }
 
   &__summary-total {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-weight-bold);
-    color: var(--color-gray-20);
-    margin: 0 0 var(--spacing-xxs);
+    color: var(--color-white-100);
+    margin: 0;
+  }
+
+  &__summary-label {
+    font-size: var(--font-size-xxs);
+    color: var(--color-gray-40);
+    margin: 0;
+  }
+
+  &__summary-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-xs);
+    background: var(--color-white-op-8);
   }
 
   &__summary-row {
     display: flex;
     align-items: center;
     gap: var(--gap-nano);
-    padding: var(--spacing-nano) 0;
-    border-top: var(--border-width-hairline) solid var(--color-white-op-16);
   }
 
   &__summary-row-label {
@@ -302,52 +233,16 @@
     border-radius: var(--radius-circular);
     flex-shrink: 0;
 
-    &--sua {
+    &--basica {
       background: var(--color-chart-green-60);
     }
 
     &--adicional {
       background: var(--color-chart-teal-60);
     }
-  }
 
-  &__summary-composicao {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-gray-20);
-    margin: var(--spacing-xs) 0 var(--spacing-nano);
-  }
-
-  &__donut {
-    width: 120px;
-    height: 120px;
-    border-radius: var(--radius-circular);
-    align-self: center;
-    margin: var(--spacing-xxs) 0;
-
-    // "furo" do donut — mantém só o anel visível
-    &::after {
-      content: '';
-      display: block;
-      margin: 20px;
-      width: 80px;
-      height: 80px;
-      border-radius: var(--radius-circular);
-      background: var(--color-gray-100);
+    &--suplementar {
+      background: var(--color-chart-purple-60);
     }
-  }
-
-  &__summary-legend {
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-xs);
-  }
-
-  &__summary-legend-item {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-nano);
-    font-size: var(--font-size-xxs);
-    color: var(--color-gray-20);
   }
 }

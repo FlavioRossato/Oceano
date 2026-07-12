@@ -128,18 +128,9 @@ export class Resumo {
         icon: 'savings',
         editLabel: 'Editar',
         lines: [
-          { label: 'Renda desejada', value: contribuicao.rendaMensalDesejada },
-          { label: 'Idade do benefício', value: contribuicao.idadeBeneficio },
-          {
-            label: 'Contribuição básica',
-            value: contribuicao.tipoBasica === 'porcentagem' ? contribuicao.percentualBasico : contribuicao.valorBasico,
-          },
-          {
-            label: 'Contribuição adicional',
-            value: contribuicao.temAdicional
-              ? (contribuicao.tipoAdicional === 'porcentagem' ? contribuicao.percentualAdicional : contribuicao.valorAdicional)
-              : 'Não possui',
-          },
+          { label: 'Contribuição básica', value: contribuicao.percentualBasico || '0%' },
+          { label: 'Contribuição adicional', value: contribuicao.percentualAdicional || '0%' },
+          { label: 'Contribuição suplementar', value: contribuicao.percentualSuplementar || '0%' },
         ],
       },
       {

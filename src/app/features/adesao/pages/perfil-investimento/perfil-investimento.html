@@ -104,7 +104,16 @@
 
         <div class="perfil-investimento__alerta">
           <span class="material-symbols-outlined perfil-investimento__alerta-icon">warning</span>
-          <p><strong>Atenção:</strong> {{ perfis[perfilIndicado()].alerta }}</p>
+          <p>
+            <strong>Atenção:</strong> {{ perfis[perfilIndicado()].alerta }}
+            Para saber mais detalhes sobre esse perfil,
+            <a
+              class="perfil-investimento__alerta-link"
+              [href]="perfis[perfilIndicado()].documentoUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >clique aqui</a>.
+          </p>
         </div>
 
         <leme-checkbox
@@ -122,19 +131,33 @@
       @if (mostrarOutrasOpcoes()) {
         <div class="perfil-investimento__alternativas">
           @for (perfil of perfisAlternativos; track perfil) {
-            <button
-              type="button"
+            <div
               class="perfil-investimento__alternativa"
               [class.perfil-investimento__alternativa--selecionada]="!seguirIndicado() && perfilEscolhido() === perfil"
-              (click)="escolherPerfilAlternativo(perfil)"
             >
-              <span class="material-symbols-outlined perfil-investimento__alternativa-icon">insights</span>
-              <span class="perfil-investimento__alternativa-body">
-                <span class="perfil-investimento__alternativa-title">{{ perfis[perfil].label }}</span>
-                <span class="perfil-investimento__alternativa-desc">{{ perfis[perfil].descricao }}</span>
-              </span>
-              <span class="perfil-investimento__alternativa-radio" aria-hidden="true"></span>
-            </button>
+              <button
+                type="button"
+                class="perfil-investimento__alternativa-select"
+                (click)="escolherPerfilAlternativo(perfil)"
+              >
+                <span class="material-symbols-outlined perfil-investimento__alternativa-icon">insights</span>
+                <span class="perfil-investimento__alternativa-body">
+                  <span class="perfil-investimento__alternativa-title">{{ perfis[perfil].label }}</span>
+                  <span class="perfil-investimento__alternativa-desc">{{ perfis[perfil].descricao }}</span>
+                </span>
+                <span class="perfil-investimento__alternativa-radio" aria-hidden="true"></span>
+              </button>
+
+              <a
+                class="perfil-investimento__perfil-link"
+                [href]="perfis[perfil].documentoUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                VER MAIS SOBRE O PERFIL
+                <span class="material-symbols-outlined">open_in_new</span>
+              </a>
+            </div>
           }
         </div>
       }

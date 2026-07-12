@@ -1,117 +1,84 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
-import { LemeRadioComponent, LemeSwitchComponent, LemeMessageComponent } from 'leme';
-import { AdesaoService } from '../../services/adesao.service';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
-import { formatCurrencyInput, formatPercentInput, parseCurrencyToNumber, parsePercentToNumber } from '@shared/utils/currency-format.util';
+import { parseCurrencyToNumber, parsePercentToNumber } from '@shared/utils/currency-format.util';
 
-type TipoContribuicao = 'valores' | 'porcentagem';
-
-const CONTRIBUICAO_MINIMA = 500;
+const BASICA_MIN = 1;
+const BASICA_MAX = 2;
+const ADICIONAL_MIN = 0;
+const ADICIONAL_MAX = 5;
+const SUPLEMENTAR_MIN = 0;
+const SUPLEMENTAR_MAX = 22;
 
 @Component({
   selector: 'app-contribuicao',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LemeRadioComponent, LemeSwitchComponent, LemeMessageComponent],
   templateUrl: './contribuicao.html',
   styleUrl: './contribuicao.scss',
 })
 export class Contribuicao implements OnDestroy {
-  private readonly adesao = inject(AdesaoService);
   private readonly dados = inject(AdesaoDadosService);
 
   private readonly atual = this.dados.contribuicao();
 
-  readonly rendaMensalDesejada = signal(this.atual.rendaMensalDesejada);
-  readonly idadeBeneficio = signal(this.atual.idadeBeneficio);
+  readonly salarioMensal = computed(() => parseCurrencyToNumber(this.dados.vinculo().salarioMensal));
 
-  readonly tipoBasica = signal<TipoContribuicao>(this.atual.tipoBasica);
-  readonly valorBasico = signal(this.atual.valorBasico);
   readonly percentualBasico = signal(this.atual.percentualBasico);
-
-  readonly temAdicional = signal(this.atual.temAdicional);
-  readonly tipoAdicional = signal<TipoContribuicao>(this.atual.tipoAdicional);
-  readonly valorAdicional = signal(this.atual.valorAdicional);
   readonly percentualAdicional = signal(this.atual.percentualAdicional);
+  readonly percentualSuplementar = signal(this.atual.percentualSuplementar);
 
-  private readonly rendaMensalValor = computed(() => parseCurrencyToNumber(this.rendaMensalDesejada()));
+  readonly valorBasico = computed(() => this.calcularValor(this.percentualBasico()));
+  readonly valorAdicional = computed(() => this.calcularValor(this.percentualAdicional()));
+  readonly valorSuplementar = computed(() => this.calcularValor(this.percentualSuplementar()));
 
-  private readonly contribuicaoBasicaValor = computed(() => {
-    if (this.tipoBasica() === 'valores') {
-      return parseCurrencyToNumber(this.valorBasico());
-    }
+  readonly totalMensal = computed(() => this.formatCurrency(this.valorBasico() + this.valorAdicional() + this.valorSuplementar()));
 
-    return (this.rendaMensalValor() * parsePercentToNumber(this.percentualBasico())) / 100;
-  });
-
-  private readonly contribuicaoAdicionalValor = computed(() => {
-    if (!this.temAdicional()) {
-      return 0;
-    }
-
-    if (this.tipoAdicional() === 'valores') {
-      return parseCurrencyToNumber(this.valorAdicional());
-    }
-
-    return (this.rendaMensalValor() * parsePercentToNumber(this.percentualAdicional())) / 100;
-  });
-
-  readonly suaContribuicao = computed(() => this.formatCurrency(this.contribuicaoBasicaValor() + this.contribuicaoAdicionalValor()));
-  readonly totalInvestido = computed(() => this.suaContribuicao());
-
-  readonly percentualBasicaNoDonut = computed(() => {
-    const total = this.contribuicaoBasicaValor() + this.contribuicaoAdicionalValor();
-    if (!total) return 0;
-    return (this.contribuicaoBasicaValor() / total) * 100;
-  });
-
-  readonly donutBackground = computed(
-    () =>
-      `conic-gradient(var(--color-chart-green-60) 0% ${this.percentualBasicaNoDonut()}%, var(--color-chart-teal-60) ${this.percentualBasicaNoDonut()}% 100%)`
-  );
-
-  readonly erroValorBasico = computed(
-    () => this.tipoBasica() === 'valores' && parseCurrencyToNumber(this.valorBasico()) < CONTRIBUICAO_MINIMA
-  );
-
-  readonly erroValorAdicional = computed(
-    () =>
-      this.temAdicional() &&
-      this.tipoAdicional() === 'valores' &&
-      parseCurrencyToNumber(this.valorAdicional()) < CONTRIBUICAO_MINIMA
+  /**
+   * Suplementar só é permitida quando básica e adicional já estão no percentual
+   * máximo — regra herdada da tela atual do plano.
+   */
+  readonly suplementarHabilitada = computed(
+    () => parsePercentToNumber(this.percentualBasico()) === BASICA_MAX && parsePercentToNumber(this.percentualAdicional()) === ADICIONAL_MAX
   );
 
   constructor() {
     effect(
       () => {
-        this.adesao.setCanContinue(!this.erroValorBasico() && !this.erroValorAdicional());
+        if (!this.suplementarHabilitada() && parsePercentToNumber(this.percentualSuplementar()) > 0) {
+          this.percentualSuplementar.set(`${SUPLEMENTAR_MIN}%`);
+        }
       },
       { allowSignalWrites: true }
     );
   }
 
-  onRendaInput(event: Event): void {
-    this.rendaMensalDesejada.set(this.applyMask(event, formatCurrencyInput));
-  }
-
-  onIdadeInput(event: Event): void {
-    this.idadeBeneficio.set((event.target as HTMLInputElement).value);
-  }
-
-  onValorBasicoInput(event: Event): void {
-    this.valorBasico.set(this.applyMask(event, formatCurrencyInput));
-  }
-
   onPercentualBasicoInput(event: Event): void {
-    this.percentualBasico.set(this.applyMask(event, formatPercentInput));
-  }
-
-  onValorAdicionalInput(event: Event): void {
-    this.valorAdicional.set(this.applyMask(event, formatCurrencyInput));
+    this.percentualBasico.set(this.applyClamp(event, BASICA_MIN, BASICA_MAX));
   }
 
   onPercentualAdicionalInput(event: Event): void {
-    this.percentualAdicional.set(this.applyMask(event, formatPercentInput));
+    this.percentualAdicional.set(this.applyClamp(event, ADICIONAL_MIN, ADICIONAL_MAX));
+  }
+
+  onPercentualSuplementarInput(event: Event): void {
+    if (!this.suplementarHabilitada()) return;
+    this.percentualSuplementar.set(this.applyClamp(event, SUPLEMENTAR_MIN, SUPLEMENTAR_MAX));
+  }
+
+  formatCurrency(value: number): string {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  private calcularValor(percentual: string): number {
+    return (this.salarioMensal() * parsePercentToNumber(percentual)) / 100;
+  }
+
+  /** Percentual inteiro, restrito ao intervalo [min, max] da contribuição. */
+  private clampPercent(raw: string, min: number, max: number): string {
+    const digits = raw.replace(/\D/g, '').slice(0, 3);
+    if (!digits) return '';
+    const value = Math.min(max, Math.max(min, Number(digits)));
+    return `${value}%`;
   }
 
   /**
@@ -119,30 +86,19 @@ export class Contribuicao implements OnDestroy {
    * sem isso, o próximo keystroke chega antes do re-render do Angular e o
    * cursor acaba fora de posição, corrompendo os dígitos digitados.
    */
-  private applyMask(event: Event, mask: (raw: string) => string): string {
+  private applyClamp(event: Event, min: number, max: number): string {
     const input = event.target as HTMLInputElement;
-    const formatted = mask(input.value);
+    const formatted = this.clampPercent(input.value, min, max);
     input.value = formatted;
     input.setSelectionRange(formatted.length, formatted.length);
     return formatted;
   }
 
-  private formatCurrency(value: number): string {
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-  }
-
   ngOnDestroy(): void {
-    this.adesao.setCanContinue(true);
     this.dados.updateContribuicao({
-      rendaMensalDesejada: this.rendaMensalDesejada(),
-      idadeBeneficio: this.idadeBeneficio(),
-      tipoBasica: this.tipoBasica(),
-      valorBasico: this.valorBasico(),
       percentualBasico: this.percentualBasico(),
-      temAdicional: this.temAdicional(),
-      tipoAdicional: this.tipoAdicional(),
-      valorAdicional: this.valorAdicional(),
       percentualAdicional: this.percentualAdicional(),
+      percentualSuplementar: this.percentualSuplementar(),
     });
   }
 }

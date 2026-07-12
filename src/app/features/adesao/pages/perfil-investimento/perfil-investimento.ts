@@ -85,24 +85,30 @@ const PERGUNTAS: Pergunta[] = [
   },
 ];
 
-const PERFIS: Record<string, { label: string; descricao: string; alerta: string }> = {
+// TODO: substituir pela URL real do documento "Visão sobre o perfil de investimento".
+const PERFIL_DOCUMENTO_URL = 'https://TODO-link-documento-perfil-investimento';
+
+const PERFIS: Record<string, { label: string; descricao: string; alerta: string; documentoUrl: string }> = {
   conservador: {
     label: 'Conservador',
     descricao:
       'Tem como objetivo a maior rentabilidade possível, para isso está disposto a assumir maiores riscos. Conhece os produtos de investimento e suporta as oscilações de mercado.',
     alerta: 'Para o perfil conservador nossas aplicações se baseiam em ações e fundos multimercados.',
+    documentoUrl: PERFIL_DOCUMENTO_URL,
   },
   moderado: {
     label: 'Moderado',
     descricao:
       'Tem como objetivo a maior rentabilidade possível, para isso está disposto a assumir maiores riscos. Conhece os produtos de investimento e suporta as oscilações de mercado.',
     alerta: 'Para o perfil moderado nossas aplicações se baseiam em ações e fundos multimercados.',
+    documentoUrl: PERFIL_DOCUMENTO_URL,
   },
   arrojado: {
     label: 'Arrojado',
     descricao:
       'Tem como objetivo a maior rentabilidade possível, para isso está disposto a assumir maiores riscos. Conhece os produtos de investimento e suporta as oscilações de mercado.',
     alerta: 'Para o perfil arrojado nossas aplicações se baseiam em ações e fundos multimercados.',
+    documentoUrl: PERFIL_DOCUMENTO_URL,
   },
 };
 
