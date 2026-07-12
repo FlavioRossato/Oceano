@@ -1,0 +1,46 @@
+<div class="recuperar-senha">
+  <div class="recuperar-senha__card">
+    <div class="recuperar-senha__icon-wrap">
+      <span class="material-symbols-outlined recuperar-senha__icon">lock_reset</span>
+    </div>
+
+    <h1 class="recuperar-senha__title">Redefinir senha</h1>
+    <p class="recuperar-senha__desc">Defina uma nova senha de acesso para continuar sua adesão.</p>
+
+    <form class="recuperar-senha__form" (submit)="$event.preventDefault()">
+      <app-password-field
+        label="NOVA SENHA"
+        [required]="true"
+        placeholder="Digite a nova senha"
+        [ngModel]="novaSenha()"
+        (ngModelChange)="novaSenha.set($event)"
+        name="novaSenha"
+      />
+      <app-password-field
+        label="CONFIRMAR SENHA"
+        [required]="true"
+        placeholder="Repita a nova senha"
+        [ngModel]="confirmarSenha()"
+        (ngModelChange)="confirmarSenha.set($event)"
+        name="confirmarSenha"
+      />
+
+      @if (erro()) {
+        <p class="recuperar-senha__erro">{{ erro() }}</p>
+      }
+    </form>
+
+    <leme-button
+      variant="Filled"
+      hierarchy="Primary"
+      label="Redefinir senha"
+      [showIconRight]="true"
+      iconRight="check"
+      (click)="redefinir()"
+    />
+
+    <button type="button" class="recuperar-senha__back" (click)="voltarParaLogin()">
+      Voltar para o login
+    </button>
+  </div>
+</div>

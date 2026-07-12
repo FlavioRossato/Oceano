@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { LemeButtonComponent } from 'leme';
-import { AdesaoService } from '../../services/adesao.service';
 
 @Component({
   selector: 'app-boas-vindas',
@@ -11,9 +11,9 @@ import { AdesaoService } from '../../services/adesao.service';
   styleUrl: './boas-vindas.scss',
 })
 export class BoasVindas {
-  protected readonly adesao = inject(AdesaoService);
+  private readonly router = inject(Router);
 
   iniciar(): void {
-    this.adesao.next();
+    this.router.navigate(['/adesao/verificacao-cpf']);
   }
 }

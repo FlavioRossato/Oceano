@@ -1,0 +1,35 @@
+<div class="retomar-adesao">
+  <div class="retomar-adesao__card">
+    <div class="retomar-adesao__icon-wrap">
+      <span class="material-symbols-outlined retomar-adesao__icon">waving_hand</span>
+    </div>
+
+    <h1 class="retomar-adesao__title">Que bom ter você de volta!</h1>
+    <p class="retomar-adesao__desc">{{ saudacao() }}</p>
+
+    <form class="retomar-adesao__form" (submit)="$event.preventDefault()">
+      <app-password-field
+        label="SENHA"
+        [required]="true"
+        [error]="senhaInvalida()"
+        errorMessage="Senha incorreta. Tente novamente."
+        [ngModel]="senha()"
+        (ngModelChange)="onSenhaChange($event)"
+        name="senha"
+      />
+    </form>
+
+    <leme-button
+      variant="Filled"
+      hierarchy="Primary"
+      label="Entrar e continuar"
+      [showIconRight]="true"
+      iconRight="arrow_forward"
+      (click)="entrar()"
+    />
+
+    <button type="button" class="retomar-adesao__forgot" (click)="esqueciSenha()">
+      Esqueci minha senha
+    </button>
+  </div>
+</div>

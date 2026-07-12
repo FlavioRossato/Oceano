@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LemeTextFieldComponent, LemeSelectComponent } from 'leme';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
+import { formatCpfInput } from '@shared/utils/cpf-format.util';
 
 @Component({
   selector: 'app-dados-pessoais',
@@ -12,7 +13,7 @@ import { AdesaoDadosService } from '../../services/adesao-dados.service';
   styleUrl: './dados-pessoais.scss',
 })
 export class DadosPessoais implements OnInit, OnDestroy {
-  constructor(private readonly dados: AdesaoDadosService) {}
+  private readonly dados = inject(AdesaoDadosService);
 
   readonly sexoOptions = [
     { value: 'feminino',  label: 'Feminino' },
@@ -54,6 +55,10 @@ export class DadosPessoais implements OnInit, OnDestroy {
   dataEmissao = '';
   nomeMae = '';
   nomePai = '';
+
+  onCpfChange(value: string): void {
+    this.cpf = formatCpfInput(value);
+  }
 
   ngOnInit(): void {
     const atual = this.dados.dadosPessoais();

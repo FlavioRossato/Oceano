@@ -68,15 +68,9 @@ export interface RegimeTributacaoForm {
 }
 
 export interface ContribuicaoForm {
-  rendaMensalDesejada: string;
-  idadeBeneficio: string;
-  tipoBasica: 'valores' | 'porcentagem';
-  valorBasico: string;
   percentualBasico: string;
-  temAdicional: boolean;
-  tipoAdicional: 'valores' | 'porcentagem';
-  valorAdicional: string;
   percentualAdicional: string;
+  percentualSuplementar: string;
 }
 
 export interface DadosBancariosForm {
@@ -100,6 +94,8 @@ export interface DadosBancariosForm {
  */
 @Injectable({ providedIn: 'root' })
 export class AdesaoDadosService {
+  readonly numeroProtocolo = '1A2B3C';
+
   readonly vinculo = signal<VinculoForm>({
     empresa: 'ford',
     matricula: '75486',
@@ -168,15 +164,9 @@ export class AdesaoDadosService {
   });
 
   readonly contribuicao = signal<ContribuicaoForm>({
-    rendaMensalDesejada: 'R$ 7.500,00',
-    idadeBeneficio: '65 anos',
-    tipoBasica: 'porcentagem',
-    valorBasico: '',
-    percentualBasico: '5%',
-    temAdicional: false,
-    tipoAdicional: 'porcentagem',
-    valorAdicional: '',
-    percentualAdicional: '5%',
+    percentualBasico: '1%',
+    percentualAdicional: '0%',
+    percentualSuplementar: '0%',
   });
 
   readonly dadosBancarios = signal<DadosBancariosForm>({

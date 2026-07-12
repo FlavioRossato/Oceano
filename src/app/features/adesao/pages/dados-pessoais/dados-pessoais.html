@@ -13,7 +13,7 @@
 
     <div class="dados-pessoais__row">
       <div class="dados-pessoais__field">
-        <leme-text-field label="CPF" [required]="true" placeholder="000.000.000-00" [(ngModel)]="cpf" name="cpf" />
+        <leme-text-field label="CPF" [required]="true" placeholder="000.000.000-00" [ngModel]="cpf" (ngModelChange)="onCpfChange($event)" name="cpf" />
       </div>
       <div class="dados-pessoais__field">
         <leme-text-field label="DATA DE NASCIMENTO" [required]="true" placeholder="DD/MM/AAAA" [(ngModel)]="dataNascimento" name="dataNascimento" />

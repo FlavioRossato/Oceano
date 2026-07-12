@@ -1,0 +1,19 @@
+<div class="verificacao-cpf">
+  <header class="verificacao-cpf__header">
+    <h1 class="verificacao-cpf__title">Vamos confirmar seu CPF</h1>
+    <p class="verificacao-cpf__subtitle">
+      Informe seu CPF para verificarmos se você já possui um cadastro ou uma adesão em andamento.
+    </p>
+  </header>
+
+  <form class="verificacao-cpf__form" (submit)="$event.preventDefault()">
+    <leme-text-field
+      label="CPF"
+      [required]="true"
+      placeholder="000.000.000-00"
+      [ngModel]="cpf()"
+      (ngModelChange)="onCpfChange($event)"
+      name="cpf"
+    />
+  </form>
+</div>

@@ -1,0 +1,66 @@
+<div class="acompanhamento">
+  <div class="acompanhamento__card">
+    <div
+      class="acompanhamento__icon-wrap"
+      [class.acompanhamento__icon-wrap--negada]="negada()"
+      [class.acompanhamento__icon-wrap--aprovada]="aprovada()"
+    >
+      <span class="material-symbols-outlined acompanhamento__icon">{{ icone() }}</span>
+    </div>
+
+    <span
+      class="acompanhamento__tag"
+      [class.acompanhamento__tag--negada]="negada()"
+      [class.acompanhamento__tag--aprovada]="aprovada()"
+    >
+      {{ tagLabel() }}
+    </span>
+
+    <h1 class="acompanhamento__title">{{ titulo() }}</h1>
+
+    <p class="acompanhamento__desc">{{ descricao() }}</p>
+
+    <div class="acompanhamento__info">
+      <div class="acompanhamento__info-row">
+        <span class="acompanhamento__info-label">Data da solicitação</span>
+        <span class="acompanhamento__info-value">{{ participante()?.dataSolicitacao ?? '—' }}</span>
+      </div>
+      <div class="acompanhamento__info-row">
+        <span class="acompanhamento__info-label">Número do protocolo</span>
+        <span class="acompanhamento__info-value">{{ participante()?.numeroProtocolo ?? '—' }}</span>
+      </div>
+      <div class="acompanhamento__info-row">
+        <span class="acompanhamento__info-label">Solicitante</span>
+        <span class="acompanhamento__info-value">{{ participante()?.nome ?? '—' }}</span>
+      </div>
+    </div>
+
+    @if (negada()) {
+      <div class="acompanhamento__motivo">
+        <span class="material-symbols-outlined acompanhamento__motivo-icon">info</span>
+        <p><strong>Motivo da recusa:</strong> {{ participante()?.motivoRecusa }}</p>
+      </div>
+    }
+
+    <p class="acompanhamento__proximos-passos">{{ proximosPassos() }}</p>
+
+    <div class="acompanhamento__actions">
+      <leme-button
+        variant="Outlined"
+        hierarchy="Primary"
+        label="Voltar para tela inicial"
+        [showIconLeft]="true"
+        iconLeft="home"
+        (click)="voltarInicio()"
+      />
+      <leme-button
+        variant="Filled"
+        hierarchy="Primary"
+        label="Baixar resumo da adesão (PDF)"
+        [showIconLeft]="true"
+        iconLeft="download"
+        (click)="baixarResumo()"
+      />
+    </div>
+  </div>
+</div>

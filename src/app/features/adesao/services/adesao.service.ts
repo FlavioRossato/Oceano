@@ -72,12 +72,9 @@ export class AdesaoService {
       route: '/adesao/senha-acesso',
       showBottomNav: true,
       panel: {
-        steps: WIZARD_STEPS,
-        activeSubStep: -1,
-        estimatedTime: 'Leva cerca de 4 minutos',
-        icon: 'shield',
-        headline: 'Sua segurança em primeiro lugar',
-        description: 'Esta será a <strong>senha de acesso ao portal</strong>. Você vai usá-la sempre que entrar para acompanhar seu plano. Guarde-a com cuidado.',
+        icon: 'verified_user',
+        headline: 'Vamos confirmar quem é você',
+        description: 'Para sua segurança, precisamos confirmar sua identidade antes de continuar.',
       },
     },
     { id: 'vinculo', label: 'Vínculo', route: '/adesao/vinculo', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 0, estimatedTime: 'Leva cerca de 4 minutos' } },
@@ -107,6 +104,55 @@ export class AdesaoService {
         icon: 'celebration',
         headline: 'Solicitação enviada!',
         description: 'Entraremos em contato em breve com os próximos passos da sua adesão ao plano.',
+      },
+    },
+
+    // Verificação de CPF e telas derivadas — anexadas ao final do array para
+    // não deslocar os índices usados por goToPanelStep() (offset fixo +2).
+    // A navegação entre elas não segue next()/back() sequencial: cada uma
+    // decide o próximo destino via router.navigate() conforme o mock consultado.
+    {
+      id: 'verificacao-cpf',
+      label: 'Verificação de CPF',
+      route: '/adesao/verificacao-cpf',
+      showBottomNav: true,
+      panel: {
+        icon: 'verified_user',
+        headline: 'Vamos confirmar quem é você',
+        description: 'Para sua segurança, precisamos confirmar sua identidade antes de continuar.',
+      },
+    },
+    {
+      id: 'retomar-adesao',
+      label: 'Retomar adesão',
+      route: '/adesao/retomar-adesao',
+      showBottomNav: false,
+      panel: {
+        icon: 'verified_user',
+        headline: 'Vamos confirmar quem é você',
+        description: 'Para sua segurança, precisamos confirmar sua identidade antes de continuar.',
+      },
+    },
+    {
+      id: 'recuperar-senha',
+      label: 'Recuperar senha',
+      route: '/adesao/recuperar-senha',
+      showBottomNav: false,
+      panel: {
+        icon: 'lock_reset',
+        headline: 'Redefinir senha',
+        description: 'Defina uma nova senha de acesso para continuar sua adesão.',
+      },
+    },
+    {
+      id: 'acompanhamento',
+      label: 'Acompanhamento',
+      route: '/adesao/acompanhamento',
+      showBottomNav: false,
+      panel: {
+        icon: 'fact_check',
+        headline: 'Acompanhe sua solicitação',
+        description: 'Confira o status da sua solicitação de adesão ao plano.',
       },
     },
   ];

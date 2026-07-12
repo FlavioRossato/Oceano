@@ -81,6 +81,31 @@ export const ADESAO_ROUTES: Routes = [
         loadComponent: () =>
           import('./pages/conclusao/conclusao').then(m => m.Conclusao),
       },
+
+      // Verificação de CPF e telas derivadas (retomada / recuperação de senha /
+      // acompanhamento). Não fazem parte da sequência linear do wizard — a
+      // navegação entre elas é feita via router.navigate() direto, conforme o
+      // resultado da consulta ao ParticipanteMockService.
+      {
+        path: 'verificacao-cpf',
+        loadComponent: () =>
+          import('./pages/verificacao-cpf/verificacao-cpf').then(m => m.VerificacaoCpf),
+      },
+      {
+        path: 'retomar-adesao',
+        loadComponent: () =>
+          import('./pages/retomar-adesao/retomar-adesao').then(m => m.RetomarAdesao),
+      },
+      {
+        path: 'recuperar-senha',
+        loadComponent: () =>
+          import('./pages/recuperar-senha/recuperar-senha').then(m => m.RecuperarSenha),
+      },
+      {
+        path: 'acompanhamento',
+        loadComponent: () =>
+          import('./pages/acompanhamento/acompanhamento').then(m => m.Acompanhamento),
+      },
     ],
   },
 ];

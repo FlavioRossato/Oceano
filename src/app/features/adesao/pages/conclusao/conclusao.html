@@ -11,6 +11,11 @@
       Nossa equipe irá analisar as informações e você receberá um retorno em breve.
     </p>
 
+    <div class="conclusao__protocolo">
+      <span class="conclusao__protocolo-label">Número do protocolo</span>
+      <span class="conclusao__protocolo-valor">{{ dados.numeroProtocolo }}</span>
+    </div>
+
     <div class="conclusao__info">
       <div class="conclusao__info-row">
         <span class="material-symbols-outlined conclusao__info-icon">mail</span>
@@ -28,6 +33,7 @@
       label="Voltar para tela inicial"
       [showIconLeft]="true"
       iconLeft="home"
+      (click)="voltarInicio()"
     />
 
     <leme-button
