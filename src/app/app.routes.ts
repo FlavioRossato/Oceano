@@ -30,6 +30,13 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/adesao/adesao.routes').then(m => m.ADESAO_ROUTES),
   },
+  // Feature em construção — sem link em nenhum fluxo ainda; acessível apenas
+  // digitando a rota diretamente na URL (/emprestimos/loading).
+  {
+    path: 'emprestimos',
+    loadChildren: () =>
+      import('./features/emprestimos/emprestimos.routes').then(m => m.EMPRESTIMOS_ROUTES),
+  },
   {
     path: 'auth',
     loadComponent: () =>

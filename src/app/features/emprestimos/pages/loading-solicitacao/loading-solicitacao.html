@@ -1,0 +1,55 @@
+<div class="loading-solicitacao">
+  <div class="loading-solicitacao__card">
+
+    <div class="loading-solicitacao__header">
+      <div
+        class="loading-solicitacao__badge"
+        [class.loading-solicitacao__badge--concluido]="concluido()"
+      >
+        <span class="loading-solicitacao__badge-pulse" aria-hidden="true"></span>
+        <span
+          class="material-symbols-outlined loading-solicitacao__badge-icon"
+          [class.loading-solicitacao__badge-icon--spin]="!concluido()"
+        >{{ concluido() ? 'task_alt' : 'sync' }}</span>
+      </div>
+
+      @if (concluido()) {
+        <h1 class="loading-solicitacao__title">Tudo pronto!</h1>
+        <p class="loading-solicitacao__subtitle">
+          Já reunimos as informações do seu empréstimo. Vamos te encaminhar para a sua área agora.
+        </p>
+      } @else {
+        <h1 class="loading-solicitacao__title">Estamos preparando sua área de empréstimos</h1>
+        <p class="loading-solicitacao__subtitle">
+          Isso costuma levar menos de um minuto. Você não precisa fazer nada agora.
+        </p>
+      }
+    </div>
+
+    <ul class="loading-solicitacao__etapas">
+      @for (etapa of etapas; track etapa.titulo; let i = $index) {
+        <li
+          class="loading-solicitacao__etapa"
+          [class.loading-solicitacao__etapa--concluida]="statusDaEtapa(i) === 'concluida'"
+          [class.loading-solicitacao__etapa--atual]="statusDaEtapa(i) === 'atual'"
+          [class.loading-solicitacao__etapa--pendente]="statusDaEtapa(i) === 'pendente'"
+        >
+          <div class="loading-solicitacao__etapa-indicador">
+            @if (statusDaEtapa(i) === 'concluida') {
+              <span class="material-symbols-outlined">check_circle</span>
+            } @else if (statusDaEtapa(i) === 'atual') {
+              <span class="loading-solicitacao__spinner" aria-hidden="true"></span>
+            } @else {
+              <span class="material-symbols-outlined">{{ etapa.icone }}</span>
+            }
+          </div>
+          <div class="loading-solicitacao__etapa-texto">
+            <p class="loading-solicitacao__etapa-titulo">{{ etapa.titulo }}</p>
+            <p class="loading-solicitacao__etapa-descricao">{{ etapa.descricao }}</p>
+          </div>
+        </li>
+      }
+    </ul>
+
+  </div>
+</div>
