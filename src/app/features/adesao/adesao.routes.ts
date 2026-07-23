@@ -10,6 +10,16 @@ export const ADESAO_ROUTES: Routes = [
       import('./pages/boas-vindas/boas-vindas').then(m => m.BoasVindas),
   },
 
+  // Vitrine de planos: página standalone, sem AdesaoLayout — não faz parte
+  // da sequência do wizard. É o destino do botão "Aderir a um plano" na tela
+  // de login do Portal (ainda não implementada), por isso não é referenciada
+  // pelo fluxo em nenhum outro lugar ainda.
+  {
+    path: 'selecionar-plano',
+    loadComponent: () =>
+      import('./pages/selecionar-plano/selecionar-plano').then(m => m.SelecionarPlano),
+  },
+
   // Demais steps: dentro do AdesaoLayout (sidebar + nav)
   {
     path: '',

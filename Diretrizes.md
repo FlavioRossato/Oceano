@@ -744,6 +744,7 @@ mkdir src/app/features/minha-feature
 | 2026-07-12 | Exceção de `max-width` (regra §7.5) ampliada de "só `senha-acesso`" para uma categoria "telas de cartão único centralizado" (`verificacao-cpf`, `retomar-adesao`, `recuperar-senha`, `conclusao`, `acompanhamento`) | Essas páginas já haviam sido implementadas com `max-width` próprio, no mesmo padrão da exceção original, sem que a exceção tivesse sido formalmente estendida — auditoria de conformidade encontrou o desvio e a documentação foi atualizada para refletir a decisão real |
 | 2026-07-12 | `--icon-size-*` (tokens de `_project-tokens.scss`) aplicados nos ícones do app que ainda usavam `font-size` em px hardcoded | Auditoria de conformidade com a regra §4 (sem hardcode); tokens já existiam mas não eram usados em `src/app/` |
 | 2026-07-12 | Removido `$spacing-*` (dead code) de `_variables.scss` e apagado `_typography.scss` | Nenhum dos dois era importado em `styles.scss`; `$spacing-*` duplicava tokens que já existem no Leme (`var(--spacing-*)`) e `_typography.scss` tinha um `font-family` hardcoded sem efeito real |
+| 2026-07-23 | Três exceções replicadas na tela `features/adesao/pages/selecionar-plano` (auditoria de conformidade): `&__eyebrow` em `var(--color-primary-60)` (regra §7.4), `max-width: 1040px`/`560px` do container da página (regra §4) e `height: 28px` nas logos dos cards (regra §4) | Mesmos precedentes já aceitos em `boas-vindas.scss` (eyebrow em cor de marca) e `adesao-layout.scss` (`max-width` de conteúdo em px cru e `height: 22px` da logo do painel) — não existe token de largura de container nem de tamanho de logo no design system, e o padrão de eyebrow como "kicker" de marca já estava estabelecido |
 
 ---
 
@@ -760,4 +761,4 @@ Registrar aqui quando implementar:
 
 ---
 
-*Última atualização: 2026-07-12 — Flávio Rossato + Claude*
+*Última atualização: 2026-07-23 — Flávio Rossato + Claude*

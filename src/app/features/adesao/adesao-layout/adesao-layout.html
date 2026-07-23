@@ -1,7 +1,9 @@
 <div class="adesao-layout">
   <aside class="adesao-layout__panel">
     <div class="adesao-layout__panel-top">
-      <img class="adesao-layout__logo" src="visaomulti.svg" alt="Logo do plano" />
+      <div class="adesao-layout__logo-wrap" [class.adesao-layout__logo-wrap--chip]="plano().logoFundo === 'claro'">
+        <img class="adesao-layout__logo" [src]="plano().logo" [alt]="'Logo do plano ' + plano().nome" />
+      </div>
     </div>
 
     <div class="adesao-layout__panel-body">

@@ -1,0 +1,52 @@
+<div class="selecionar-plano">
+  <header class="selecionar-plano__header">
+    <p class="selecionar-plano__eyebrow">Visão Prev</p>
+    <h1 class="selecionar-plano__title">Qual plano combina com você?</h1>
+    <p class="selecionar-plano__subtitle">
+      Veja um resumo de cada plano de previdência disponível para adesão. Você pode conhecer todos os
+      detalhes antes de decidir.
+    </p>
+  </header>
+
+  <div class="selecionar-plano__grid">
+    @for (plano of planos; track plano.id) {
+      <article class="selecionar-plano__card">
+        <div
+          class="selecionar-plano__card-logo"
+          [class.selecionar-plano__card-logo--claro]="plano.logoFundo === 'claro'"
+          [class.selecionar-plano__card-logo--escuro]="plano.logoFundo === 'escuro'"
+        >
+          <img [src]="plano.logo" [alt]="'Logo do plano ' + plano.nome" />
+        </div>
+
+        <leme-tag [label]="plano.categoria" severity="Primary" size="sm" />
+
+        <h2 class="selecionar-plano__card-nome">{{ plano.nome }}</h2>
+        <p class="selecionar-plano__card-tagline">{{ plano.tagline }}</p>
+
+        <ul class="selecionar-plano__card-destaques">
+          @for (destaque of plano.destaques; track destaque) {
+            <li>
+              <span class="material-symbols-outlined leme-icon-sm">check_circle</span>
+              <span>{{ destaque }}</span>
+            </li>
+          }
+        </ul>
+
+        <div class="selecionar-plano__card-actions">
+          <leme-button
+            variant="Filled"
+            hierarchy="Primary"
+            [label]="'Aderir ao ' + plano.nome"
+            [showIconRight]="true"
+            iconRight="arrow_forward"
+            (click)="aderir(plano)"
+          />
+          <a class="selecionar-plano__card-saiba-mais" [href]="plano.saibaMaisUrl" target="_blank" rel="noopener">
+            Saiba mais sobre o plano
+          </a>
+        </div>
+      </article>
+    }
+  </div>
+</div>

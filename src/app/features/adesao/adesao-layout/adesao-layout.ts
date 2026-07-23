@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LemeButtonComponent } from 'leme';
+import { PlanoSelecionadoService } from '@core/services/plano-selecionado.service';
 import { AdesaoPanelSubStep, AdesaoService } from '../services/adesao.service';
 
 interface StepEntry {
@@ -18,6 +19,7 @@ interface StepEntry {
 })
 export class AdesaoLayout {
   protected readonly adesao = inject(AdesaoService);
+  protected readonly plano = inject(PlanoSelecionadoService).atual;
   private readonly host = inject(ElementRef<HTMLElement>);
 
   readonly footerLabel = computed(() => (this.adesao.currentStep().id === 'termo' ? 'Enviar solicitação' : 'Continuar'));

@@ -35,6 +35,20 @@ Outros scripts úteis (ver `package.json`):
 
 ---
 
+## Tela de seleção de planos
+
+Antes do wizard, existe uma vitrine para o participante escolher entre os planos abertos para adesão na entidade — hoje, **Mais Visão** e **Visão Multi**. Essa tela não faz parte da sequência do wizard e ainda não é linkada em nenhum fluxo (será o destino do botão de adesão na tela de login do Portal, quando essa tela existir), então o acesso por enquanto é direto pela URL:
+
+```
+http://localhost:4200/adesao/selecionar-plano
+```
+
+Ao clicar em "Aderir ao [plano]", o [`PlanoSelecionadoService`](./src/app/core/services/plano-selecionado.service.ts) guarda a escolha e o participante é levado para `/adesao/boas-vindas`, seguindo o wizard normalmente — a logo exibida no painel lateral do `AdesaoLayout` passa a refletir o plano escolhido. Se o wizard for acessado direto, sem passar pela seleção (ex.: link salvo para `/adesao/boas-vindas`), o padrão é **Visão Multi**, preservando o comportamento original.
+
+Os textos de cada card (tagline, destaques, logo, link "Saiba mais") vivem em [`planos-adesao-mock.data.ts`](./src/app/features/adesao/data/planos-adesao-mock.data.ts) e simulam o que a entidade configuraria via ERP em produção — o objetivo do protótipo é validar o *UX writing*, não a integração real.
+
+---
+
 ## Fluxo do wizard de adesão
 
 Para um participante **novo** (CPF sem cadastro prévio), as etapas seguem esta ordem sequencial (`next()`/`back()` no `AdesaoService`):
@@ -88,7 +102,7 @@ src/app/
 ├── core/           ← guards, interceptors, services e models singleton
 ├── shared/         ← componentes/utilitários reutilizáveis entre features
 ├── features/
-│   └── adesao/     ← o wizard descrito acima (única feature de negócio implementada)
+│   └── adesao/     ← o wizard e a seleção de planos descritos acima (única feature de negócio implementada)
 ├── layouts/        ← shell (área autenticada, ainda sem conteúdo) e auth-layout
 └── app.routes.ts
 ```

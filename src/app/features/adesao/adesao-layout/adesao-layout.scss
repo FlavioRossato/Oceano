@@ -54,6 +54,18 @@
     margin-bottom: var(--spacing-xs);
   }
 
+  &__logo-wrap {
+    display: inline-flex;
+
+    // Logos desenhados para fundo claro (ex.: Mais Visão) recebem um chip
+    // branco para permanecer legíveis sobre o gradiente escuro do painel.
+    &--chip {
+      background: var(--color-white-100);
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-quarck) var(--spacing-nano);
+    }
+  }
+
   &__logo {
     height: 22px;
     width: auto;
