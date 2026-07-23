@@ -8,7 +8,7 @@ Protótipo front-end do fluxo de **adesão a um plano de previdência privada**,
 
 ## Sobre o protótipo
 
-A aplicação simula o wizard de adesão de um participante a um plano de previdência: verificação de CPF, criação/validação de senha de acesso, preenchimento de dados (vínculo empregatício, dados pessoais, endereço, contato, PEP, perfil de investidor, regime de tributação, contribuição, dados bancários, documentos), revisão final, aceite de termos e acompanhamento do status da solicitação.
+A aplicação simula o wizard de adesão de um participante a um plano de previdência: verificação de CPF, verificação de e-mail (para CPF novo), criação/validação de senha de acesso, uma etapa rápida de nome e telefone, preenchimento de dados (vínculo empregatício, dados pessoais, endereço, contato, PEP, perfil de investidor, regime de tributação, contribuição, dados bancários, documentos), revisão final, aceite de termos e acompanhamento do status da solicitação.
 
 Como é um protótipo, **não existe chamada HTTP nenhuma** — os dados digitados vivem em signals de services Angular (`AdesaoDadosService`, `ParticipanteMockService`) e são perdidos ao recarregar a página.
 
@@ -54,20 +54,22 @@ Os textos de cada card (tagline, destaques, logo, link "Saiba mais") vivem em [`
 Para um participante **novo** (CPF sem cadastro prévio), as etapas seguem esta ordem sequencial (`next()`/`back()` no `AdesaoService`):
 
 1. **Boas-vindas** (`/adesao/boas-vindas`) — tela de abertura, fora do layout com sidebar.
-2. **Verificação de CPF** (`/adesao/verificacao-cpf`) — consulta o CPF na base mockada e decide o próximo destino (ver [Cenários mockados](#cenários-mockados-de-participante)).
-3. **Senha de acesso** (`/adesao/senha-acesso`) — só para CPF novo; cria a senha que será usada para futuros acessos.
-4. **Vínculo** — dados do vínculo empregatício com a patrocinadora.
-5. **Dados pessoais**
-6. **Contato & endereço**
-7. **PEP** (pessoa politicamente exposta)
-8. **Perfil de investimento** — mini-questionário que indica um perfil (conservador/moderado/arrojado), com opção de escolher outro.
-9. **Regime de tributação**
-10. **Contribuição** — percentuais de contribuição básica (obrigatória), adicional e suplementar (opcionais), com tradução em reais com base no salário informado em Vínculo.
-11. **Dados bancários**
-12. **Documentos**
-13. **Revisão final (Resumo)** — revisão de tudo antes de enviar.
-14. **Termos** — aceite obrigatório para liberar o botão "Enviar solicitação".
-15. **Conclusão** — confirmação de envio, com número de protocolo.
+2. **Verificação de CPF** (`/adesao/verificacao-cpf`) — pede só o CPF. A consulta na base mockada decide o próximo destino (ver [Cenários mockados](#cenários-mockados-de-participante)); quem já tem cadastro segue direto para a retomada, sem nunca ver um campo de e-mail.
+3. **Verificação de e-mail** (`/adesao/verificacao-email`) — só para CPF sem cadastro. Duas fases na mesma rota: primeiro pede o e-mail, depois o código de confirmação de 6 dígitos (mock fixo, ver [Cenários mockados](#cenários-mockados-de-participante)), com opção de reenvio (cooldown de 30s).
+4. **Senha de acesso** (`/adesao/senha-acesso`) — cria a senha que será usada para futuros acessos.
+5. **Sobre você** (`/adesao/sobre-voce`) — nome completo e telefone; última etapa antes do formulário de adesão propriamente dito. Esses dados (e o e-mail confirmado na etapa anterior) já chegam pré-preenchidos em **Dados pessoais** e **Contato & endereço** mais adiante, para o participante não digitar a mesma informação duas vezes.
+6. **Vínculo** — dados do vínculo empregatício com a patrocinadora.
+7. **Dados pessoais**
+8. **Contato & endereço**
+9. **PEP** (pessoa politicamente exposta)
+10. **Perfil de investimento** — mini-questionário que indica um perfil (conservador/moderado/arrojado), com opção de escolher outro.
+11. **Regime de tributação**
+12. **Contribuição** — percentuais de contribuição básica (obrigatória), adicional e suplementar (opcionais), com tradução em reais com base no salário informado em Vínculo.
+13. **Dados bancários**
+14. **Documentos**
+15. **Revisão final (Resumo)** — revisão de tudo antes de enviar.
+16. **Termos** — aceite obrigatório para liberar o botão "Enviar solicitação".
+17. **Conclusão** — confirmação de envio, com número de protocolo.
 
 As telas de **Retomar adesão**, **Recuperar senha** e **Acompanhamento** não fazem parte dessa sequência linear — a navegação entre elas é feita via `router.navigate()` direto, de acordo com o status do CPF consultado (ver próxima seção).
 
@@ -79,7 +81,7 @@ A "base de dados" fica em [`participantes-mock.data.ts`](./src/app/features/ades
 
 | CPF | Senha | Status | O que acontece |
 |---|---|---|---|
-| Qualquer CPF válido não listado abaixo | — | *novo* | Vai para **Senha de acesso** e segue o wizard completo desde o início. |
+| Qualquer CPF válido não listado abaixo | — | *novo* | Vai para **Verificação de e-mail**, depois **Senha de acesso**, e segue o wizard completo desde o início. |
 | `222.222.222-22` | `123456` | `em_andamento` | Pede a senha e retoma o wizard exatamente na etapa **Dados pessoais** (`etapaAtual`). |
 | `333.333.333-33` | `123456` | `concluida` | Pede a senha e vai para **Acompanhamento**, com tag **"Em análise"**. |
 | `444.444.444-44` | `123456` | `negada` | Pede a senha e vai para **Acompanhamento**, com tag **"Solicitação negada"** e o motivo informado pela entidade. |
@@ -88,6 +90,7 @@ A "base de dados" fica em [`participantes-mock.data.ts`](./src/app/features/ades
 Observações:
 - Todo CPF com adesão já iniciada (qualquer status acima, exceto *novo*) passa **obrigatoriamente** pela tela de senha (`/adesao/retomar-adesao`) antes de mostrar qualquer informação — inclusive o status da solicitação. Isso é proposital, por segurança: o nome do participante e o resultado da análise nunca aparecem antes da autenticação.
 - Em **Retomar adesão**, o link "Esqueci minha senha" leva a `/adesao/recuperar-senha`, onde é possível definir uma nova senha (fica salva em memória, via `ParticipanteMockService.redefinirSenha()`) e voltar a logar.
+- Em **Verificação de e-mail** (só para CPF *novo*), qualquer e-mail é aceito — o código de confirmação é sempre `123456` (mock fixo em `ParticipanteMockService`, não há envio real).
 - Para adicionar um novo cenário de teste, basta incluir um novo objeto no array `PARTICIPANTES_MOCK`.
 
 ---

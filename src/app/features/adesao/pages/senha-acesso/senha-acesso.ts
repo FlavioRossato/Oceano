@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { AdesaoService } from '../../services/adesao.service';
 
 interface Requirement {
@@ -16,6 +17,7 @@ interface Requirement {
 })
 export class SenhaAcesso implements OnDestroy {
   private readonly adesao = inject(AdesaoService);
+  private readonly router = inject(Router);
 
   readonly password = signal('');
   readonly showPassword = signal(false);
@@ -52,6 +54,7 @@ export class SenhaAcesso implements OnDestroy {
 
   constructor() {
     this.adesao.setCanContinue(false);
+    this.adesao.setBackOverride(() => this.router.navigate(['/adesao/verificacao-email']));
     effect(() => {
       this.adesao.setCanContinue(this.allMet());
     }, { allowSignalWrites: true });
@@ -67,5 +70,6 @@ export class SenhaAcesso implements OnDestroy {
 
   ngOnDestroy(): void {
     this.adesao.setCanContinue(true);
+    this.adesao.setBackOverride(null);
   }
 }

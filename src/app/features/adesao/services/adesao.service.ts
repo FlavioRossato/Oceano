@@ -77,6 +77,17 @@ export class AdesaoService {
         description: 'Para sua segurança, precisamos confirmar sua identidade antes de continuar.',
       },
     },
+    {
+      id: 'sobre-voce',
+      label: 'Sobre você',
+      route: '/adesao/sobre-voce',
+      showBottomNav: true,
+      panel: {
+        icon: 'contact_page',
+        headline: 'Vamos te conhecer melhor',
+        description: 'Só precisamos de um nome e telefone de contato para continuar.',
+      },
+    },
     { id: 'vinculo', label: 'Vínculo', route: '/adesao/vinculo', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 0, estimatedTime: 'Leva cerca de 4 minutos' } },
     { id: 'dados-pessoais', label: 'Dados pessoais', route: '/adesao/dados-pessoais', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 1, estimatedTime: 'Leva cerca de 4 minutos' } },
     { id: 'contato-endereco', label: 'Contato & endereço', route: '/adesao/contato-endereco', showBottomNav: true, panel: { steps: WIZARD_STEPS, activeSubStep: 2, estimatedTime: 'Leva cerca de 4 minutos' } },
@@ -108,13 +119,24 @@ export class AdesaoService {
     },
 
     // Verificação de CPF e telas derivadas — anexadas ao final do array para
-    // não deslocar os índices usados por goToPanelStep() (offset fixo +2).
+    // não deslocar os índices usados por goToPanelStep() (offset fixo +3).
     // A navegação entre elas não segue next()/back() sequencial: cada uma
     // decide o próximo destino via router.navigate() conforme o mock consultado.
     {
       id: 'verificacao-cpf',
       label: 'Verificação de CPF',
       route: '/adesao/verificacao-cpf',
+      showBottomNav: true,
+      panel: {
+        icon: 'verified_user',
+        headline: 'Vamos confirmar quem é você',
+        description: 'Para sua segurança, precisamos confirmar sua identidade antes de continuar.',
+      },
+    },
+    {
+      id: 'verificacao-email',
+      label: 'Verificação de e-mail',
+      route: '/adesao/verificacao-email',
       showBottomNav: true,
       panel: {
         icon: 'verified_user',

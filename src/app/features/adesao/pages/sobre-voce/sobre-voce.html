@@ -1,0 +1,27 @@
+<div class="sobre-voce">
+  <header class="sobre-voce__header">
+    <h1 class="sobre-voce__title">Pra te conhecer melhor</h1>
+    <p class="sobre-voce__subtitle">
+      Nos conte seu nome e telefone pra começar o processo de adesão.
+    </p>
+  </header>
+
+  <form class="sobre-voce__form" (submit)="$event.preventDefault()">
+    <leme-text-field
+      label="Nome completo"
+      [required]="true"
+      placeholder="Seu nome completo"
+      [ngModel]="nomeCompleto"
+      (ngModelChange)="onNomeChange($event)"
+      name="nomeCompleto"
+    />
+    <leme-text-field
+      label="Telefone"
+      [required]="true"
+      placeholder="(00) 00000-0000"
+      [ngModel]="telefone"
+      (ngModelChange)="onTelefoneChange($event)"
+      name="telefone"
+    />
+  </form>
+</div>

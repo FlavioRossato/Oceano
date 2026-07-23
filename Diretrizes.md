@@ -237,6 +237,16 @@ type LemeButtonType      = 'Common' | 'Icon';
 />
 ```
 
+### 5.3.1 Máscaras no LemeTextField
+
+`LemeTextFieldComponent` aceita `[mask]` para formatar o valor enquanto o usuário digita e limitar automaticamente o `maxlength` do input nativo. A lista de máscaras vive em `projects/leme/src/lib/shared/leme-text-field-masks.ts` (interno da lib).
+
+```html
+<leme-text-field label="CPF" mask="cpf" placeholder="000.000.000-00" [(ngModel)]="cpf" name="cpf" />
+```
+
+Máscaras disponíveis hoje: `'cpf'` (formata e limita a 11 dígitos). Para adicionar uma nova máscara, inclua uma entrada em `LEME_TEXT_FIELD_MASKS` (formatter + `maxLength`) — não implemente formatação de máscara ad-hoc em páginas do app; isso pertence ao Leme.
+
 ### 5.4 Ícones (Material Symbols Outlined)
 
 O Leme usa **Material Symbols Outlined** (fonte variável Google Fonts). O nome do ícone é o identificador do Google:
@@ -471,6 +481,8 @@ Páginas nesta categoria hoje:
 |---|---|---|
 | `senha-acesso` | `pages/senha-acesso/senha-acesso.scss` | Formulário de coluna única (criação de senha) — exceção original, aprovada 2026-07-07 |
 | `verificacao-cpf` | `pages/verificacao-cpf/verificacao-cpf.scss` | Card único (campo de CPF) |
+| `verificacao-email` | `pages/verificacao-email/verificacao-email.scss` | Card único, duas fases (e-mail e depois código) — mesma família visual de `verificacao-cpf`/`senha-acesso` |
+| `sobre-voce` | `pages/sobre-voce/sobre-voce.scss` | Card único (nome completo e telefone, coletados antes do wizard propriamente dito) |
 | `retomar-adesao` | `pages/retomar-adesao/retomar-adesao.scss` | Card único (login por senha) |
 | `recuperar-senha` | `pages/recuperar-senha/recuperar-senha.scss` | Card único (redefinição de senha) |
 | `conclusao` | `pages/conclusao/conclusao.scss` | Card único (confirmação de envio) |
@@ -745,6 +757,10 @@ mkdir src/app/features/minha-feature
 | 2026-07-12 | `--icon-size-*` (tokens de `_project-tokens.scss`) aplicados nos ícones do app que ainda usavam `font-size` em px hardcoded | Auditoria de conformidade com a regra §4 (sem hardcode); tokens já existiam mas não eram usados em `src/app/` |
 | 2026-07-12 | Removido `$spacing-*` (dead code) de `_variables.scss` e apagado `_typography.scss` | Nenhum dos dois era importado em `styles.scss`; `$spacing-*` duplicava tokens que já existem no Leme (`var(--spacing-*)`) e `_typography.scss` tinha um `font-family` hardcoded sem efeito real |
 | 2026-07-23 | Três exceções replicadas na tela `features/adesao/pages/selecionar-plano` (auditoria de conformidade): `&__eyebrow` em `var(--color-primary-60)` (regra §7.4), `max-width: 1040px`/`560px` do container da página (regra §4) e `height: 28px` nas logos dos cards (regra §4) | Mesmos precedentes já aceitos em `boas-vindas.scss` (eyebrow em cor de marca) e `adesao-layout.scss` (`max-width` de conteúdo em px cru e `height: 22px` da logo do painel) — não existe token de largura de container nem de tamanho de logo no design system, e o padrão de eyebrow como "kicker" de marca já estava estabelecido |
+| 2026-07-23 | Fluxo de novos participantes ajustado: `verificacao-cpf` continua pedindo só o CPF — é só com ele que se decide se há adesão em andamento. Quando o CPF não tem cadastro (`status === 'novo'`), o fluxo segue para a nova etapa `verificacao-email`, que só então pede o e-mail e, na sequência (mesma rota, segunda fase), o código de 6 dígitos (mock fixo `123456` em `ParticipanteMockService`, mesmo padrão dos `senha` mock em `participantes-mock.data.ts`) antes de liberar `senha-acesso`. Nova etapa `sobre-voce` (nome completo + telefone) inserida entre `senha-acesso` e `vinculo` — é a última etapa antes do formulário de adesão propriamente dito | Pedido do usuário: a checagem de adesão em andamento depende só do CPF, então o campo de e-mail não pode aparecer nem ser validado na etapa de CPF — ele só faz sentido (e só deve aparecer) quando já se sabe que é um participante novo. Também: coletar dados de lead (nome e telefone) antes do wizard, sem pedir esses dados de novo dentro do formulário |
+| 2026-07-23 | `verificacao-email` e `sobre-voce` adicionadas à categoria de exceção "card único" (regra §7.5); `goToPanelStep()` em `adesao-layout.ts` teve seu offset fixo atualizado de `index + 2` para `index + 3` | `sobre-voce` é uma etapa sequencial nova inserida no array `AdesaoService.steps` entre `senha-acesso` e `vinculo`, deslocando em +1 a posição de todo passo numerado do wizard (Vínculo em diante); `verificacao-email` segue o mesmo padrão visual de card único de `verificacao-cpf`/`senha-acesso` por ser parte da mesma sequência de confirmação de identidade |
+| 2026-07-23 | Dados de `AdesaoDadosService` (nome completo, telefone e e-mail) agora são gravados a partir de `verificacao-email` (e-mail, na fase 1) e `sobre-voce` (nome e telefone), em vez de só a partir dos steps `dados-pessoais`/`contato-endereco` | Evita pedir a mesma informação duas vezes — quando o participante chega em `dados-pessoais`/`contato-endereco`, os campos já vêm preenchidos com o que foi informado nas etapas anteriores, mesmo padrão já usado para sugerir CPF como Chave PIX (`cpfSugeridoPix`) |
+| 2026-07-23 | Máscara de CPF movida para dentro do Leme: novo `[mask]` em `LemeTextFieldComponent` (regra §5.3.1), com config em `projects/leme/src/lib/shared/leme-text-field-masks.ts`. `formatCpfInput` (duplicado em `verificacao-cpf.ts` e `dados-pessoais.ts`) foi removido de `shared/utils/cpf-format.util.ts`; as duas páginas agora usam `mask="cpf"` | Antes a formatação de CPF era feita ad-hoc em cada página do app (lógica duplicada); com autorização para alterar o projeto do Leme, a formatação e o limite de caracteres passam a ser responsabilidade do componente de design system, não do app |
 
 ---
 
@@ -761,4 +777,4 @@ Registrar aqui quando implementar:
 
 ---
 
-*Última atualização: 2026-07-23 — Flávio Rossato + Claude*
+*Última atualização: 2026-07-23 — Flávio Rossato + Claude (fluxo de verificação de e-mail e etapa "sobre você" para novos participantes)*

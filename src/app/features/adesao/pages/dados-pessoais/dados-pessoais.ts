@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@
 import { FormsModule } from '@angular/forms';
 import { LemeTextFieldComponent, LemeSelectComponent } from 'leme';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
-import { formatCpfInput } from '@shared/utils/cpf-format.util';
 
 @Component({
   selector: 'app-dados-pessoais',
@@ -55,10 +54,6 @@ export class DadosPessoais implements OnInit, OnDestroy {
   dataEmissao = '';
   nomeMae = '';
   nomePai = '';
-
-  onCpfChange(value: string): void {
-    this.cpf = formatCpfInput(value);
-  }
 
   ngOnInit(): void {
     const atual = this.dados.dadosPessoais();

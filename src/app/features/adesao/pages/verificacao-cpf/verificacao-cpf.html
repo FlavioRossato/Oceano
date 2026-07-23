@@ -10,6 +10,7 @@
     <leme-text-field
       label="CPF"
       [required]="true"
+      mask="cpf"
       placeholder="000.000.000-00"
       [ngModel]="cpf()"
       (ngModelChange)="onCpfChange($event)"

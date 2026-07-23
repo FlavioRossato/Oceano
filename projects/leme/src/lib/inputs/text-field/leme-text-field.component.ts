@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter, forwar
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { LemeValueAccessorBase } from '../../shared/leme-value-accessor.base';
 import { nextLemeId } from '../../shared/leme-uid';
+import { LEME_TEXT_FIELD_MASKS, LemeTextFieldMask } from '../../shared/leme-text-field-masks';
+
+export type { LemeTextFieldMask };
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +27,8 @@ export class LemeTextFieldComponent extends LemeValueAccessorBase<string> {
   @Input() errorMessage: string = '';
   @Input() disabled: boolean = false;
   @Input() error: boolean = false;
+  /** Formata o valor conforme o usuário digita e limita o tamanho do input nativo. */
+  @Input() mask: LemeTextFieldMask | null = null;
 
   @Output() valueChange = new EventEmitter<string>();
 
@@ -32,9 +37,13 @@ export class LemeTextFieldComponent extends LemeValueAccessorBase<string> {
 
   value: string = '';
 
+  get maxLength(): number | null {
+    return this.mask ? LEME_TEXT_FIELD_MASKS[this.mask].maxLength : null;
+  }
 
   onInput(event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
+    const raw = (event.target as HTMLInputElement).value;
+    const val = this.mask ? LEME_TEXT_FIELD_MASKS[this.mask].format(raw) : raw;
     this.value = val;
     this.onChange(val);
     this.valueChange.emit(val);

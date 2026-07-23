@@ -40,4 +40,29 @@ describe('LemeTextFieldComponent (CVA)', () => {
   it('exposes a unique fieldId for label association', () => {
     expect(create().fieldId).toMatch(/^leme-text-field-\d+$/);
   });
+
+  it('mask="cpf" formats digits and reports the formatted maxLength', () => {
+    const c = create();
+    c.mask = 'cpf';
+    let received: string | undefined;
+    c.registerOnChange((v: string) => (received = v));
+    c.onInput({ target: { value: '11122233344' } } as unknown as Event);
+    expect(received).toBe('111.222.333-44');
+    expect(c.value).toBe('111.222.333-44');
+    expect(c.maxLength).toBe(14);
+  });
+
+  it('mask="cpf" ignores digits beyond the 11th', () => {
+    const c = create();
+    c.mask = 'cpf';
+    c.onInput({ target: { value: '111222333445566' } } as unknown as Event);
+    expect(c.value).toBe('111.222.333-44');
+  });
+
+  it('without mask, maxLength is null and input passes through untouched', () => {
+    const c = create();
+    expect(c.maxLength).toBeNull();
+    c.onInput({ target: { value: '111222333445566' } } as unknown as Event);
+    expect(c.value).toBe('111222333445566');
+  });
 });

@@ -58,8 +58,10 @@ export class AdesaoLayout {
     });
   }
 
+  // Offset fixo: boas-vindas, senha-acesso e sobre-voce precedem o primeiro
+  // passo numerado (Vínculo) no array de steps do AdesaoService.
   goToPanelStep(index: number): void {
-    this.adesao.goToStep(index + 2);
+    this.adesao.goToStep(index + 3);
     this.mobileStepsExpanded.set(false);
   }
 

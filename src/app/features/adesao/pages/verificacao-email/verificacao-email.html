@@ -1,0 +1,52 @@
+<div class="verificacao-email">
+  @if (fase() === 'email') {
+    <header class="verificacao-email__header">
+      <h1 class="verificacao-email__title">Confirme seu e-mail</h1>
+      <p class="verificacao-email__subtitle">
+        Informe seu e-mail. Vamos enviar um código para confirmar que é você.
+      </p>
+    </header>
+
+    <form class="verificacao-email__form" (submit)="$event.preventDefault()">
+      <leme-text-field
+        label="E-mail"
+        [required]="true"
+        placeholder="seu@email.com"
+        [error]="emailInvalido()"
+        errorMessage="Informe um e-mail válido para enviarmos o código de confirmação."
+        [ngModel]="email()"
+        (ngModelChange)="onEmailChange($event)"
+        name="email"
+      />
+    </form>
+  } @else {
+    <header class="verificacao-email__header">
+      <h1 class="verificacao-email__title">Digite o código enviado</h1>
+      <p class="verificacao-email__subtitle">
+        Enviamos um código de 6 dígitos para <strong>{{ email() }}</strong>. Digite-o abaixo para continuar.
+      </p>
+    </header>
+
+    <form class="verificacao-email__form" (submit)="$event.preventDefault()">
+      <leme-text-field
+        label="Código de verificação"
+        [required]="true"
+        placeholder="000000"
+        [error]="codigoInvalido()"
+        errorMessage="Código incorreto. Confira seu e-mail e tente novamente."
+        [ngModel]="codigo()"
+        (ngModelChange)="onCodigoChange($event)"
+        name="codigo"
+      />
+    </form>
+
+    <button
+      type="button"
+      class="verificacao-email__resend"
+      [disabled]="!podeReenviar()"
+      (click)="reenviarCodigo()"
+    >
+      {{ podeReenviar() ? 'Não recebeu? Reenviar código' : 'Reenviar código em ' + reenviarCooldown() + 's' }}
+    </button>
+  }
+</div>

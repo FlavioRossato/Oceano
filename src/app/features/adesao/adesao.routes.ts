@@ -32,6 +32,11 @@ export const ADESAO_ROUTES: Routes = [
           import('./pages/senha-acesso/senha-acesso').then(m => m.SenhaAcesso),
       },
       {
+        path: 'sobre-voce',
+        loadComponent: () =>
+          import('./pages/sobre-voce/sobre-voce').then(m => m.SobreVoce),
+      },
+      {
         path: 'vinculo',
         loadComponent: () =>
           import('./pages/vinculo/vinculo').then(m => m.Vinculo),
@@ -100,6 +105,11 @@ export const ADESAO_ROUTES: Routes = [
         path: 'verificacao-cpf',
         loadComponent: () =>
           import('./pages/verificacao-cpf/verificacao-cpf').then(m => m.VerificacaoCpf),
+      },
+      {
+        path: 'verificacao-email',
+        loadComponent: () =>
+          import('./pages/verificacao-email/verificacao-email').then(m => m.VerificacaoEmail),
       },
       {
         path: 'retomar-adesao',
