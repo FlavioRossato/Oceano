@@ -1,6 +1,6 @@
 <div class="dados-pessoais">
   <header class="dados-pessoais__header">
-    <p class="dados-pessoais__eyebrow">Etapa 2 de 9</p>
+    <p class="dados-pessoais__eyebrow">{{ adesao.currentStepLabel() }}</p>
     <h1 class="dados-pessoais__title">Dados pessoais</h1>
     <p class="dados-pessoais__subtitle">Precisamos confirmar algumas informações para personalizar o seu plano.</p>
   </header>
@@ -57,4 +57,13 @@
     </div>
 
   </form>
+
+  @if (menorNaoPermitido()) {
+    <leme-message
+      severity="Error"
+      title="Menor de idade não permitido neste plano"
+      message="O plano selecionado não aceita adesão de titular menor de idade. Volte à seleção de plano para escolher outra opção."
+    />
+    <button type="button" class="dados-pessoais__voltar" (click)="voltarParaSelecaoPlano()">Voltar à seleção de plano</button>
+  }
 </div>

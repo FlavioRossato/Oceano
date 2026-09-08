@@ -5,6 +5,16 @@
     <p class="termo__subtitle">Leia todo o termo a baixo e em seguida, caso aceitar, marque o aceite do termo.</p>
   </header>
 
+  @if (dados.isMenorDeIdade()) {
+    <p class="termo__representacao">
+      Por se tratar de titular menor de idade, este termo é assinado por
+      <strong>{{ dados.representanteLegal().nome || 'representante legal' }}</strong> (CPF {{ dados.representanteLegal().cpf }}),
+      na qualidade de representante legal, em nome do titular. O representante financeiro é
+      <strong>{{ dados.mesmaPessoaRepresentantes() ? dados.representanteLegal().nome : dados.representanteFinanceiro().nome }}</strong>
+      (CPF {{ dados.mesmaPessoaRepresentantes() ? dados.representanteLegal().cpf : dados.representanteFinanceiro().cpf }}).
+    </p>
+  }
+
   <div class="termo__panel">
     <button type="button" class="termo__panel-toggle" (click)="expandido.set(!expandido())">
       TERMOS DE USO QUANDO PREVIDÊNCIA, DE 22 DE NOVEMBRO DE 2021

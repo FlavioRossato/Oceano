@@ -58,10 +58,11 @@ export class AdesaoLayout {
     });
   }
 
-  // Offset fixo: boas-vindas, senha-acesso e sobre-voce precedem o primeiro
-  // passo numerado (Vínculo) no array de steps do AdesaoService.
+  // A composição de steps() é dinâmica (varia por tipo de plano/menoridade),
+  // então a posição de cada etapa numerada não é fixa — busca por activeSubStep.
   goToPanelStep(index: number): void {
-    this.adesao.goToStep(index + 3);
+    const target = this.adesao.steps().findIndex(step => step.panel.activeSubStep === index);
+    if (target !== -1) this.adesao.goToStep(target);
     this.mobileStepsExpanded.set(false);
   }
 

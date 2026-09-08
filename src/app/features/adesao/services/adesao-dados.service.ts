@@ -1,4 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { calcularIdade } from '@shared/utils/idade.util';
+import { Plano } from '../data/planos-mock.data';
 
 export interface VinculoForm {
   empresa: string;
@@ -84,6 +86,39 @@ export interface DadosBancariosForm {
   tipoChavePix: string;
   chavePix: string;
   principal: boolean;
+  /** Exigidos apenas quando o titular é menor de idade — conta deve ser do representante financeiro. */
+  titularNome: string;
+  titularCpf: string;
+}
+
+export interface RepresentanteForm {
+  nome: string;
+  cpf: string;
+  dataNascimento: string;
+  sexo: string;
+  escolaridade: string;
+  estadoCivil: string;
+  telefone: string;
+  email: string;
+  relacaoComMenor: string;
+  relacaoOutraDescricao: string;
+  documentos: string[];
+}
+
+function representanteVazio(): RepresentanteForm {
+  return {
+    nome: '',
+    cpf: '',
+    dataNascimento: '',
+    sexo: '',
+    escolaridade: '',
+    estadoCivil: '',
+    telefone: '',
+    email: '',
+    relacaoComMenor: '',
+    relacaoOutraDescricao: '',
+    documentos: [],
+  };
 }
 
 /**
@@ -180,12 +215,28 @@ export class AdesaoDadosService {
     tipoChavePix: 'cpf',
     chavePix: '598.568.895-65',
     principal: false,
+    titularNome: '',
+    titularCpf: '',
   });
 
   readonly documentos = signal<Record<string, string>>({});
 
+  readonly planoSelecionado = signal<Plano | null>(null);
+  readonly representanteLegal = signal<RepresentanteForm>(representanteVazio());
+  readonly representanteFinanceiro = signal<RepresentanteForm>(representanteVazio());
+  /** null = pergunta ainda não respondida. */
+  readonly mesmaPessoaRepresentantes = signal<boolean | null>(null);
+
   /** CPF do participante (Dados pessoais) sugerido como Chave PIX. */
   readonly cpfSugeridoPix = computed(() => this.dadosPessoais().cpf);
+
+  readonly tipoPlano = computed(() => this.planoSelecionado()?.tipo ?? null);
+  readonly isPlanoInstituido = computed(() => this.tipoPlano() === 'instituido');
+
+  readonly isMenorDeIdade = computed(() => {
+    const dataNascimento = this.dadosPessoais().dataNascimento;
+    return dataNascimento ? calcularIdade(dataNascimento) < 18 : false;
+  });
 
   updateVinculo(patch: Partial<VinculoForm>): void {
     this.vinculo.update(v => ({ ...v, ...patch }));
@@ -225,5 +276,26 @@ export class AdesaoDadosService {
 
   updateDocumento(label: string, fileName: string): void {
     this.documentos.update(v => ({ ...v, [label]: fileName }));
+  }
+
+  selecionarPlano(plano: Plano): void {
+    this.planoSelecionado.set(plano);
+  }
+
+  updateRepresentanteLegal(patch: Partial<RepresentanteForm>): void {
+    this.representanteLegal.update(v => ({ ...v, ...patch }));
+  }
+
+  updateRepresentanteFinanceiro(patch: Partial<RepresentanteForm>): void {
+    this.representanteFinanceiro.update(v => ({ ...v, ...patch }));
+  }
+
+  /** Ao trocar de "mesma pessoa" para "pessoas distintas", limpa o bloco financeiro (RN24). */
+  setMesmaPessoaRepresentantes(value: boolean): void {
+    const anterior = this.mesmaPessoaRepresentantes();
+    this.mesmaPessoaRepresentantes.set(value);
+    if (value === false && anterior === true) {
+      this.representanteFinanceiro.set(representanteVazio());
+    }
   }
 }

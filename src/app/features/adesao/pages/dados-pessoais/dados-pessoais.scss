@@ -62,4 +62,15 @@
       width: 100%;
     }
   }
+
+  &__voltar {
+    align-self: flex-start;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary-60);
+    cursor: pointer;
+  }
 }

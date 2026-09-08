@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { LemeTagComponent, LemeMessageComponent } from 'leme';
 import { AdesaoDadosService, RegimeTributacaoForm } from '../../services/adesao-dados.service';
+import { AdesaoService } from '../../services/adesao.service';
 
 @Component({
   selector: 'app-regime-tributacao',
@@ -12,6 +13,7 @@ import { AdesaoDadosService, RegimeTributacaoForm } from '../../services/adesao-
 })
 export class RegimeTributacao implements OnInit, OnDestroy {
   private readonly dados = inject(AdesaoDadosService);
+  protected readonly adesao = inject(AdesaoService);
 
   readonly regime = signal<RegimeTributacaoForm['regime']>('regressivo');
   readonly mostrarProgressivas = signal(false);

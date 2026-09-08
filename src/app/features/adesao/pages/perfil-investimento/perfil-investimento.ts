@@ -121,7 +121,7 @@ const PERFIS: Record<string, { label: string; descricao: string; alerta: string;
   styleUrl: './perfil-investimento.scss',
 })
 export class PerfilInvestimento implements OnInit, OnDestroy {
-  private readonly adesao = inject(AdesaoService);
+  protected readonly adesao = inject(AdesaoService);
   private readonly dados = inject(AdesaoDadosService);
 
   readonly perguntas = PERGUNTAS;

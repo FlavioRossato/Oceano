@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { ParticipanteMock, PARTICIPANTES_MOCK } from '../data/participantes-mock.data';
+import { ELEGIBILIDADE_PATROCINADO_MOCK } from '../data/planos-mock.data';
 
 /**
  * Simula a consulta de cadastro por CPF no início da adesão. Toda a "base"
@@ -34,5 +35,10 @@ export class ParticipanteMockService {
     this.participantes.update(lista =>
       lista.map(p => (p.cpf === cpf ? { ...p, senha: novaSenha } : p)),
     );
+  }
+
+  /** Simula a checagem de vínculo do CPF com a patrocinadora do plano (RN06/RN07). */
+  verificarElegibilidadePatrocinado(cpf: string, planoId: string): boolean {
+    return ELEGIBILIDADE_PATROCINADO_MOCK.some(e => e.cpf === cpf && e.planoId === planoId);
   }
 }

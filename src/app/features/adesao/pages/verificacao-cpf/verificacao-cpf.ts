@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LemeTextFieldComponent } from 'leme';
+import { LemeTextFieldComponent, LemeMessageComponent } from 'leme';
 import { onlyDigits } from '../../../../shared/utils/cpf-format.util';
+import { AdesaoDadosService } from '../../services/adesao-dados.service';
 import { AdesaoService } from '../../services/adesao.service';
 import { ParticipanteMockService } from '../../services/participante-mock.service';
 
@@ -10,36 +11,49 @@ import { ParticipanteMockService } from '../../services/participante-mock.servic
   selector: 'app-verificacao-cpf',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, LemeTextFieldComponent],
+  imports: [FormsModule, LemeTextFieldComponent, LemeMessageComponent],
   templateUrl: './verificacao-cpf.html',
   styleUrl: './verificacao-cpf.scss',
 })
 export class VerificacaoCpf implements OnInit, OnDestroy {
   private readonly adesao = inject(AdesaoService);
+  private readonly dados = inject(AdesaoDadosService);
   private readonly participanteMock = inject(ParticipanteMockService);
   private readonly router = inject(Router);
 
   readonly cpf = signal('');
+  /** RN07: CPF sem vínculo com a patrocinadora do plano Patrocinado selecionado. */
+  readonly semVinculoPatrocinadora = signal(false);
 
   onCpfChange(value: string): void {
     this.cpf.set(value);
+    this.semVinculoPatrocinadora.set(false);
     this.adesao.setCanContinue(onlyDigits(value).length === 11);
   }
 
   ngOnInit(): void {
     this.adesao.setCanContinue(false);
-    this.adesao.setBackOverride(() => this.router.navigate(['/adesao/boas-vindas']));
     this.adesao.setNextOverride(() => this.verificar());
   }
 
   ngOnDestroy(): void {
     this.adesao.setCanContinue(true);
-    this.adesao.setBackOverride(null);
     this.adesao.setNextOverride(null);
+  }
+
+  voltarParaSelecaoPlano(): void {
+    this.router.navigate(['/adesao/selecao-plano']);
   }
 
   private verificar(): void {
     const cpf = onlyDigits(this.cpf());
+    const plano = this.dados.planoSelecionado();
+
+    if (plano?.tipo === 'patrocinado' && !this.participanteMock.verificarElegibilidadePatrocinado(cpf, plano.id)) {
+      this.semVinculoPatrocinadora.set(true);
+      return;
+    }
+
     const participante = this.participanteMock.buscarPorCpf(cpf);
 
     // Toda adesão já iniciada (em andamento, concluída ou negada) exige senha

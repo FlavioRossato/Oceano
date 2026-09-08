@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LemeCheckboxComponent } from 'leme';
+import { AdesaoDadosService } from '../../services/adesao-dados.service';
 import { AdesaoService } from '../../services/adesao.service';
 
 @Component({
@@ -13,6 +14,7 @@ import { AdesaoService } from '../../services/adesao.service';
 })
 export class Termo implements OnDestroy {
   private readonly adesao = inject(AdesaoService);
+  protected readonly dados = inject(AdesaoDadosService);
 
   readonly expandido = signal(true);
   aceito = false;

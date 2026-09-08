@@ -14,6 +14,6 @@ export class BoasVindas {
   private readonly router = inject(Router);
 
   iniciar(): void {
-    this.router.navigate(['/adesao/verificacao-cpf']);
+    this.router.navigate(['/adesao/selecao-plano']);
   }
 }

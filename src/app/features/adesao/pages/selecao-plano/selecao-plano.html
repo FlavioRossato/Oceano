@@ -1,0 +1,61 @@
+<div class="selecao-plano">
+  <header class="selecao-plano__header">
+    <p class="selecao-plano__eyebrow">{{ adesao.currentStepLabel() }}</p>
+    <h1 class="selecao-plano__title">Selecione seu plano</h1>
+    <p class="selecao-plano__subtitle">Escolha o plano de previdência ao qual deseja aderir.</p>
+  </header>
+
+  @if (planos.length === 0) {
+    <leme-message
+      severity="Informative"
+      [showTitle]="false"
+      message="No momento não há planos abertos à adesão pelo Portal. Entre em contato com a entidade para mais informações."
+    />
+  } @else if (planos.length === 1) {
+    <div class="selecao-plano__card selecao-plano__card--unico">
+      <h2 class="selecao-plano__card-nome">{{ planos[0].nome }}</h2>
+      <p class="selecao-plano__card-descricao">{{ planos[0].descricaoResumida }}</p>
+      @if (planos[0].linkRegulamento) {
+        <a class="selecao-plano__card-link" [href]="planos[0].linkRegulamento" target="_blank" rel="noopener">Ver regulamento</a>
+      }
+    </div>
+
+    <leme-checkbox
+      label="Confirmo a seleção deste plano"
+      [ngModel]="confirmado()"
+      (ngModelChange)="onConfirmadoChange($event)"
+      name="confirmado"
+    />
+  } @else {
+    <div class="selecao-plano__lista">
+      @for (plano of planos; track plano.id) {
+        <div
+          class="selecao-plano__card"
+          [class.selecao-plano__card--selecionado]="selecionado()?.id === plano.id"
+          (click)="selecionarPlano(plano)"
+        >
+          <leme-radio [label]="plano.nome" [checked]="selecionado()?.id === plano.id" />
+          <p class="selecao-plano__card-descricao">{{ plano.descricaoResumida }}</p>
+          @if (plano.linkRegulamento) {
+            <a class="selecao-plano__card-link" [href]="plano.linkRegulamento" target="_blank" rel="noopener" (click)="$event.stopPropagation()">Ver regulamento</a>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (mostrarConfirmacaoTroca()) {
+    <leme-modal ariaLabelledby="troca-plano-title" (closed)="cancelarTroca()">
+      <div class="selecao-plano__modal">
+        <h2 id="troca-plano-title" class="selecao-plano__modal-title">Trocar de plano?</h2>
+        <p class="selecao-plano__modal-text">
+          Ao trocar para um plano de tipo diferente, os dados de vínculo já preenchidos serão descartados. Deseja continuar?
+        </p>
+        <div class="selecao-plano__modal-actions">
+          <leme-button variant="Outlined" hierarchy="Primary" label="Cancelar" (click)="cancelarTroca()" />
+          <leme-button variant="Filled" hierarchy="Primary" label="Trocar plano" (click)="confirmarTroca()" />
+        </div>
+      </div>
+    </leme-modal>
+  }
+</div>

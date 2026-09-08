@@ -44,20 +44,28 @@ export class Resumo {
     const dadosBancarios = this.adesaoDados.dadosBancarios();
     const documentos = this.adesaoDados.documentos();
 
+    const vinculoCard: ResumoCard[] = this.adesaoDados.isPlanoInstituido()
+      ? []
+      : [
+          {
+            title: 'Vínculo',
+            icon: 'apartment',
+            editLabel: 'Editar',
+            lines: [
+              { label: 'Empresa', value: vinculo.empresa },
+              { label: 'Matrícula', value: vinculo.matricula },
+              { label: 'Cargo', value: vinculo.cargo },
+              { label: 'Salário mensal', value: vinculo.salarioMensal },
+              { label: 'Data de admissão', value: vinculo.dataAdmissao },
+              { label: 'Regime de contratação', value: vinculo.regimeContratacao },
+            ],
+          },
+        ];
+
+    const representantesCards: ResumoCard[] = this.adesaoDados.isMenorDeIdade() ? this.montarCardsRepresentantes() : [];
+
     return [
-      {
-        title: 'Vínculo',
-        icon: 'apartment',
-        editLabel: 'Editar',
-        lines: [
-          { label: 'Empresa', value: vinculo.empresa },
-          { label: 'Matrícula', value: vinculo.matricula },
-          { label: 'Cargo', value: vinculo.cargo },
-          { label: 'Salário mensal', value: vinculo.salarioMensal },
-          { label: 'Data de admissão', value: vinculo.dataAdmissao },
-          { label: 'Regime de contratação', value: vinculo.regimeContratacao },
-        ],
-      },
+      ...vinculoCard,
       {
         title: 'Dados pessoais',
         icon: 'person',
@@ -155,6 +163,7 @@ export class Resumo {
           value: documentos[label] || 'Não enviado',
         })),
       },
+      ...representantesCards,
     ];
   });
 
@@ -170,5 +179,67 @@ export class Resumo {
       current.add(index);
     }
     this.expandedIndexes.set(current);
+  }
+
+  private montarCardsRepresentantes(): ResumoCard[] {
+    const dadosPessoais = this.adesaoDados.dadosPessoais();
+    const legal = this.adesaoDados.representanteLegal();
+    const mesmaPessoa = this.adesaoDados.mesmaPessoaRepresentantes();
+
+    const titularCard: ResumoCard = {
+      title: 'Titular (menor de idade)',
+      icon: 'face',
+      editLabel: 'Editar',
+      lines: [
+        { label: 'Nome completo', value: dadosPessoais.nomeCompleto },
+        { label: 'CPF', value: dadosPessoais.cpf },
+        { label: 'Nascimento', value: dadosPessoais.dataNascimento },
+      ],
+    };
+
+    if (mesmaPessoa) {
+      return [
+        titularCard,
+        {
+          title: 'Representante legal e financeiro (mesma pessoa)',
+          icon: 'shield_person',
+          editLabel: 'Editar',
+          lines: [
+            { label: 'Nome completo', value: legal.nome },
+            { label: 'CPF', value: legal.cpf },
+            { label: 'Relação com o menor', value: legal.relacaoComMenor },
+            { label: 'Documentos', value: legal.documentos.join(', ') || 'Não enviado' },
+          ],
+        },
+      ];
+    }
+
+    const financeiro = this.adesaoDados.representanteFinanceiro();
+
+    return [
+      titularCard,
+      {
+        title: 'Representante legal',
+        icon: 'shield_person',
+        editLabel: 'Editar',
+        lines: [
+          { label: 'Nome completo', value: legal.nome },
+          { label: 'CPF', value: legal.cpf },
+          { label: 'Relação com o menor', value: legal.relacaoComMenor },
+          { label: 'Documentos', value: legal.documentos.join(', ') || 'Não enviado' },
+        ],
+      },
+      {
+        title: 'Representante financeiro',
+        icon: 'account_balance_wallet',
+        editLabel: 'Editar',
+        lines: [
+          { label: 'Nome completo', value: financeiro.nome },
+          { label: 'CPF', value: financeiro.cpf },
+          { label: 'Relação com o menor', value: financeiro.relacaoComMenor },
+          { label: 'Documentos', value: financeiro.documentos.join(', ') || 'Não enviado' },
+        ],
+      },
+    ];
   }
 }

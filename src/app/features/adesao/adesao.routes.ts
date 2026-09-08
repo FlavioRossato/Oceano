@@ -27,6 +27,11 @@ export const ADESAO_ROUTES: Routes = [
       import('./adesao-layout/adesao-layout').then(m => m.AdesaoLayout),
     children: [
       {
+        path: 'selecao-plano',
+        loadComponent: () =>
+          import('./pages/selecao-plano/selecao-plano').then(m => m.SelecaoPlano),
+      },
+      {
         path: 'senha-acesso',
         loadComponent: () =>
           import('./pages/senha-acesso/senha-acesso').then(m => m.SenhaAcesso),
@@ -45,6 +50,11 @@ export const ADESAO_ROUTES: Routes = [
         path: 'dados-pessoais',
         loadComponent: () =>
           import('./pages/dados-pessoais/dados-pessoais').then(m => m.DadosPessoais),
+      },
+      {
+        path: 'representantes',
+        loadComponent: () =>
+          import('./pages/representantes/representantes').then(m => m.Representantes),
       },
       {
         path: 'contato-endereco',

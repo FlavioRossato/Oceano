@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
+import { AdesaoService } from '../../services/adesao.service';
 import { parseCurrencyToNumber, parsePercentToNumber } from '@shared/utils/currency-format.util';
 
 const BASICA_MIN = 1;
@@ -18,6 +19,7 @@ const SUPLEMENTAR_MAX = 22;
 })
 export class Contribuicao implements OnDestroy {
   private readonly dados = inject(AdesaoDadosService);
+  protected readonly adesao = inject(AdesaoService);
 
   private readonly atual = this.dados.contribuicao();
 

@@ -1,0 +1,119 @@
+@use 'mixins' as *;
+
+.selecao-plano {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xxs);
+
+  @include respond-to('md') {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  &__eyebrow {
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary-60);
+    margin: 0 0 var(--spacing-nano);
+  }
+
+  &__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-90);
+    margin: 0 0 var(--spacing-nano);
+
+    @include respond-to('md') {
+      font-size: var(--font-size-lg);
+    }
+  }
+
+  &__subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+  }
+
+  &__lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+    padding: var(--spacing-sm);
+    border: var(--border-width-hairline) solid var(--color-gray-30);
+    border-radius: var(--radius-md);
+    background: var(--color-white-100);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+
+    &--selecionado {
+      border-color: var(--color-primary-60);
+    }
+
+    &--unico {
+      cursor: default;
+    }
+  }
+
+  &__card-nome {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-90);
+    margin: 0;
+  }
+
+  &__card-descricao {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+    padding-left: var(--spacing-lg);
+  }
+
+  &__card-link {
+    align-self: flex-start;
+    padding-left: var(--spacing-lg);
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary-60);
+  }
+
+  // ── Modal de confirmação de troca ───────────────────────────────────
+  &__modal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    width: min(480px, calc(100vw - var(--spacing-md) * 2));
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    background: var(--color-white-100);
+  }
+
+  &__modal-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-90);
+    margin: 0;
+  }
+
+  &__modal-text {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+  }
+
+  &__modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-xxs);
+  }
+}

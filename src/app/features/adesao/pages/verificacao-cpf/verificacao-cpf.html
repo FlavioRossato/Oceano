@@ -17,4 +17,13 @@
       name="cpf"
     />
   </form>
+
+  @if (semVinculoPatrocinadora()) {
+    <leme-message
+      severity="Error"
+      title="CPF sem vínculo com a patrocinadora"
+      message="Não foi possível confirmar seu vínculo com a patrocinadora do plano selecionado. Você pode voltar e escolher outro plano ou entrar em contato com a entidade."
+    />
+    <button type="button" class="verificacao-cpf__voltar" (click)="voltarParaSelecaoPlano()">Voltar à seleção de plano</button>
+  }
 </div>

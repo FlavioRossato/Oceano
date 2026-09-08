@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LemeMessageComponent } from 'leme';
 import { DocumentUploadRow } from '@shared/components/document-upload-row/document-upload-row';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
+import { AdesaoService } from '../../services/adesao.service';
 
 interface DocumentoItem {
   label: string;
@@ -18,6 +19,7 @@ interface DocumentoItem {
 })
 export class Documentos {
   protected readonly adesaoDados = inject(AdesaoDadosService);
+  protected readonly adesao = inject(AdesaoService);
 
   readonly documentos: DocumentoItem[] = [
     { label: 'Documento de identidade', required: true },

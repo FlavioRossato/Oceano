@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal }
 import { FormsModule } from '@angular/forms';
 import { LemeTextFieldComponent, LemeSelectComponent, LemeSwitchComponent, LemeModalComponent } from 'leme';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
+import { AdesaoService } from '../../services/adesao.service';
 
 @Component({
   selector: 'app-pep',
@@ -13,6 +14,7 @@ import { AdesaoDadosService } from '../../services/adesao-dados.service';
 })
 export class Pep implements OnInit, OnDestroy {
   private readonly dados = inject(AdesaoDadosService);
+  protected readonly adesao = inject(AdesaoService);
 
   readonly relacaoOptions = [
     { value: 'pai',     label: 'Pai' },

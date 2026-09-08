@@ -1,0 +1,179 @@
+<div class="representantes">
+  <header class="representantes__header">
+    <p class="representantes__eyebrow">{{ adesao.currentStepLabel() }}</p>
+    <h1 class="representantes__title">Representantes</h1>
+    <p class="representantes__subtitle">
+      Por se tratar de um titular menor de idade, é necessário indicar um representante legal e um representante financeiro. A adesão será concluída e assinada pelo representante legal.
+    </p>
+  </header>
+
+  @if (erros().length) {
+    <leme-message severity="Error" title="Revise os campos destacados" [message]="erros().join(' ')" />
+  }
+
+  <section class="representantes__bloco">
+    <h2 class="representantes__bloco-title">Representante legal</h2>
+
+    <form class="representantes__form" (submit)="$event.preventDefault()">
+      <div class="representantes__field representantes__field--full">
+        <leme-text-field label="NOME COMPLETO" [required]="true" placeholder="Nome completo" [(ngModel)]="legal.nome" name="legalNome" />
+      </div>
+
+      <div class="representantes__row">
+        <div class="representantes__field">
+          <leme-text-field label="CPF" [required]="true" mask="cpf" placeholder="000.000.000-00" [(ngModel)]="legal.cpf" name="legalCpf" />
+        </div>
+        <div class="representantes__field">
+          <leme-text-field label="DATA DE NASCIMENTO" [required]="true" placeholder="DD/MM/AAAA" [(ngModel)]="legal.dataNascimento" name="legalDataNascimento" />
+        </div>
+      </div>
+
+      <div class="representantes__row">
+        <div class="representantes__field">
+          <leme-select label="SEXO" [required]="true" placeholder="Selecione" [items]="sexoOptions" [(ngModel)]="legal.sexo" name="legalSexo" />
+        </div>
+        <div class="representantes__field">
+          <leme-select label="ESTADO CIVIL" [required]="true" placeholder="Selecione" [items]="estadoCivilOptions" [(ngModel)]="legal.estadoCivil" name="legalEstadoCivil" />
+        </div>
+      </div>
+
+      <div class="representantes__row">
+        <div class="representantes__field">
+          <leme-select label="ESCOLARIDADE" [required]="true" placeholder="Selecione" [items]="escolaridadeOptions" [(ngModel)]="legal.escolaridade" name="legalEscolaridade" />
+        </div>
+        <div class="representantes__field">
+          <leme-text-field label="TELEFONE CELULAR" [required]="true" placeholder="(00) 00000-0000" [(ngModel)]="legal.telefone" name="legalTelefone" />
+        </div>
+      </div>
+
+      <div class="representantes__field representantes__field--full">
+        <leme-text-field label="E-MAIL" [required]="true" placeholder="email@exemplo.com" [(ngModel)]="legal.email" name="legalEmail" />
+      </div>
+
+      <div class="representantes__row">
+        <div class="representantes__field">
+          <leme-select label="RELAÇÃO COM O MENOR" [required]="true" placeholder="Selecione" [items]="relacaoOptions" [(ngModel)]="legal.relacaoComMenor" name="legalRelacao" />
+        </div>
+        @if (exigeRelacaoLivre(legal.relacaoComMenor)) {
+          <div class="representantes__field">
+            <leme-text-field label="DESCREVA A RELAÇÃO" [required]="true" placeholder="Ex.: tio(a), padrinho..." [(ngModel)]="legal.relacaoOutraDescricao" name="legalRelacaoOutra" />
+          </div>
+        }
+      </div>
+
+      <app-multi-file-upload
+        label="Documento comprobatório da relação"
+        [hint]="documentoAceito(legal.relacaoComMenor)"
+        [required]="true"
+        [files]="legalDocumentos()"
+        (filesChange)="legalDocumentos.set($event)"
+      />
+    </form>
+  </section>
+
+  <section class="representantes__bloco">
+    <leme-switch
+      label="O representante financeiro é a mesma pessoa do representante legal?"
+      [ngModel]="mesmaPessoa()"
+      (ngModelChange)="onMesmaPessoaChange($event)"
+      name="mesmaPessoa"
+    />
+
+    @if (mesmaPessoa() === true) {
+      <div class="representantes__replica">
+        <p class="representantes__replica-title">Representante financeiro (mesma pessoa)</p>
+        <dl class="representantes__replica-list">
+          <div><dt>Nome</dt><dd>{{ legal.nome || 'Não informado' }}</dd></div>
+          <div><dt>CPF</dt><dd>{{ legal.cpf || 'Não informado' }}</dd></div>
+          <div><dt>Relação com o menor</dt><dd>{{ legal.relacaoComMenor || 'Não informado' }}</dd></div>
+        </dl>
+        <p class="representantes__replica-nota">Dados e documento reaproveitados do representante legal — nenhum novo envio é necessário.</p>
+      </div>
+    }
+
+    @if (mesmaPessoa() === false) {
+      <h2 class="representantes__bloco-title">Representante financeiro</h2>
+
+      <form class="representantes__form" (submit)="$event.preventDefault()">
+        <div class="representantes__field representantes__field--full">
+          <leme-text-field label="NOME COMPLETO" [required]="true" placeholder="Nome completo" [(ngModel)]="financeiro.nome" name="financeiroNome" />
+        </div>
+
+        <div class="representantes__row">
+          <div class="representantes__field">
+            <leme-text-field label="CPF" [required]="true" mask="cpf" placeholder="000.000.000-00" [(ngModel)]="financeiro.cpf" name="financeiroCpf" />
+          </div>
+          <div class="representantes__field">
+            <leme-text-field label="DATA DE NASCIMENTO" [required]="true" placeholder="DD/MM/AAAA" [(ngModel)]="financeiro.dataNascimento" name="financeiroDataNascimento" />
+          </div>
+        </div>
+
+        <div class="representantes__row">
+          <div class="representantes__field">
+            <leme-select label="SEXO" [required]="true" placeholder="Selecione" [items]="sexoOptions" [(ngModel)]="financeiro.sexo" name="financeiroSexo" />
+          </div>
+          <div class="representantes__field">
+            <leme-select label="ESTADO CIVIL" [required]="true" placeholder="Selecione" [items]="estadoCivilOptions" [(ngModel)]="financeiro.estadoCivil" name="financeiroEstadoCivil" />
+          </div>
+        </div>
+
+        <div class="representantes__row">
+          <div class="representantes__field">
+            <leme-select label="ESCOLARIDADE" [required]="true" placeholder="Selecione" [items]="escolaridadeOptions" [(ngModel)]="financeiro.escolaridade" name="financeiroEscolaridade" />
+          </div>
+          <div class="representantes__field">
+            <leme-text-field label="TELEFONE CELULAR" [required]="true" placeholder="(00) 00000-0000" [(ngModel)]="financeiro.telefone" name="financeiroTelefone" />
+          </div>
+        </div>
+
+        <div class="representantes__field representantes__field--full">
+          <leme-text-field label="E-MAIL" [required]="true" placeholder="email@exemplo.com" [(ngModel)]="financeiro.email" name="financeiroEmail" />
+        </div>
+
+        <div class="representantes__row">
+          <div class="representantes__field">
+            <leme-select label="RELAÇÃO COM O MENOR" [required]="true" placeholder="Selecione" [items]="relacaoOptions" [(ngModel)]="financeiro.relacaoComMenor" name="financeiroRelacao" />
+          </div>
+          @if (exigeRelacaoLivre(financeiro.relacaoComMenor)) {
+            <div class="representantes__field">
+              <leme-text-field label="DESCREVA A RELAÇÃO" [required]="true" placeholder="Ex.: tio(a), padrinho..." [(ngModel)]="financeiro.relacaoOutraDescricao" name="financeiroRelacaoOutra" />
+            </div>
+          }
+        </div>
+
+        <app-multi-file-upload
+          label="Documento comprobatório da relação"
+          [hint]="documentoAceito(financeiro.relacaoComMenor)"
+          [required]="true"
+          [files]="financeiroDocumentos()"
+          (filesChange)="financeiroDocumentos.set($event)"
+        />
+
+        @if (exigeRelacaoLivre(financeiro.relacaoComMenor)) {
+          <app-multi-file-upload
+            label="Autorização do representante legal"
+            hint="Documento assinado pelo representante legal autorizando a representação financeira."
+            [required]="true"
+            [files]="autorizacaoDocumentos()"
+            (filesChange)="autorizacaoDocumentos.set($event)"
+          />
+        }
+      </form>
+    }
+  </section>
+
+  @if (mostrarConfirmacaoDescarte()) {
+    <leme-modal ariaLabelledby="descarte-financeiro-title" (closed)="cancelarDescarteFinanceiro()">
+      <div class="representantes__modal">
+        <h2 id="descarte-financeiro-title" class="representantes__modal-title">Descartar dados do representante financeiro?</h2>
+        <p class="representantes__modal-text">
+          Os dados já preenchidos para o representante financeiro serão descartados e substituídos pelos dados do representante legal. Deseja continuar?
+        </p>
+        <div class="representantes__modal-actions">
+          <leme-button variant="Outlined" hierarchy="Primary" label="Cancelar" (click)="cancelarDescarteFinanceiro()" />
+          <leme-button variant="Filled" hierarchy="Primary" label="Descartar e continuar" (click)="confirmarDescarteFinanceiro()" />
+        </div>
+      </div>
+    </leme-modal>
+  }
+</div>

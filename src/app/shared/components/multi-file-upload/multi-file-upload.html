@@ -1,0 +1,38 @@
+<div class="multi-file-upload">
+  <div class="multi-file-upload__header">
+    @if (required) {
+      <leme-tag label="Obrigatório" severity="Informative" size="sm" />
+    }
+    <span class="multi-file-upload__label">{{ label }}</span>
+  </div>
+
+  @if (hint) {
+    <p class="multi-file-upload__hint">{{ hint }}</p>
+  }
+
+  @if (files.length) {
+    <ul class="multi-file-upload__list">
+      @for (file of files; track file.name; let i = $index) {
+        <li class="multi-file-upload__item">
+          <span class="material-symbols-outlined multi-file-upload__item-icon">description</span>
+          <span class="multi-file-upload__item-name">{{ file.name }}</span>
+          <button type="button" class="multi-file-upload__item-remove" [attr.aria-label]="'Remover ' + file.name" (click)="remover(i)">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (files.length < maxFiles) {
+    <input #fileInput type="file" class="multi-file-upload__input" [accept]="acceptedTypes.join(',')" (change)="onFileChange($event)" />
+    <button type="button" class="multi-file-upload__btn" (click)="fileInput.click()">
+      <span class="material-symbols-outlined leme-icon-sm">upload</span>
+      <span>Anexar arquivo</span>
+    </button>
+  }
+
+  @if (erro()) {
+    <p class="multi-file-upload__erro">{{ erro() }}</p>
+  }
+</div>

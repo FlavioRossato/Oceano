@@ -8,6 +8,7 @@ import {
   LemeMessageComponent,
 } from 'leme';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
+import { AdesaoService } from '../../services/adesao.service';
 
 const UF_OPTIONS = [
   { value: 'ac', label: 'Acre' },
@@ -56,6 +57,7 @@ const UF_OPTIONS = [
 })
 export class ContatoEndereco implements OnInit, OnDestroy {
   private readonly dados = inject(AdesaoDadosService);
+  protected readonly adesao = inject(AdesaoService);
 
   readonly ufOptions = UF_OPTIONS;
 

@@ -14,7 +14,7 @@ import { AdesaoService } from '../../services/adesao.service';
 })
 export class Vinculo implements OnInit, OnDestroy {
   private readonly dados = inject(AdesaoDadosService);
-  private readonly adesao = inject(AdesaoService);
+  protected readonly adesao = inject(AdesaoService);
 
   readonly empresaOptions = [
     { value: 'ford', label: 'Ford' },

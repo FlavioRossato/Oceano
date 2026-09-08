@@ -1,18 +1,23 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LemeTextFieldComponent, LemeSelectComponent } from 'leme';
+import { Router } from '@angular/router';
+import { LemeTextFieldComponent, LemeSelectComponent, LemeMessageComponent } from 'leme';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
+import { AdesaoService } from '../../services/adesao.service';
+import { calcularIdade } from '@shared/utils/idade.util';
 
 @Component({
   selector: 'app-dados-pessoais',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, LemeTextFieldComponent, LemeSelectComponent],
+  imports: [FormsModule, LemeTextFieldComponent, LemeSelectComponent, LemeMessageComponent],
   templateUrl: './dados-pessoais.html',
   styleUrl: './dados-pessoais.scss',
 })
 export class DadosPessoais implements OnInit, OnDestroy {
   private readonly dados = inject(AdesaoDadosService);
+  protected readonly adesao = inject(AdesaoService);
+  private readonly router = inject(Router);
 
   readonly sexoOptions = [
     { value: 'feminino',  label: 'Feminino' },
@@ -55,6 +60,9 @@ export class DadosPessoais implements OnInit, OnDestroy {
   nomeMae = '';
   nomePai = '';
 
+  /** RN17/Fluxo C item 4.1: menor de idade cujo plano selecionado não aceita menor. */
+  readonly menorNaoPermitido = signal(false);
+
   ngOnInit(): void {
     const atual = this.dados.dadosPessoais();
     this.nomeCompleto = atual.nomeCompleto;
@@ -68,9 +76,20 @@ export class DadosPessoais implements OnInit, OnDestroy {
     this.dataEmissao = atual.dataEmissao;
     this.nomeMae = atual.nomeMae;
     this.nomePai = atual.nomePai;
+
+    this.adesao.setNextOverride(() => this.avancar());
   }
 
   ngOnDestroy(): void {
+    this.persistir();
+    this.adesao.setNextOverride(null);
+  }
+
+  voltarParaSelecaoPlano(): void {
+    this.router.navigate(['/adesao/selecao-plano']);
+  }
+
+  private persistir(): void {
     this.dados.updateDadosPessoais({
       nomeCompleto: this.nomeCompleto,
       cpf: this.cpf,
@@ -84,5 +103,27 @@ export class DadosPessoais implements OnInit, OnDestroy {
       nomeMae: this.nomeMae,
       nomePai: this.nomePai,
     });
+  }
+
+  /**
+   * RN17-20: calcula a idade ao avançar, antes de navegar. Menor de idade em
+   * plano que não aceita (Fluxo C item 4.1) bloqueia o avanço; nos demais
+   * casos, o próprio steps() do AdesaoService já recalcula a rota seguinte
+   * (com ou sem a etapa "Representantes") a partir do dado recém-persistido.
+   */
+  private avancar(): void {
+    this.persistir();
+    this.menorNaoPermitido.set(false);
+
+    const idade = calcularIdade(this.dataNascimento);
+    const plano = this.dados.planoSelecionado();
+
+    if (idade < 18 && plano && !plano.aceitaMenor) {
+      this.menorNaoPermitido.set(true);
+      return;
+    }
+
+    this.adesao.setNextOverride(null);
+    this.adesao.next();
   }
 }

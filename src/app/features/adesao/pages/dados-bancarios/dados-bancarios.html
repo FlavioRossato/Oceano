@@ -1,6 +1,6 @@
 <div class="dados-bancarios">
   <header class="dados-bancarios__header">
-    <p class="dados-bancarios__eyebrow">Etapa 8 de 9</p>
+    <p class="dados-bancarios__eyebrow">{{ adesao.currentStepLabel() }}</p>
     <h1 class="dados-bancarios__title">Dados bancários</h1>
     <p class="dados-bancarios__subtitle">Informe a conta onde você quer receber seus valores. Você pode adicionar uma chave PIX para agilizar transferências futuras.</p>
   </header>
@@ -56,6 +56,31 @@
     }
 
     <leme-checkbox label="Tornar dado bancário principal" [(ngModel)]="principal" name="principal" />
+
+    @if (dados.isMenorDeIdade()) {
+      <leme-message
+        severity="Informative"
+        [showTitle]="false"
+        message="Como o titular é menor de idade, a conta deve estar em nome do representante financeiro."
+      />
+
+      <div class="dados-bancarios__row">
+        <div class="dados-bancarios__field">
+          <leme-text-field label="NOME DO TITULAR DA CONTA" [required]="true" placeholder="Nome do representante financeiro" [(ngModel)]="titularNome" name="titularNome" />
+        </div>
+        <div class="dados-bancarios__field">
+          <leme-text-field label="CPF DO TITULAR DA CONTA" [required]="true" mask="cpf" placeholder="000.000.000-00" [(ngModel)]="titularCpf" name="titularCpf" />
+        </div>
+      </div>
+
+      @if (divergenciaTitularidade()) {
+        <leme-message
+          severity="Error"
+          title="Divergência de titularidade"
+          message="O CPF informado como titular da conta não corresponde ao CPF do representante financeiro cadastrado."
+        />
+      }
+    }
 
   </form>
 </div>

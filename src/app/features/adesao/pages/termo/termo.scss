@@ -37,6 +37,16 @@
     margin: 0;
   }
 
+  &__representacao {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-70);
+    line-height: var(--line-height-lg-14);
+    margin: 0;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-xs);
+    background: var(--color-gray-10);
+  }
+
   &__panel {
     border: var(--border-width-hairline) solid var(--color-gray-30);
     border-radius: var(--radius-md);
