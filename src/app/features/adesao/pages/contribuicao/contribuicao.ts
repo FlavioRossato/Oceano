@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
 import { AdesaoService } from '../../services/adesao.service';
-import { parseCurrencyToNumber, parsePercentToNumber } from '@shared/utils/currency-format.util';
+import { formatCurrencyInput, parseCurrencyToNumber, parsePercentToNumber } from '@shared/utils/currency-format.util';
 
 const BASICA_MIN = 1;
 const BASICA_MAX = 2;
@@ -23,7 +23,16 @@ export class Contribuicao implements OnDestroy {
 
   private readonly atual = this.dados.contribuicao();
 
-  readonly salarioMensal = computed(() => parseCurrencyToNumber(this.dados.vinculo().salarioMensal));
+  /**
+   * Plano Instituído não tem etapa "Vínculo" (RN11), então o salário nunca
+   * foi coletado — precisa ser pedido aqui, antes das contribuições.
+   */
+  readonly precisaSalario = computed(() => this.dados.isPlanoInstituido());
+  readonly salarioInput = signal(this.precisaSalario() ? '' : this.dados.vinculo().salarioMensal);
+
+  readonly salarioMensal = computed(() =>
+    parseCurrencyToNumber(this.precisaSalario() ? this.salarioInput() : this.dados.vinculo().salarioMensal)
+  );
 
   readonly percentualBasico = signal(this.atual.percentualBasico);
   readonly percentualAdicional = signal(this.atual.percentualAdicional);
@@ -52,6 +61,21 @@ export class Contribuicao implements OnDestroy {
       },
       { allowSignalWrites: true }
     );
+
+    effect(
+      () => {
+        this.adesao.setCanContinue(!this.precisaSalario() || parseCurrencyToNumber(this.salarioInput()) > 0);
+      },
+      { allowSignalWrites: true }
+    );
+  }
+
+  onSalarioInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const formatted = formatCurrencyInput(input.value);
+    input.value = formatted;
+    input.setSelectionRange(formatted.length, formatted.length);
+    this.salarioInput.set(formatted);
   }
 
   onPercentualBasicoInput(event: Event): void {
@@ -97,6 +121,12 @@ export class Contribuicao implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.adesao.setCanContinue(true);
+
+    if (this.precisaSalario()) {
+      this.dados.updateVinculo({ salarioMensal: this.salarioInput() });
+    }
+
     this.dados.updateContribuicao({
       percentualBasico: this.percentualBasico(),
       percentualAdicional: this.percentualAdicional(),

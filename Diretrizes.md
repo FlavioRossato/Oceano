@@ -767,6 +767,7 @@ mkdir src/app/features/minha-feature
 | 2026-09-10 | `resumo.ts`: removida a seção "Titular (menor de idade)" do resumo final (`montarCardsRepresentantes()`) | Duplicava nome/CPF/nascimento já exibidos na seção "Dados pessoais" da mesma tela — pedido do usuário |
 | 2026-09-10 | `contato-endereco`: campo "PAÍS" (exibido quando "Reside no exterior" está ativo) trocado de `leme-text-field` livre para `leme-select` com `[showSearch]="true"`; nova lista de referência `src/app/features/adesao/data/paises.data.ts` | Pedido do usuário — evitar texto livre para país, aproveitando o suporte a busca já existente em `LemeSelectComponent`/`LemeSelectDropdownComponent` (`showSearch`), sem precisar de componente novo |
 | 2026-09-10 | `retomar-adesao`: novo campo CPF (`mask="cpf"`) somado ao campo de senha; botão "Entrar e continuar" ganhou `[disabled]` até CPF (11 dígitos) e senha estarem preenchidos. `verificacao-cpf.html` ganhou o link "Já possui uma conta? Clique aqui", navegando para `retomar-adesao` | Antes `retomar-adesao` dependia inteiramente do signal `ParticipanteMockService.cpfEmVerificacao` (só populado pelo fluxo automático de `verificacao-cpf` quando `participante.status !== 'novo'`); acessar a tela por outro caminho deixava o CPF vazio e o botão de continuar sem nenhuma validação real (não existia `[disabled]`, e `entrar()` sozinho não impedia clique). O link "Já possui uma conta?" não existia no código — só em referência de design — e foi adicionado a pedido do usuário |
+| 2026-09-10 | `Contribuição`: novo campo "Salário mensal" (obrigatório), exibido apenas quando `isPlanoInstituido()`, no topo do formulário, antes das contribuições; botão "Continuar" fica `[disabled]` até ser preenchido. Valor digitado é persistido em `AdesaoDadosService.vinculo.salarioMensal` (o mesmo campo lido por `Contribuicao.salarioMensal`) | Plano Instituído não tem etapa "Vínculo" (RN11, decisão de 2026-09-08), então o salário nunca era coletado — a tela de Contribuição calculava os valores em cima do salário mock default (`R$ 99.999,99`), nunca informado de fato pelo usuário. Pedido do usuário: pedir o salário nessa tela, antes de definir os percentuais |
 
 ---
 
@@ -783,4 +784,4 @@ Registrar aqui quando implementar:
 
 ---
 
-*Última atualização: 2026-09-10 — Flávio Rossato + Claude (remoção da etapa sobre-você, padronização visual e validação completa de Representantes, país com busca em Contato & endereço, correção do fluxo retomar-adesão)*
+*Última atualização: 2026-09-10 — Flávio Rossato + Claude (remoção da etapa sobre-você, padronização visual e validação completa de Representantes, país com busca em Contato & endereço, correção do fluxo retomar-adesão, salário mensal em Contribuição para plano Instituído)*

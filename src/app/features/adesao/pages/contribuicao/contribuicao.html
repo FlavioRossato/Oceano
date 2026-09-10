@@ -9,6 +9,28 @@
 
   <div class="contribuicao__layout">
     <form class="contribuicao__form" (submit)="$event.preventDefault()">
+      @if (precisaSalario()) {
+        <div class="contribuicao__field">
+          <label class="contribuicao__field-label" for="salario-mensal">
+            SALÁRIO MENSAL
+            <span class="contribuicao__field-tag contribuicao__field-tag--obrigatoria">Obrigatória</span>
+          </label>
+          <div class="contribuicao__field-box">
+            <input
+              id="salario-mensal"
+              class="contribuicao__field-input"
+              type="text"
+              inputmode="numeric"
+              placeholder="R$ 0,00"
+              [value]="salarioInput()"
+              (input)="onSalarioInput($event)"
+            />
+            <span class="material-symbols-outlined contribuicao__field-icon">edit</span>
+          </div>
+          <p class="contribuicao__field-helper">Usado para calcular o valor das suas contribuições mensais.</p>
+        </div>
+      }
+
       <div class="contribuicao__field">
         <label class="contribuicao__field-label" for="percentual-basico">
           CONTRIBUIÇÃO BÁSICA
