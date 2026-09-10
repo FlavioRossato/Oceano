@@ -37,11 +37,6 @@ export const ADESAO_ROUTES: Routes = [
           import('./pages/senha-acesso/senha-acesso').then(m => m.SenhaAcesso),
       },
       {
-        path: 'sobre-voce',
-        loadComponent: () =>
-          import('./pages/sobre-voce/sobre-voce').then(m => m.SobreVoce),
-      },
-      {
         path: 'vinculo',
         loadComponent: () =>
           import('./pages/vinculo/vinculo').then(m => m.Vinculo),

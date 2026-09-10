@@ -59,6 +59,42 @@ describe('LemeTextFieldComponent (CVA)', () => {
     expect(c.value).toBe('111.222.333-44');
   });
 
+  it('mask="telefone" formats digits and reports the formatted maxLength', () => {
+    const c = create();
+    c.mask = 'telefone';
+    let received: string | undefined;
+    c.registerOnChange((v: string) => (received = v));
+    c.onInput({ target: { value: '11965878956' } } as unknown as Event);
+    expect(received).toBe('(11) 96587-8956');
+    expect(c.value).toBe('(11) 96587-8956');
+    expect(c.maxLength).toBe(15);
+  });
+
+  it('mask="telefone" formats an 8-digit (landline) number without the extra digit', () => {
+    const c = create();
+    c.mask = 'telefone';
+    c.onInput({ target: { value: '1132654321' } } as unknown as Event);
+    expect(c.value).toBe('(11) 3265-4321');
+  });
+
+  it('mask="data" formats digits as dd/mm/aaaa and reports the formatted maxLength', () => {
+    const c = create();
+    c.mask = 'data';
+    let received: string | undefined;
+    c.registerOnChange((v: string) => (received = v));
+    c.onInput({ target: { value: '20121989' } } as unknown as Event);
+    expect(received).toBe('20/12/1989');
+    expect(c.value).toBe('20/12/1989');
+    expect(c.maxLength).toBe(10);
+  });
+
+  it('mask="data" ignores digits beyond the 8th', () => {
+    const c = create();
+    c.mask = 'data';
+    c.onInput({ target: { value: '2012198999' } } as unknown as Event);
+    expect(c.value).toBe('20/12/1989');
+  });
+
   it('without mask, maxLength is null and input passes through untouched', () => {
     const c = create();
     expect(c.maxLength).toBeNull();

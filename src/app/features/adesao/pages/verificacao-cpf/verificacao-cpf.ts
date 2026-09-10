@@ -45,6 +45,12 @@ export class VerificacaoCpf implements OnInit, OnDestroy {
     this.router.navigate(['/adesao/selecao-plano']);
   }
 
+  jaTemConta(): void {
+    const cpf = onlyDigits(this.cpf());
+    if (cpf.length === 11) this.participanteMock.cpfEmVerificacao.set(cpf);
+    this.router.navigate(['/adesao/retomar-adesao']);
+  }
+
   private verificar(): void {
     const cpf = onlyDigits(this.cpf());
     const plano = this.dados.planoSelecionado();

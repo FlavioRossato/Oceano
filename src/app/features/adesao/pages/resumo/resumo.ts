@@ -182,24 +182,11 @@ export class Resumo {
   }
 
   private montarCardsRepresentantes(): ResumoCard[] {
-    const dadosPessoais = this.adesaoDados.dadosPessoais();
     const legal = this.adesaoDados.representanteLegal();
     const mesmaPessoa = this.adesaoDados.mesmaPessoaRepresentantes();
 
-    const titularCard: ResumoCard = {
-      title: 'Titular (menor de idade)',
-      icon: 'face',
-      editLabel: 'Editar',
-      lines: [
-        { label: 'Nome completo', value: dadosPessoais.nomeCompleto },
-        { label: 'CPF', value: dadosPessoais.cpf },
-        { label: 'Nascimento', value: dadosPessoais.dataNascimento },
-      ],
-    };
-
     if (mesmaPessoa) {
       return [
-        titularCard,
         {
           title: 'Representante legal e financeiro (mesma pessoa)',
           icon: 'shield_person',
@@ -217,7 +204,6 @@ export class Resumo {
     const financeiro = this.adesaoDados.representanteFinanceiro();
 
     return [
-      titularCard,
       {
         title: 'Representante legal',
         icon: 'shield_person',

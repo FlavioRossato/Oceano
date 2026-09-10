@@ -194,13 +194,23 @@ export class Representantes implements OnInit, OnDestroy {
   private validarRepresentante(rep: RepresentanteFields, documentos: UploadedFile[], cpfMenor: string, rotulo: string): string[] {
     const erros: string[] = [];
 
+    if (!rep.nome.trim()) erros.push(`Informe o nome completo do ${rotulo}.`);
+    if (!isValidCpf(rep.cpf)) erros.push(`CPF do ${rotulo} inválido.`);
+    if (onlyDigits(rep.cpf) === cpfMenor) erros.push(`O CPF do ${rotulo} não pode ser igual ao do titular.`);
+    if (!rep.dataNascimento) {
+      erros.push(`Informe a data de nascimento do ${rotulo}.`);
+    } else if (calcularIdade(rep.dataNascimento) < 18) {
+      erros.push(`O ${rotulo} deve ser maior de idade.`);
+    }
+    if (!rep.sexo) erros.push(`Selecione o sexo do ${rotulo}.`);
+    if (!rep.estadoCivil) erros.push(`Selecione o estado civil do ${rotulo}.`);
+    if (!rep.escolaridade) erros.push(`Selecione a escolaridade do ${rotulo}.`);
+    if (onlyDigits(rep.telefone).length < 10) erros.push(`Informe um telefone celular válido para o ${rotulo}.`);
+    if (!rep.email.trim()) erros.push(`Informe o e-mail do ${rotulo}.`);
     if (!rep.relacaoComMenor) erros.push(`Selecione a relação do ${rotulo} com o menor.`);
     if (this.exigeRelacaoLivre(rep.relacaoComMenor) && !rep.relacaoOutraDescricao.trim()) {
       erros.push(`Descreva a relação do ${rotulo} com o menor.`);
     }
-    if (!isValidCpf(rep.cpf)) erros.push(`CPF do ${rotulo} inválido.`);
-    if (onlyDigits(rep.cpf) === cpfMenor) erros.push(`O CPF do ${rotulo} não pode ser igual ao do titular.`);
-    if (rep.dataNascimento && calcularIdade(rep.dataNascimento) < 18) erros.push(`O ${rotulo} deve ser maior de idade.`);
     if (!documentos.length) erros.push(`Envie o documento comprobatório do ${rotulo}.`);
 
     return erros;

@@ -9,6 +9,7 @@ import {
 } from 'leme';
 import { AdesaoDadosService } from '../../services/adesao-dados.service';
 import { AdesaoService } from '../../services/adesao.service';
+import { PAISES } from '../../data/paises.data';
 
 const UF_OPTIONS = [
   { value: 'ac', label: 'Acre' },
@@ -60,6 +61,7 @@ export class ContatoEndereco implements OnInit, OnDestroy {
   protected readonly adesao = inject(AdesaoService);
 
   readonly ufOptions = UF_OPTIONS;
+  readonly paisOptions = PAISES;
 
   readonly tipoEnderecoOptions = [
     { value: 'residencial',      label: 'Residencial' },

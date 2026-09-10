@@ -106,18 +106,6 @@ const VERIFICACAO_EMAIL_STEP: AdesaoStep = {
   },
 };
 
-const SOBRE_VOCE_STEP: AdesaoStep = {
-  id: 'sobre-voce',
-  label: 'Sobre você',
-  route: '/adesao/sobre-voce',
-  showBottomNav: true,
-  panel: {
-    icon: 'contact_page',
-    headline: 'Vamos te conhecer melhor',
-    description: 'Só precisamos de um nome e telefone de contato para continuar.',
-  },
-};
-
 const CONCLUSAO_STEP: AdesaoStep = {
   id: 'conclusao',
   label: 'Conclusão',
@@ -212,9 +200,9 @@ export class AdesaoService {
     }));
 
     // wizardSteps[0] é sempre 'selecao-plano' (RN01) — identificação por CPF,
-    // verificação de e-mail (só para quem é novo), senha de acesso e "sobre
-    // você" ficam entre ela e o restante das etapas de dados, mas não entram
-    // no stepper numerado (mesmo tratamento de hoje).
+    // verificação de e-mail (só para quem é novo) e senha de acesso ficam
+    // entre ela e o restante das etapas de dados, mas não entram no stepper
+    // numerado (mesmo tratamento de hoje).
     const [selecaoPlano, ...restanteDataSteps] = dataStepEntries;
 
     return [
@@ -223,7 +211,6 @@ export class AdesaoService {
       VERIFICACAO_CPF_STEP,
       VERIFICACAO_EMAIL_STEP,
       SENHA_ACESSO_STEP,
-      SOBRE_VOCE_STEP,
       ...restanteDataSteps,
       CONCLUSAO_STEP,
       RETOMAR_ADESAO_STEP,

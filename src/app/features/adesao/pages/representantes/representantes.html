@@ -11,8 +11,8 @@
     <leme-message severity="Error" title="Revise os campos destacados" [message]="erros().join(' ')" />
   }
 
-  <section class="representantes__bloco">
-    <h2 class="representantes__bloco-title">Representante legal</h2>
+  <section class="representantes__section">
+    <h2 class="representantes__section-title">Representante legal</h2>
 
     <form class="representantes__form" (submit)="$event.preventDefault()">
       <div class="representantes__field representantes__field--full">
@@ -24,7 +24,7 @@
           <leme-text-field label="CPF" [required]="true" mask="cpf" placeholder="000.000.000-00" [(ngModel)]="legal.cpf" name="legalCpf" />
         </div>
         <div class="representantes__field">
-          <leme-text-field label="DATA DE NASCIMENTO" [required]="true" placeholder="DD/MM/AAAA" [(ngModel)]="legal.dataNascimento" name="legalDataNascimento" />
+          <leme-text-field label="DATA DE NASCIMENTO" [required]="true" mask="data" placeholder="DD/MM/AAAA" [(ngModel)]="legal.dataNascimento" name="legalDataNascimento" />
         </div>
       </div>
 
@@ -42,7 +42,7 @@
           <leme-select label="ESCOLARIDADE" [required]="true" placeholder="Selecione" [items]="escolaridadeOptions" [(ngModel)]="legal.escolaridade" name="legalEscolaridade" />
         </div>
         <div class="representantes__field">
-          <leme-text-field label="TELEFONE CELULAR" [required]="true" placeholder="(00) 00000-0000" [(ngModel)]="legal.telefone" name="legalTelefone" />
+          <leme-text-field label="TELEFONE CELULAR" [required]="true" mask="telefone" placeholder="(00) 00000-0000" [(ngModel)]="legal.telefone" name="legalTelefone" />
         </div>
       </div>
 
@@ -71,7 +71,9 @@
     </form>
   </section>
 
-  <section class="representantes__bloco">
+  <hr class="representantes__divider" />
+
+  <section class="representantes__section">
     <leme-switch
       label="O representante financeiro é a mesma pessoa do representante legal?"
       [ngModel]="mesmaPessoa()"
@@ -92,7 +94,10 @@
     }
 
     @if (mesmaPessoa() === false) {
-      <h2 class="representantes__bloco-title">Representante financeiro</h2>
+      <div class="representantes__subsection">
+        <h2 class="representantes__section-title">Representante financeiro</h2>
+        <p class="representantes__section-hint">Preencha os dados abaixo — diferentes dos do representante legal.</p>
+      </div>
 
       <form class="representantes__form" (submit)="$event.preventDefault()">
         <div class="representantes__field representantes__field--full">
@@ -104,7 +109,7 @@
             <leme-text-field label="CPF" [required]="true" mask="cpf" placeholder="000.000.000-00" [(ngModel)]="financeiro.cpf" name="financeiroCpf" />
           </div>
           <div class="representantes__field">
-            <leme-text-field label="DATA DE NASCIMENTO" [required]="true" placeholder="DD/MM/AAAA" [(ngModel)]="financeiro.dataNascimento" name="financeiroDataNascimento" />
+            <leme-text-field label="DATA DE NASCIMENTO" [required]="true" mask="data" placeholder="DD/MM/AAAA" [(ngModel)]="financeiro.dataNascimento" name="financeiroDataNascimento" />
           </div>
         </div>
 
@@ -122,7 +127,7 @@
             <leme-select label="ESCOLARIDADE" [required]="true" placeholder="Selecione" [items]="escolaridadeOptions" [(ngModel)]="financeiro.escolaridade" name="financeiroEscolaridade" />
           </div>
           <div class="representantes__field">
-            <leme-text-field label="TELEFONE CELULAR" [required]="true" placeholder="(00) 00000-0000" [(ngModel)]="financeiro.telefone" name="financeiroTelefone" />
+            <leme-text-field label="TELEFONE CELULAR" [required]="true" mask="telefone" placeholder="(00) 00000-0000" [(ngModel)]="financeiro.telefone" name="financeiroTelefone" />
           </div>
         </div>
 

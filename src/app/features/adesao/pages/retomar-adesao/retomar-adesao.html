@@ -8,6 +8,15 @@
     <p class="retomar-adesao__desc">{{ saudacao() }}</p>
 
     <form class="retomar-adesao__form" (submit)="$event.preventDefault()">
+      <leme-text-field
+        label="CPF"
+        [required]="true"
+        mask="cpf"
+        placeholder="000.000.000-00"
+        [ngModel]="cpf()"
+        (ngModelChange)="onCpfChange($event)"
+        name="cpf"
+      />
       <app-password-field
         label="SENHA"
         [required]="true"
@@ -25,6 +34,7 @@
       label="Entrar e continuar"
       [showIconRight]="true"
       iconRight="arrow_forward"
+      [disabled]="!podeEntrar()"
       (click)="entrar()"
     />
 

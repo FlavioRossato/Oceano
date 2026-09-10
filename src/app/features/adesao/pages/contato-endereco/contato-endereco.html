@@ -54,7 +54,7 @@
       } @else {
         <div class="contato-endereco__row">
           <div class="contato-endereco__field">
-            <leme-text-field label="PAÍS" [required]="true" placeholder="País" [(ngModel)]="pais" name="pais" />
+            <leme-select label="PAÍS" [required]="true" placeholder="Selecione" [items]="paisOptions" [showSearch]="true" [(ngModel)]="pais" name="pais" />
           </div>
           <div class="contato-endereco__field">
             <leme-text-field label="NIF" [required]="true" placeholder="NIF" [(ngModel)]="nif" name="nif" />

@@ -18,6 +18,11 @@
     />
   </form>
 
+  <p class="verificacao-cpf__conta">
+    Já possui uma conta?
+    <button type="button" class="verificacao-cpf__conta-link" (click)="jaTemConta()">Clique aqui</button>
+  </p>
+
   @if (semVinculoPatrocinadora()) {
     <leme-message
       severity="Error"
