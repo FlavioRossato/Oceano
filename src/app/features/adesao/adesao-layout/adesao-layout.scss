@@ -116,8 +116,11 @@
     margin: 0 0 var(--spacing-xxs);
 
     @include respond-to('md') {
-      font-size: var(--font-size-sm);
-      line-height: var(--line-height-lg-16);
+      font-size: var(--font-size-md);
+    }
+
+    @media (min-width: 1440px) {
+      font-size: var(--font-size-lg);
     }
   }
 
@@ -130,6 +133,11 @@
 
     @include respond-to('md') {
       display: block;
+      font-size: var(--font-size-xs);
+    }
+
+    @media (min-width: 1440px) {
+      font-size: var(--font-size-sm);
     }
   }
 
@@ -213,7 +221,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-xxs);
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     color: rgba(255, 255, 255, 0.45);
     flex-shrink: 0;
@@ -224,13 +232,23 @@
       font-size: 14px;
       line-height: 1;
     }
+
+    @media (min-width: 1440px) {
+      width: 28px;
+      height: 28px;
+      font-size: var(--font-size-sm);
+    }
   }
 
   &__step-name {
-    font-size: var(--font-size-xxs);
+    font-size: var(--font-size-xs);
     color: rgba(255, 255, 255, 0.45);
     line-height: 1;
     transition: color 0.2s ease;
+
+    @media (min-width: 1440px) {
+      font-size: var(--font-size-sm);
+    }
   }
 
   // ── Divisor "Finalização" — separa a revisão/assinatura dos passos numerados
@@ -238,11 +256,15 @@
     margin: var(--spacing-nano) 0 0;
     padding: var(--spacing-xxs) var(--spacing-xxs) 0;
     border-top: var(--border-width-hairline) solid rgba(255, 255, 255, 0.14);
-    font-size: var(--font-size-xxxs);
+    font-size: var(--font-size-xxs);
     font-weight: var(--font-weight-semibold);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.45);
+
+    @media (min-width: 1440px) {
+      font-size: var(--font-size-xs);
+    }
   }
 
   // ── Rodapé do painel ───────────────────────────────────────────────────
@@ -398,7 +420,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-xxs);
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     color: var(--color-gray-60);
     flex-shrink: 0;
@@ -415,7 +437,7 @@
     margin: var(--spacing-nano) 0 0;
     padding: var(--spacing-xxs) var(--spacing-xxs) 0;
     border-top: var(--border-width-hairline) solid var(--color-gray-20);
-    font-size: var(--font-size-xxxs);
+    font-size: var(--font-size-xxs);
     font-weight: var(--font-weight-semibold);
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -423,7 +445,7 @@
   }
 
   &__mobile-step-name {
-    font-size: var(--font-size-xxs);
+    font-size: var(--font-size-xs);
     color: var(--color-gray-70);
     line-height: 1.4;
     transition: color 0.2s ease;

@@ -94,18 +94,6 @@ const SENHA_ACESSO_STEP: AdesaoStep = {
   },
 };
 
-const VERIFICACAO_EMAIL_STEP: AdesaoStep = {
-  id: 'verificacao-email',
-  label: 'Verificação de e-mail',
-  route: '/adesao/verificacao-email',
-  showBottomNav: true,
-  panel: {
-    icon: 'verified_user',
-    headline: 'Vamos confirmar quem é você',
-    description: 'Para sua segurança, precisamos confirmar sua identidade antes de continuar.',
-  },
-};
-
 const CONCLUSAO_STEP: AdesaoStep = {
   id: 'conclusao',
   label: 'Conclusão',
@@ -209,7 +197,6 @@ export class AdesaoService {
       BOAS_VINDAS_STEP,
       selecaoPlano,
       VERIFICACAO_CPF_STEP,
-      VERIFICACAO_EMAIL_STEP,
       SENHA_ACESSO_STEP,
       ...restanteDataSteps,
       CONCLUSAO_STEP,

@@ -54,7 +54,7 @@ export class SenhaAcesso implements OnDestroy {
 
   constructor() {
     this.adesao.setCanContinue(false);
-    this.adesao.setBackOverride(() => this.router.navigate(['/adesao/verificacao-email']));
+    this.adesao.setBackOverride(() => this.router.navigate(['/adesao/verificacao-cpf']));
     effect(() => {
       this.adesao.setCanContinue(this.allMet());
     }, { allowSignalWrites: true });

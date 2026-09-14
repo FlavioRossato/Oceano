@@ -1,34 +1,87 @@
 <div class="verificacao-cpf">
-  <header class="verificacao-cpf__header">
-    <h1 class="verificacao-cpf__title">Vamos confirmar seu CPF</h1>
-    <p class="verificacao-cpf__subtitle">
-      Informe seu CPF para verificarmos se você já possui um cadastro ou uma adesão em andamento.
-    </p>
-  </header>
+  <div class="verificacao-cpf__card">
+    @if (fase() === 'cpf') {
+      <header class="verificacao-cpf__header">
+        <h1 class="verificacao-cpf__title">Vamos confirmar seu CPF</h1>
+        <p class="verificacao-cpf__subtitle">
+          Informe seu CPF para verificarmos se você já possui um cadastro ou uma adesão em andamento.
+        </p>
+      </header>
 
-  <form class="verificacao-cpf__form" (submit)="$event.preventDefault()">
-    <leme-text-field
-      label="CPF"
-      [required]="true"
-      mask="cpf"
-      placeholder="000.000.000-00"
-      [ngModel]="cpf()"
-      (ngModelChange)="onCpfChange($event)"
-      name="cpf"
-    />
-  </form>
+      <form class="verificacao-cpf__form" (submit)="$event.preventDefault()">
+        <leme-text-field
+          label="CPF"
+          [required]="true"
+          mask="cpf"
+          placeholder="000.000.000-00"
+          [ngModel]="cpf()"
+          (ngModelChange)="onCpfChange($event)"
+          name="cpf"
+        />
+      </form>
 
-  <p class="verificacao-cpf__conta">
-    Já possui uma conta?
-    <button type="button" class="verificacao-cpf__conta-link" (click)="jaTemConta()">Clique aqui</button>
-  </p>
+      <p class="verificacao-cpf__conta">
+        Já possui uma conta?
+        <button type="button" class="verificacao-cpf__conta-link" (click)="jaTemConta()">Clique aqui</button>
+      </p>
 
-  @if (semVinculoPatrocinadora()) {
-    <leme-message
-      severity="Error"
-      title="CPF sem vínculo com a patrocinadora"
-      message="Não foi possível confirmar seu vínculo com a patrocinadora do plano selecionado. Você pode voltar e escolher outro plano ou entrar em contato com a entidade."
-    />
-    <button type="button" class="verificacao-cpf__voltar" (click)="voltarParaSelecaoPlano()">Voltar à seleção de plano</button>
-  }
+      @if (semVinculoPatrocinadora()) {
+        <leme-message
+          severity="Error"
+          title="CPF sem vínculo com a patrocinadora"
+          message="Não foi possível confirmar seu vínculo com a patrocinadora do plano selecionado. Você pode voltar e escolher outro plano ou entrar em contato com a entidade."
+        />
+        <button type="button" class="verificacao-cpf__voltar" (click)="voltarParaSelecaoPlano()">Voltar à seleção de plano</button>
+      }
+    } @else if (fase() === 'email') {
+      <header class="verificacao-cpf__header">
+        <h1 class="verificacao-cpf__title">Confirme seu e-mail</h1>
+        <p class="verificacao-cpf__subtitle">
+          Informe seu e-mail. Vamos enviar um código para confirmar que é você.
+        </p>
+      </header>
+
+      <form class="verificacao-cpf__form" (submit)="$event.preventDefault()">
+        <leme-text-field
+          label="E-mail"
+          [required]="true"
+          placeholder="seu@email.com"
+          [error]="emailInvalido()"
+          errorMessage="Informe um e-mail válido para enviarmos o código de confirmação."
+          [ngModel]="email()"
+          (ngModelChange)="onEmailChange($event)"
+          name="email"
+        />
+      </form>
+    } @else {
+      <header class="verificacao-cpf__header">
+        <h1 class="verificacao-cpf__title">Digite o código enviado</h1>
+        <p class="verificacao-cpf__subtitle">
+          Enviamos um código de 6 dígitos para <strong>{{ email() }}</strong>. Digite-o abaixo para continuar.
+        </p>
+      </header>
+
+      <form class="verificacao-cpf__form" (submit)="$event.preventDefault()">
+        <leme-text-field
+          label="Código de verificação"
+          [required]="true"
+          placeholder="000000"
+          [error]="codigoInvalido()"
+          errorMessage="Código incorreto. Confira seu e-mail e tente novamente."
+          [ngModel]="codigo()"
+          (ngModelChange)="onCodigoChange($event)"
+          name="codigo"
+        />
+      </form>
+
+      <button
+        type="button"
+        class="verificacao-cpf__resend"
+        [disabled]="!podeReenviar()"
+        (click)="reenviarCodigo()"
+      >
+        {{ podeReenviar() ? 'Não recebeu? Reenviar código' : 'Reenviar código em ' + reenviarCooldown() + 's' }}
+      </button>
+    }
+  </div>
 </div>

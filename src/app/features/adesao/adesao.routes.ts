@@ -112,11 +112,6 @@ export const ADESAO_ROUTES: Routes = [
           import('./pages/verificacao-cpf/verificacao-cpf').then(m => m.VerificacaoCpf),
       },
       {
-        path: 'verificacao-email',
-        loadComponent: () =>
-          import('./pages/verificacao-email/verificacao-email').then(m => m.VerificacaoEmail),
-      },
-      {
         path: 'retomar-adesao',
         loadComponent: () =>
           import('./pages/retomar-adesao/retomar-adesao').then(m => m.RetomarAdesao),

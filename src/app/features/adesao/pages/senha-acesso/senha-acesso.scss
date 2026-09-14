@@ -1,23 +1,26 @@
 @use 'mixins' as *;
 
-:host {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-}
-
 .senha-acesso {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-xxs);
-  max-width: 420px;
-  width: 100%;
-  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-xxs);
+  flex: 1;
 
   @include respond-to('md') {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    width: 100%;
+    max-width: 420px;
+    padding: var(--spacing-md) var(--spacing-sm);
+    border: var(--border-width-hairline) solid var(--color-gray-30);
+    border-radius: var(--radius-md);
+    background: var(--color-white-100);
   }
 
   // ── Cabeçalho ──────────────────────────────────────────────────────────
