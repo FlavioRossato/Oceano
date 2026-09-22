@@ -1,4 +1,5 @@
 <div class="contribuicao">
+  <div class="contribuicao__card">
   <header class="contribuicao__header">
     <p class="contribuicao__eyebrow">{{ adesao.currentStepLabel() }}</p>
     <h1 class="contribuicao__title">Contribuições ao plano</h1>
@@ -49,10 +50,6 @@
           <span class="material-symbols-outlined contribuicao__field-icon">edit</span>
         </div>
         <p class="contribuicao__field-helper">Equivale a {{ formatCurrency(valorBasico()) }} por mês.</p>
-        <p class="contribuicao__field-nota">
-          <span class="material-symbols-outlined contribuicao__field-nota-icon">check_circle</span>
-          Há contrapartida da patrocinadora, conforme o regulamento do plano.
-        </p>
       </div>
 
       <div class="contribuicao__field">
@@ -73,10 +70,6 @@
           <span class="material-symbols-outlined contribuicao__field-icon">edit</span>
         </div>
         <p class="contribuicao__field-helper">Equivale a {{ formatCurrency(valorAdicional()) }} por mês.</p>
-        <p class="contribuicao__field-nota">
-          <span class="material-symbols-outlined contribuicao__field-nota-icon">check_circle</span>
-          Há contrapartida da patrocinadora, conforme o regulamento do plano.
-        </p>
       </div>
 
       <div class="contribuicao__field">
@@ -103,10 +96,6 @@
           } @else {
             Disponível quando a contribuição básica e a adicional estiverem no percentual máximo.
           }
-        </p>
-        <p class="contribuicao__field-nota">
-          <span class="material-symbols-outlined contribuicao__field-nota-icon">cancel</span>
-          Não há contrapartida da patrocinadora para essa contribuição.
         </p>
       </div>
     </form>
@@ -139,5 +128,6 @@
         </div>
       </div>
     </aside>
+  </div>
   </div>
 </div>

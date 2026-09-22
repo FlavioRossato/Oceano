@@ -37,6 +37,16 @@
     margin: 0;
   }
 
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md) var(--spacing-sm);
+    border: var(--border-width-hairline) solid var(--color-gray-30);
+    border-radius: var(--radius-md);
+    background: var(--color-white-100);
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
@@ -123,21 +133,6 @@
     font-size: var(--font-size-xxs);
     color: var(--color-gray-70);
     margin: 0;
-  }
-
-  &__field-nota {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-nano);
-    font-size: var(--font-size-xxs);
-    color: var(--color-gray-70);
-    margin: 0;
-  }
-
-  &__field-nota-icon {
-    font-size: 14px;
-    color: var(--color-gray-50);
-    flex-shrink: 0;
   }
 
   // ── Layout: formulário + resumo lateral ──────────────────────────────

@@ -50,22 +50,20 @@ http://localhost:4200/adesao/selecionar-plano
 Para um participante **novo** (CPF sem cadastro prévio), as etapas seguem esta ordem sequencial (`next()`/`back()` no `AdesaoService`):
 
 1. **Boas-vindas** (`/adesao/boas-vindas`) — tela de abertura, fora do layout com sidebar.
-2. **Verificação de CPF** (`/adesao/verificacao-cpf`) — pede só o CPF. A consulta na base mockada decide o próximo destino (ver [Cenários mockados](#cenários-mockados-de-participante)); quem já tem cadastro segue direto para a retomada, sem nunca ver um campo de e-mail.
-3. **Verificação de e-mail** (`/adesao/verificacao-email`) — só para CPF sem cadastro. Duas fases na mesma rota: primeiro pede o e-mail, depois o código de confirmação de 6 dígitos (mock fixo, ver [Cenários mockados](#cenários-mockados-de-participante)), com opção de reenvio (cooldown de 30s).
-4. **Senha de acesso** (`/adesao/senha-acesso`) — cria a senha que será usada para futuros acessos.
-5. **Sobre você** (`/adesao/sobre-voce`) — nome completo e telefone; última etapa antes do formulário de adesão propriamente dito. Esses dados (e o e-mail confirmado na etapa anterior) já chegam pré-preenchidos em **Dados pessoais** e **Contato & endereço** mais adiante, para o participante não digitar a mesma informação duas vezes.
-6. **Vínculo** — dados do vínculo empregatício com a patrocinadora.
-7. **Dados pessoais**
-8. **Contato & endereço**
-9. **PEP** (pessoa politicamente exposta)
-10. **Perfil de investimento** — mini-questionário que indica um perfil (conservador/moderado/arrojado), com opção de escolher outro.
-11. **Regime de tributação**
-12. **Contribuição** — percentuais de contribuição básica (obrigatória), adicional e suplementar (opcionais), com tradução em reais com base no salário informado em Vínculo.
-13. **Dados bancários**
-14. **Documentos**
-15. **Revisão final (Resumo)** — revisão de tudo antes de enviar.
-16. **Termos** — aceite obrigatório para liberar o botão "Enviar solicitação".
-17. **Conclusão** — confirmação de envio, com número de protocolo.
+2. **Verificação de CPF** (`/adesao/verificacao-cpf`) — pede CPF e e-mail juntos, na mesma tela. A consulta na base mockada decide o próximo destino (ver [Cenários mockados](#cenários-mockados-de-participante)); quem já tem cadastro segue direto para a retomada, e o e-mail informado é descartado. Para CPF sem cadastro, a mesma tela passa então, via um `fase` interno (`'dados' | 'codigo'`), a pedir o código de confirmação de 6 dígitos (mock fixo, ver [Cenários mockados](#cenários-mockados-de-participante)), com opção de reenvio (cooldown de 30s).
+3. **Senha de acesso** (`/adesao/senha-acesso`) — cria a senha que será usada para futuros acessos.
+4. **Vínculo** — dados do vínculo empregatício com a patrocinadora.
+5. **Dados pessoais**
+6. **Contato & endereço**
+7. **PEP** (pessoa politicamente exposta)
+8. **Perfil de investimento** — mini-questionário que indica um perfil (conservador/moderado/arrojado), com opção de escolher outro.
+9. **Regime de tributação**
+10. **Contribuição** — percentuais de contribuição básica (obrigatória), adicional e suplementar (opcionais), com tradução em reais com base no salário informado em Vínculo.
+11. **Dados bancários**
+12. **Documentos**
+13. **Revisão final (Resumo)** — revisão de tudo antes de enviar.
+14. **Termos** — aceite obrigatório para liberar o botão "Enviar solicitação".
+15. **Conclusão** — confirmação de envio, com número de protocolo.
 
 As telas de **Retomar adesão**, **Recuperar senha** e **Acompanhamento** não fazem parte dessa sequência linear — a navegação entre elas é feita via `router.navigate()` direto, de acordo com o status do CPF consultado (ver próxima seção).
 
@@ -77,7 +75,7 @@ A "base de dados" fica em [`participantes-mock.data.ts`](./src/app/features/ades
 
 | CPF | Senha | Status | O que acontece |
 |---|---|---|---|
-| Qualquer CPF válido não listado abaixo | — | *novo* | Vai para **Verificação de e-mail**, depois **Senha de acesso**, e segue o wizard completo desde o início. |
+| Qualquer CPF válido não listado abaixo | — | *novo* | A própria tela de verificação pede o código de confirmação enviado ao e-mail informado, depois segue para **Senha de acesso** e o wizard completo desde o início. |
 | `222.222.222-22` | `123456` | `em_andamento` | Pede a senha e retoma o wizard exatamente na etapa **Dados pessoais** (`etapaAtual`). |
 | `333.333.333-33` | `123456` | `concluida` | Pede a senha e vai para **Acompanhamento**, com tag **"Em análise"**. |
 | `444.444.444-44` | `123456` | `negada` | Pede a senha e vai para **Acompanhamento**, com tag **"Solicitação negada"** e o motivo informado pela entidade. |

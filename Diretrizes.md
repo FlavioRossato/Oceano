@@ -480,14 +480,19 @@ Páginas nesta categoria hoje:
 | Página | Arquivo | Motivo |
 |---|---|---|
 | `senha-acesso` | `pages/senha-acesso/senha-acesso.scss` | Formulário de coluna única (criação de senha) — exceção original, aprovada 2026-07-07 |
-| `verificacao-cpf` | `pages/verificacao-cpf/verificacao-cpf.scss` | Card único (campo de CPF) |
-| `verificacao-email` | `pages/verificacao-email/verificacao-email.scss` | Card único, duas fases (e-mail e depois código) — mesma família visual de `verificacao-cpf`/`senha-acesso` |
+| `verificacao-cpf` | `pages/verificacao-cpf/verificacao-cpf.scss` | Card único, duas fases internas (CPF e e-mail juntos, depois código para participante novo — `verificacao-email` foi absorvida por esta tela em 2026-09-14) |
 | `retomar-adesao` | `pages/retomar-adesao/retomar-adesao.scss` | Card único (login por senha) |
 | `recuperar-senha` | `pages/recuperar-senha/recuperar-senha.scss` | Card único (redefinição de senha) |
 | `conclusao` | `pages/conclusao/conclusao.scss` | Card único (confirmação de envio) |
 | `acompanhamento` | `pages/acompanhamento/acompanhamento.scss` | Card único (status da solicitação) |
 
 Qualquer página que colete dados em formulário largo (pares de campo lado a lado, ao estilo `vinculo`/`dados-pessoais`/`contribuicao` etc.) **continua proibida** de declarar `max-width` próprio — essas usam apenas `padding` interno, e o centramento vem do `__content-inner`. Uma nova página "card único" que precise entrar nesta categoria deve ser discutida e adicionada explicitamente a esta tabela, não apenas replicada por precedente sem registro.
+
+#### Todas as páginas de step têm `&__card` visual (regra geral, desde 2026-09-18)
+
+Diferente da exceção de `max-width`/centralização acima (que é exclusiva das telas "cartão único"), o wrapper visual `&__card` (borda `var(--color-gray-30)`, fundo `var(--color-white-100)`, `border-radius: var(--radius-md)`, padding `var(--spacing-md) var(--spacing-sm)`) é obrigatório em **todas** as páginas do wizard, incluindo as de formulário largo. O conteúdo da página (header + form + mensagens condicionais) fica todo dentro dessa `<div class="{page}__card">`; o `<div class="{page}">` raiz mantém apenas seu próprio `padding` de respiro e não ganha `max-width` (isso continua vindo do `__content-inner`, §7.5). Modais (`leme-modal`) ficam fora do card, no nível raiz.
+
+Exceção: `boas-vindas` e `selecionar-plano` (comentado como "standalone, sem AdesaoLayout" em `adesao.routes.ts`) não são páginas de step e não entram nessa regra — não usam o layout do wizard nem o `__content-inner`.
 
 ### 7.6 Path aliases TypeScript
 
@@ -772,6 +777,10 @@ mkdir src/app/features/minha-feature
 | 2026-09-14 | `retomar-adesao__form` ganhou `display:flex; flex-direction:column; gap: var(--spacing-xs)`, que faltava (único `&__form` do wizard sem essas três regras) | Bug de conformidade apontado pelo usuário: sem esse `gap`, o label "SENHA" ficava visualmente colado ao campo de CPF acima, em vez de agrupado com seu próprio input — todas as outras telas do wizard já tinham essas três regras no `&__form` |
 | 2026-09-14 | Tipografia do painel lateral (`adesao-layout`) ganhou um terceiro nível de escala em `min-width: 1440px` (além de mobile/`md` já existentes), para `__headline`, `__description`, `__step-name`, `__step-num` (com o círculo do número crescendo de 24×24px para 28×28px) e `__steps-divider` — mesmo tratamento espelhado nos equivalentes `__mobile-*` sem a coluna 1440px (somem acima de `md`) | Pedido do usuário após provocação sobre monitores grandes (24"/1920px): a única mudança de tamanho existente acontecia em `md` (768px); dali para cima nada crescia, o que também explica parte da sensação de "espaço vazio" relatada. Reaproveitado o breakpoint de 1440px já usado por `__content-inner` (§7.5), em vez de criar um novo ponto de corte |
 | 2026-09-14 | `verificacao-email` foi **absorvida por `verificacao-cpf`**: a rota e o componente `verificacao-email` deixaram de existir. `verificacao-cpf` ganhou um `fase` interno (`'cpf' \| 'email' \| 'codigo'`) — pede o CPF primeiro; só quando o CPF é de participante novo (mesma checagem de sempre) é que o campo de e-mail aparece, na mesma tela, sem navegação; depois o código de 6 dígitos, também na mesma tela. `senha-acesso.ts` (botão Voltar) e `adesao.service.ts` (`steps`) atualizados para não referenciar mais `verificacao-email` | Pedido do usuário, a partir de uma referência visual que mostrava CPF e e-mail juntos numa única etapa (um passo a menos que o fluxo separado criado em 2026-07-23). Mantida a regra daquela decisão (participante já cadastrado nunca vê o campo de e-mail) ao tornar o e-mail condicional dentro da mesma rota, em vez de sempre visível — resolve "um passo a menos" sem reintroduzir o problema original |
+| 2026-09-18 | Corrigida a linha obsoleta de `verificacao-email` que ainda constava na tabela de exceção do §7.5 (a fusão de 2026-09-14 não tinha atualizado essa tabela, nem o README.md) | Achado durante investigação de um relato do usuário de estar vendo CPF e e-mail em telas separadas — o código-fonte já estava correto (fusão aplicada), mas a documentação desatualizada sustentava a confusão. README.md também precisa da mesma correção |
+| 2026-09-18 | Wrapper visual `&__card` (borda + fundo branco + padding, mesmo padrão das telas de identidade) estendido para **todas** as páginas de step do wizard (`dados-pessoais`, `vinculo`, `contato-endereco`, `pep`, `dados-bancarios`, `documentos`, `regime-tributacao`, `contribuicao`, `perfil-investimento`, `resumo`, `selecao-plano`, `termo`, `representantes`) — reverte a decisão de 2026-09-10 que tinha removido o card de `representantes` para padronizar sem card. `boas-vindas` e `selecionar-plano` ficam de fora por serem páginas standalone, fora do `AdesaoLayout` | Pedido explícito do usuário: o fluxo tinha telas com card (identidade/senha) e telas sem card (dados do meio do wizard), inconsistência que ele já tinha sinalizado antes sem resolução definitiva. Decisão final, depois de perguntado diretamente: uniformizar **com** card em todas, não sem — direção oposta à de 2026-09-10, adotada conscientemente |
+| 2026-09-22 | `verificacao-cpf`: CPF e e-mail passaram a ser pedidos juntos, nos mesmos dois campos, na mesma fase (`fase` interno simplificado de `'cpf' \| 'email' \| 'codigo'` para `'dados' \| 'codigo'`). Quem já tem cadastro continua indo direto para a retomada (e-mail digitado é descartado); só participante novo avança para a fase de código | Pedido do usuário a partir de referência visual mostrando os dois campos na mesma tela — reduz de duas telas sequenciais (CPF, depois e-mail) para uma só, sem perder a regra de que a checagem de adesão em andamento continua decidida só pelo CPF |
+| 2026-09-22 | `Contribuição`: removidas as notas de contrapartida ("Há contrapartida da patrocinadora..." / "Não há contrapartida da patrocinadora...") dos três campos de percentual, junto com as classes `&__field-nota`/`&__field-nota-icon` (agora sem uso) | Pedido do usuário |
 
 ---
 
@@ -788,4 +797,4 @@ Registrar aqui quando implementar:
 
 ---
 
-*Última atualização: 2026-09-14 — Flávio Rossato + Claude (card padrão nas telas de identidade, correção de espaçamento em retomar-adesao, tipografia do painel lateral em 3 níveis, fusão de verificacao-email em verificacao-cpf)*
+*Última atualização: 2026-09-22 — Flávio Rossato + Claude (CPF e e-mail unificados numa só fase em `verificacao-cpf`, notas de contrapartida removidas de `Contribuição`)*

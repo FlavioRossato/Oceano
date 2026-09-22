@@ -10,7 +10,7 @@ import { ParticipanteMockService } from '../../services/participante-mock.servic
 
 const REENVIO_COOLDOWN_SEGUNDOS = 30;
 
-type Fase = 'cpf' | 'email' | 'codigo';
+type Fase = 'dados' | 'codigo';
 
 @Component({
   selector: 'app-verificacao-cpf',
@@ -28,10 +28,10 @@ export class VerificacaoCpf implements OnInit, OnDestroy {
 
   private cooldownIntervalId?: ReturnType<typeof setInterval>;
 
-  // Etapa única: CPF primeiro; só quando o CPF é de participante novo é que
-  // o e-mail (e, na sequência, o código) passam a ser pedidos, na mesma tela.
-  // Quem já tem cadastro nunca chega a ver o campo de e-mail (verificarCpf()).
-  readonly fase = signal<Fase>('cpf');
+  // CPF e e-mail são pedidos juntos na mesma tela; só quando o CPF é de
+  // participante novo é que o código de confirmação passa a ser pedido.
+  // Quem já tem cadastro nunca chega a ver o código (verificarDados()).
+  readonly fase = signal<Fase>('dados');
 
   readonly cpf = signal('');
   /** RN07: CPF sem vínculo com a patrocinadora do plano Patrocinado selecionado. */
@@ -49,13 +49,17 @@ export class VerificacaoCpf implements OnInit, OnDestroy {
   onCpfChange(value: string): void {
     this.cpf.set(value);
     this.semVinculoPatrocinadora.set(false);
-    this.adesao.setCanContinue(onlyDigits(value).length === 11);
+    this.atualizarCanContinueDados();
   }
 
   onEmailChange(value: string): void {
     this.email.set(value);
     this.emailInvalido.set(false);
-    this.adesao.setCanContinue(isValidEmail(value));
+    this.atualizarCanContinueDados();
+  }
+
+  private atualizarCanContinueDados(): void {
+    this.adesao.setCanContinue(onlyDigits(this.cpf()).length === 11 && isValidEmail(this.email()));
   }
 
   onCodigoChange(value: string): void {
@@ -96,39 +100,26 @@ export class VerificacaoCpf implements OnInit, OnDestroy {
   }
 
   private avancar(): void {
-    if (this.fase() === 'cpf') {
-      this.verificarCpf();
-      return;
-    }
-    if (this.fase() === 'email') {
-      this.enviarCodigo();
+    if (this.fase() === 'dados') {
+      this.verificarDados();
       return;
     }
     this.confirmarCodigo();
   }
 
   private voltar(): void {
-    if (this.fase() === 'codigo') {
-      // Volta para poder corrigir o e-mail, sem sair da etapa.
-      this.fase.set('email');
-      this.codigo.set('');
-      this.codigoInvalido.set(false);
-      if (this.cooldownIntervalId) clearInterval(this.cooldownIntervalId);
-      this.reenviarCooldown.set(0);
-      this.adesao.setCanContinue(isValidEmail(this.email()));
-      return;
-    }
-
-    // fase 'email': volta a pedir o CPF, na mesma tela — dali em diante o
-    // botão Voltar assume de novo o comportamento padrão do wizard.
-    this.fase.set('cpf');
-    this.email.set('');
-    this.emailInvalido.set(false);
-    this.adesao.setCanContinue(onlyDigits(this.cpf()).length === 11);
+    // Volta para poder corrigir o CPF ou o e-mail, sem sair da etapa —
+    // dali em diante o botão Voltar assume de novo o comportamento padrão do wizard.
+    this.fase.set('dados');
+    this.codigo.set('');
+    this.codigoInvalido.set(false);
+    if (this.cooldownIntervalId) clearInterval(this.cooldownIntervalId);
+    this.reenviarCooldown.set(0);
+    this.atualizarCanContinueDados();
     this.adesao.setBackOverride(null);
   }
 
-  private verificarCpf(): void {
+  private verificarDados(): void {
     const cpf = onlyDigits(this.cpf());
     const plano = this.dados.planoSelecionado();
 
@@ -141,21 +132,13 @@ export class VerificacaoCpf implements OnInit, OnDestroy {
 
     // Toda adesão já iniciada (em andamento, concluída ou negada) exige senha
     // antes de mostrar qualquer informação — inclusive o status da solicitação.
-    // Só depende do CPF: quem já tem cadastro nunca vê o campo de e-mail.
+    // Só depende do CPF: quem já tem cadastro nunca vê o código de confirmação.
     if (participante && participante.status !== 'novo') {
       this.participanteMock.cpfEmVerificacao.set(cpf);
       this.router.navigate(['/adesao/retomar-adesao']);
       return;
     }
 
-    // Participante novo (ou sem cadastro): o e-mail passa a ser pedido agora,
-    // na mesma tela.
-    this.fase.set('email');
-    this.adesao.setCanContinue(isValidEmail(this.email()));
-    this.adesao.setBackOverride(() => this.voltar());
-  }
-
-  private enviarCodigo(): void {
     if (!isValidEmail(this.email())) {
       this.emailInvalido.set(true);
       return;
@@ -169,6 +152,7 @@ export class VerificacaoCpf implements OnInit, OnDestroy {
     // Mock: não há envio real de e-mail; o código é sempre o mesmo.
     this.fase.set('codigo');
     this.adesao.setCanContinue(false);
+    this.adesao.setBackOverride(() => this.voltar());
     this.iniciarCooldown();
   }
 

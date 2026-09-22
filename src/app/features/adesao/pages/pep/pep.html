@@ -1,11 +1,12 @@
 <div class="pep">
+  <div class="pep__card">
   <header class="pep__header">
     <p class="pep__eyebrow">{{ adesao.currentStepLabel() }}</p>
     <h1 class="pep__title">Pessoa Exposta Politicamente</h1>
     <p class="pep__subtitle">Você ocupa ou ocupou nos últimos 5 anos algum cargo público relevante, ou é familiar próximo de alguém que ocupa?</p>
   </header>
 
-  <div class="pep__card">
+  <div class="pep__toggle-box">
     <div class="pep__card-header">
       <div class="pep__toggle-row">
         <leme-switch label="Declaro que sou uma Pessoa Exposta Politicamente" [(ngModel)]="isPep" name="isPep" />
@@ -25,6 +26,7 @@
         </div>
       </div>
     }
+  </div>
   </div>
 
   @if (showInfo()) {

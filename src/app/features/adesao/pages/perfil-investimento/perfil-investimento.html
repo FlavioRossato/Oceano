@@ -1,11 +1,11 @@
 <div class="perfil-investimento">
-  <header class="perfil-investimento__header">
-    <p class="perfil-investimento__eyebrow">{{ adesao.currentStepLabel() }}</p>
-    <h1 class="perfil-investimento__title">Perfil de investimento</h1>
-  </header>
+  <div class="perfil-investimento__card">
+    <header class="perfil-investimento__header">
+      <p class="perfil-investimento__eyebrow">{{ adesao.currentStepLabel() }}</p>
+      <h1 class="perfil-investimento__title">Perfil de investimento</h1>
+    </header>
 
-  @if (subStep() === 'intro') {
-    <div class="perfil-investimento__card">
+    @if (subStep() === 'intro') {
       <div class="perfil-investimento__card-header">
         <span class="material-symbols-outlined perfil-investimento__card-icon">show_chart</span>
         <div>
@@ -43,11 +43,9 @@
           <p class="perfil-investimento__info-text">O questionário tem 6 perguntas e leva cerca de 2 minutos.</p>
         </div>
       </div>
-    </div>
-  }
+    }
 
-  @if (perguntaAtual(); as pergunta) {
-    <div class="perfil-investimento__card">
+    @if (perguntaAtual(); as pergunta) {
       <div class="perfil-investimento__card-header">
         <span class="material-symbols-outlined perfil-investimento__card-icon">show_chart</span>
         <div>
@@ -84,11 +82,9 @@
           }
         }
       </div>
-    </div>
-  }
+    }
 
-  @if (subStep() === 'resultado') {
-    <div class="perfil-investimento__card">
+    @if (subStep() === 'resultado') {
       <div class="perfil-investimento__card-header">
         <span class="material-symbols-outlined perfil-investimento__card-icon">show_chart</span>
         <div>
@@ -161,6 +157,6 @@
           }
         </div>
       }
-    </div>
-  }
+    }
+  </div>
 </div>

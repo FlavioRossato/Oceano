@@ -1,4 +1,5 @@
 <div class="selecao-plano">
+  <div class="selecao-plano__card">
   <header class="selecao-plano__header">
     <p class="selecao-plano__eyebrow">{{ adesao.currentStepLabel() }}</p>
     <h1 class="selecao-plano__title">Selecione seu plano</h1>
@@ -12,7 +13,7 @@
       message="No momento não há planos abertos à adesão pelo Portal. Entre em contato com a entidade para mais informações."
     />
   } @else if (planos.length === 1) {
-    <div class="selecao-plano__card selecao-plano__card--unico">
+    <div class="selecao-plano__plano-item selecao-plano__plano-item--unico">
       <h2 class="selecao-plano__card-nome">{{ planos[0].nome }}</h2>
       <p class="selecao-plano__card-descricao">{{ planos[0].descricaoResumida }}</p>
       @if (planos[0].linkRegulamento) {
@@ -30,8 +31,8 @@
     <div class="selecao-plano__lista">
       @for (plano of planos; track plano.id) {
         <div
-          class="selecao-plano__card"
-          [class.selecao-plano__card--selecionado]="selecionado()?.id === plano.id"
+          class="selecao-plano__plano-item"
+          [class.selecao-plano__plano-item--selecionado]="selecionado()?.id === plano.id"
           (click)="selecionarPlano(plano)"
         >
           <leme-radio [label]="plano.nome" [checked]="selecionado()?.id === plano.id" />
@@ -43,6 +44,7 @@
       }
     </div>
   }
+  </div>
 
   @if (mostrarConfirmacaoTroca()) {
     <leme-modal ariaLabelledby="troca-plano-title" (closed)="cancelarTroca()">

@@ -1,4 +1,5 @@
 <div class="representantes">
+  <div class="representantes__card">
   <header class="representantes__header">
     <p class="representantes__eyebrow">{{ adesao.currentStepLabel() }}</p>
     <h1 class="representantes__title">Representantes</h1>
@@ -166,6 +167,7 @@
       </form>
     }
   </section>
+  </div>
 
   @if (mostrarConfirmacaoDescarte()) {
     <leme-modal ariaLabelledby="descarte-financeiro-title" (closed)="cancelarDescarteFinanceiro()">
