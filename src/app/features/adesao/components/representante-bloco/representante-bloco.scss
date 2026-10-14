@@ -1,0 +1,55 @@
+@use 'mixins' as *;
+
+.representante-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+
+  &__cpf {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+
+    @include respond-to('sm') {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    leme-button {
+      flex-shrink: 0;
+
+      // Alinha o botão com a caixa do input (abaixo do label), não com o label.
+      @include respond-to('sm') {
+        margin-top: var(--spacing-xs);
+      }
+    }
+  }
+
+  &__cpf-field {
+    flex: 1;
+
+    leme-text-field {
+      width: 100%;
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xxs);
+
+    @include respond-to('sm') {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+
+    leme-text-field,
+    leme-select {
+      width: 100%;
+    }
+  }
+}

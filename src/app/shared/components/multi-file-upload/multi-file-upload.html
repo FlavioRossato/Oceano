@@ -30,9 +30,11 @@
       <span class="material-symbols-outlined leme-icon-sm">upload</span>
       <span>Anexar arquivo</span>
     </button>
+  } @else {
+    <p class="multi-file-upload__hint">Limite de {{ maxFiles }} arquivos atingido. Remova um arquivo para anexar outro.</p>
   }
 
-  @if (erro()) {
-    <p class="multi-file-upload__erro">{{ erro() }}</p>
+  @if (erro() || errorMessage) {
+    <p class="multi-file-upload__erro" role="alert">{{ erro() || errorMessage }}</p>
   }
 </div>

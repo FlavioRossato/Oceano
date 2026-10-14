@@ -79,38 +79,6 @@
     background: var(--color-gray-20);
   }
 
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxs);
-  }
-
-  &__row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xxs);
-
-    @include respond-to('sm') {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  &__field {
-    display: flex;
-    flex-direction: column;
-
-    leme-text-field,
-    leme-select {
-      width: 100%;
-    }
-
-    &--full {
-      @include respond-to('sm') {
-        grid-column: 1 / -1;
-      }
-    }
-  }
-
   &__replica {
     display: flex;
     flex-direction: column;

@@ -100,12 +100,19 @@ export interface RepresentanteForm {
   estadoCivil: string;
   telefone: string;
   email: string;
+  emailConfirmacao: string;
   relacaoComMenor: string;
   relacaoOutraDescricao: string;
   documentos: string[];
+  /**
+   * Resultado da busca por CPF na base do Navega (RN14-16): '' = busca ainda
+   * não feita; 'navega' = encontrado, dados cadastrais bloqueados; 'manual' =
+   * não encontrado, preenchimento livre.
+   */
+  origemCadastro: '' | 'navega' | 'manual';
 }
 
-function representanteVazio(): RepresentanteForm {
+export function representanteVazio(): RepresentanteForm {
   return {
     nome: '',
     cpf: '',
@@ -115,6 +122,8 @@ function representanteVazio(): RepresentanteForm {
     estadoCivil: '',
     telefone: '',
     email: '',
+    emailConfirmacao: '',
+    origemCadastro: '',
     relacaoComMenor: '',
     relacaoOutraDescricao: '',
     documentos: [],

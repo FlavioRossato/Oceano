@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { AdesaoDadosService } from '../../services/adesao-dados.service';
+import { mascararCpf, mascararData, mascararNome } from '@shared/utils/mascaramento.util';
+import { RELACOES_MENOR_MOCK } from '../../data/relacoes-menor-mock.data';
+import { AdesaoDadosService, RepresentanteForm } from '../../services/adesao-dados.service';
 
 interface ResumoLinha {
   label: string;
@@ -183,49 +185,42 @@ export class Resumo {
 
   private montarCardsRepresentantes(): ResumoCard[] {
     const legal = this.adesaoDados.representanteLegal();
-    const mesmaPessoa = this.adesaoDados.mesmaPessoaRepresentantes();
 
-    if (mesmaPessoa) {
+    if (this.adesaoDados.mesmaPessoaRepresentantes()) {
       return [
         {
-          title: 'Representante legal e financeiro (mesma pessoa)',
+          title: 'Representante legal e financeiro (acumula os dois papéis)',
           icon: 'shield_person',
           editLabel: 'Editar',
-          lines: [
-            { label: 'Nome completo', value: legal.nome },
-            { label: 'CPF', value: legal.cpf },
-            { label: 'Relação com o menor', value: legal.relacaoComMenor },
-            { label: 'Documentos', value: legal.documentos.join(', ') || 'Não enviado' },
-          ],
+          lines: this.linhasRepresentante(legal),
         },
       ];
     }
 
-    const financeiro = this.adesaoDados.representanteFinanceiro();
-
     return [
-      {
-        title: 'Representante legal',
-        icon: 'shield_person',
-        editLabel: 'Editar',
-        lines: [
-          { label: 'Nome completo', value: legal.nome },
-          { label: 'CPF', value: legal.cpf },
-          { label: 'Relação com o menor', value: legal.relacaoComMenor },
-          { label: 'Documentos', value: legal.documentos.join(', ') || 'Não enviado' },
-        ],
-      },
+      { title: 'Representante legal', icon: 'shield_person', editLabel: 'Editar', lines: this.linhasRepresentante(legal) },
       {
         title: 'Representante financeiro',
         icon: 'account_balance_wallet',
         editLabel: 'Editar',
-        lines: [
-          { label: 'Nome completo', value: financeiro.nome },
-          { label: 'CPF', value: financeiro.cpf },
-          { label: 'Relação com o menor', value: financeiro.relacaoComMenor },
-          { label: 'Documentos', value: financeiro.documentos.join(', ') || 'Não enviado' },
-        ],
+        lines: this.linhasRepresentante(this.adesaoDados.representanteFinanceiro()),
       },
+    ];
+  }
+
+  /** Dados vindos da base do Navega seguem mascarados também na revisão (RN15). */
+  private linhasRepresentante(rep: RepresentanteForm): ResumoLinha[] {
+    const navega = rep.origemCadastro === 'navega';
+    const relacao = RELACOES_MENOR_MOCK.find(r => r.value === rep.relacaoComMenor)?.label ?? rep.relacaoComMenor;
+
+    return [
+      { label: 'Nome completo', value: navega ? mascararNome(rep.nome) : rep.nome },
+      { label: 'CPF', value: navega ? mascararCpf(rep.cpf) : rep.cpf },
+      { label: 'Data de nascimento', value: navega ? mascararData(rep.dataNascimento) : rep.dataNascimento },
+      { label: 'Telefone celular', value: rep.telefone },
+      { label: 'E-mail', value: rep.email },
+      { label: 'Relação com o menor', value: rep.relacaoOutraDescricao ? `${relacao} (${rep.relacaoOutraDescricao})` : relacao },
+      { label: 'Documentos comprobatórios', value: rep.documentos.join(', ') || 'Não enviado' },
     ];
   }
 }

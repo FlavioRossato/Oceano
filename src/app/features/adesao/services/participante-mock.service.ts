@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { ParticipanteMock, PARTICIPANTES_MOCK } from '../data/participantes-mock.data';
 import { ELEGIBILIDADE_PATROCINADO_MOCK } from '../data/planos-mock.data';
+import { PessoaNavegaMock, PESSOAS_NAVEGA_MOCK } from '../data/pessoas-navega-mock.data';
 
 /**
  * Simula a consulta de cadastro por CPF no início da adesão. Toda a "base"
@@ -35,6 +36,11 @@ export class ParticipanteMockService {
     this.participantes.update(lista =>
       lista.map(p => (p.cpf === cpf ? { ...p, senha: novaSenha } : p)),
     );
+  }
+
+  /** Simula a busca de pessoa na base do Navega pelo CPF (somente dígitos) — RN14. */
+  buscarPessoaNavega(cpf: string): PessoaNavegaMock | undefined {
+    return PESSOAS_NAVEGA_MOCK.find(p => p.cpf === cpf);
   }
 
   /** Simula a checagem de vínculo do CPF com a patrocinadora do plano (RN06/RN07). */

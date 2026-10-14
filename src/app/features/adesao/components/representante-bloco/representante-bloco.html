@@ -1,0 +1,206 @@
+<form class="representante-bloco" (submit)="$event.preventDefault()">
+  <div class="representante-bloco__cpf">
+    <div class="representante-bloco__cpf-field">
+      @if (rep.origemCadastro) {
+        <leme-text-field label="CPF" [required]="true" [disabled]="true" [ngModel]="cpfExibido" [name]="prefixo + 'CpfBuscado'" />
+      } @else {
+        <leme-text-field
+          label="CPF"
+          [required]="true"
+          mask="cpf"
+          placeholder="000.000.000-00"
+          message="Vamos verificar se esta pessoa já tem cadastro na entidade."
+          [error]="!!erroCpfExibido"
+          [errorMessage]="erroCpfExibido"
+          [ngModel]="rep.cpf"
+          (ngModelChange)="onCpfChange($event)"
+          [name]="prefixo + 'Cpf'"
+        />
+      }
+    </div>
+
+    @if (rep.origemCadastro) {
+      <leme-button variant="Transparent" hierarchy="Primary" label="Alterar CPF" [showIconLeft]="true" iconLeft="edit" (click)="alterarCpf()" />
+    } @else {
+      <leme-button variant="Outlined" hierarchy="Primary" label="Buscar CPF" [showIconLeft]="true" iconLeft="search" (click)="buscarCpf()" />
+    }
+  </div>
+
+  @if (rep.origemCadastro === 'navega') {
+    <leme-message
+      severity="Informative"
+      title="Cadastro encontrado"
+      message="Esta pessoa já tem cadastro na entidade. Os dados cadastrais foram carregados e não podem ser alterados — você pode incluir ou atualizar apenas telefone e e-mail."
+    />
+  }
+
+  @if (rep.origemCadastro === 'manual') {
+    <leme-message
+      severity="Informative"
+      title="CPF sem cadastro"
+      message="Não encontramos este CPF na base da entidade. Preencha os dados do representante abaixo."
+    />
+  }
+
+  @if (rep.origemCadastro) {
+    <div class="representante-bloco__field">
+      @if (bloqueado) {
+        <leme-text-field label="NOME COMPLETO" [required]="true" [disabled]="true" [ngModel]="nomeExibido" [name]="prefixo + 'NomeMascarado'" />
+      } @else {
+        <leme-text-field
+          label="NOME COMPLETO"
+          [required]="true"
+          placeholder="Nome completo"
+          [error]="!!erros.nome"
+          [errorMessage]="erros.nome ?? ''"
+          [(ngModel)]="rep.nome"
+          [name]="prefixo + 'Nome'"
+        />
+      }
+    </div>
+
+    <div class="representante-bloco__row">
+      <div class="representante-bloco__field">
+        @if (bloqueado) {
+          <leme-text-field
+            label="DATA DE NASCIMENTO"
+            [required]="true"
+            [disabled]="true"
+            [error]="!!erros.dataNascimento"
+            [errorMessage]="erros.dataNascimento ?? ''"
+            [ngModel]="dataNascimentoExibida"
+            [name]="prefixo + 'DataNascimentoMascarada'"
+          />
+        } @else {
+          <leme-text-field
+            label="DATA DE NASCIMENTO"
+            [required]="true"
+            mask="data"
+            placeholder="DD/MM/AAAA"
+            [error]="!!erros.dataNascimento"
+            [errorMessage]="erros.dataNascimento ?? ''"
+            [(ngModel)]="rep.dataNascimento"
+            [name]="prefixo + 'DataNascimento'"
+          />
+        }
+      </div>
+      <div class="representante-bloco__field">
+        <leme-select
+          label="SEXO"
+          [required]="true"
+          placeholder="Selecione"
+          [disabled]="bloqueado"
+          [error]="!!erros.sexo"
+          [errorMessage]="erros.sexo ?? ''"
+          [items]="sexoOptions"
+          [(ngModel)]="rep.sexo"
+          [name]="prefixo + 'Sexo'"
+        />
+      </div>
+    </div>
+
+    <div class="representante-bloco__row">
+      <div class="representante-bloco__field">
+        <leme-select
+          label="ESTADO CIVIL"
+          [required]="true"
+          placeholder="Selecione"
+          [disabled]="bloqueado"
+          [error]="!!erros.estadoCivil"
+          [errorMessage]="erros.estadoCivil ?? ''"
+          [items]="estadoCivilOptions"
+          [(ngModel)]="rep.estadoCivil"
+          [name]="prefixo + 'EstadoCivil'"
+        />
+      </div>
+      <div class="representante-bloco__field">
+        <leme-select
+          label="ESCOLARIDADE"
+          [required]="true"
+          placeholder="Selecione"
+          [disabled]="bloqueado"
+          [error]="!!erros.escolaridade"
+          [errorMessage]="erros.escolaridade ?? ''"
+          [items]="escolaridadeOptions"
+          [(ngModel)]="rep.escolaridade"
+          [name]="prefixo + 'Escolaridade'"
+        />
+      </div>
+    </div>
+
+    <div class="representante-bloco__field">
+      <leme-text-field
+        label="TELEFONE CELULAR"
+        [required]="true"
+        mask="telefone"
+        placeholder="(00) 00000-0000"
+        [error]="!!erros.telefone"
+        [errorMessage]="erros.telefone ?? ''"
+        [(ngModel)]="rep.telefone"
+        [name]="prefixo + 'Telefone'"
+      />
+    </div>
+
+    <div class="representante-bloco__row">
+      <div class="representante-bloco__field">
+        <leme-text-field
+          label="E-MAIL"
+          [required]="true"
+          placeholder="email@exemplo.com"
+          [error]="!!erros.email"
+          [errorMessage]="erros.email ?? ''"
+          [(ngModel)]="rep.email"
+          [name]="prefixo + 'Email'"
+        />
+      </div>
+      <div class="representante-bloco__field">
+        <leme-text-field
+          label="CONFIRME O E-MAIL"
+          [required]="true"
+          placeholder="email@exemplo.com"
+          [error]="!!erros.emailConfirmacao"
+          [errorMessage]="erros.emailConfirmacao ?? ''"
+          [(ngModel)]="rep.emailConfirmacao"
+          [name]="prefixo + 'EmailConfirmacao'"
+        />
+      </div>
+    </div>
+
+    <div class="representante-bloco__row">
+      <div class="representante-bloco__field">
+        <leme-select
+          label="RELAÇÃO COM O MENOR"
+          [required]="true"
+          placeholder="Selecione"
+          [error]="!!erros.relacaoComMenor"
+          [errorMessage]="erros.relacaoComMenor ?? ''"
+          [items]="relacaoOptions"
+          [(ngModel)]="rep.relacaoComMenor"
+          [name]="prefixo + 'Relacao'"
+        />
+      </div>
+      @if (exigeRelacaoLivre(rep.relacaoComMenor)) {
+        <div class="representante-bloco__field">
+          <leme-text-field
+            label="DESCREVA A RELAÇÃO"
+            [required]="true"
+            placeholder="Ex.: tio(a), padrinho..."
+            [error]="!!erros.relacaoOutraDescricao"
+            [errorMessage]="erros.relacaoOutraDescricao ?? ''"
+            [(ngModel)]="rep.relacaoOutraDescricao"
+            [name]="prefixo + 'RelacaoOutra'"
+          />
+        </div>
+      }
+    </div>
+
+    <app-multi-file-upload
+      label="Documento comprobatório da relação"
+      [hint]="rep.relacaoComMenor ? 'Documento aceito: ' + documentoAceito(rep.relacaoComMenor) : 'Selecione a relação com o menor para ver o documento aceito.'"
+      [required]="true"
+      [errorMessage]="erros.documentos ?? ''"
+      [files]="documentos"
+      (filesChange)="documentosChange.emit($event)"
+    />
+  }
+</form>

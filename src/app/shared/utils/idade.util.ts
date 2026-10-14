@@ -30,3 +30,9 @@ export function calcularIdade(dataNascimentoBr: string, referencia: Date = new D
   if (aindaNaoFezAniversario) idade -= 1;
   return Math.max(idade, 0);
 }
+
+/** Indica se a data "dd/mm/aaaa" existe no calendário e não está no futuro. */
+export function isDataBrValida(dataBr: string, referencia: Date = new Date()): boolean {
+  const data = parseDataBr(dataBr);
+  return data !== null && data <= referencia;
+}
